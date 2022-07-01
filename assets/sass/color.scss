@@ -1,0 +1,65 @@
+$primary: #d70056;
+$secondary: #00d781;
+$primary-dark: #d70056;
+//$twitter: #4099FF;
+$danger: #d71500;
+$warning: #d78100;
+$info: #00d781;
+$light: #f2f2f2;
+$success: #00d781;
+
+$primary-light: #ECEFFF;
+$color-text-primary: $primary;
+$color-text-regular: black;
+$color-text-secondary: $secondary;
+$color-text-placeholder: gray;
+
+//$border-color-base: #9b99af;
+
+.url-like, a {
+  cursor: pointer;
+  color: $primary;
+  text-decoration: none!important;
+}
+.url-like.text-like-url {
+  color: $color-text-regular;
+}
+.url-like:hover, a:hover {
+  color: $primary;
+  text-underline: none !important;
+  text-decoration: underline !important;
+}
+
+.shadowed {
+  //box-shadow: 0 2px 4px rgba(0, 0, 0, .12),
+  //0 0 6px rgba(0, 0, 0, .04);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.shadowed-sm {
+  box-shadow: #bfbfbf 0px 0px 2px 0px;
+}
+.text-primary {
+  color: $primary;
+}
+.text-primary--important {
+  color: $primary !important;
+}
+.text-white--important {
+  color: white !important;
+}
+.text-primary-dark {
+  color: $primary-dark;
+}
+.text-danger {
+  color: $danger;
+}
+.text-success {
+  color: $success;
+}
+.text-warning {
+  color: $warning;
+}
+.text-info {
+  color: $info;
+}
+

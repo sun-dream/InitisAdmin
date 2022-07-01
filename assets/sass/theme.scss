@@ -1,0 +1,20 @@
+@import "./color";
+
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
+  box-shadow: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+}
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot:hover {
+  border-color: $primary;
+}
+
+.template-main .v-breadcrumbs.theme--light {
+  padding: 0;
+}
+.v-pagination li button {
+  box-shadow: none !important;
+}
+
+#crisp-chatbox > div > a > span:nth-child(2) {
+  background-color: $primary !important;
+}
