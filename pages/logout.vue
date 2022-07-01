@@ -3,8 +3,7 @@
 </template>
 <script>
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Logout',
+  name: 'LogoutPage',
   layout: 'centerOnly',
   mounted () {
     this.$cookies.remove('token')

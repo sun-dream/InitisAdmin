@@ -4,8 +4,7 @@
 <script>
 import ResetPasswordPage from '@/components/Auth/ResetPassword'
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'ResetPassword',
+  name: 'ResetPasswordPage',
   components: {
     ResetPasswordPage
   },
