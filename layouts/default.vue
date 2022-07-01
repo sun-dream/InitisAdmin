@@ -1,5 +1,17 @@
 <template>
-<nuxt/>
+  <div class="home rflex">
+    <!-- <left-menu></left-menu> -->
+    <div ref="menu_right" class="menu_right wflex el-scrollbar" :style="{left:sidebar.width+'px'}">
+      <!-- <head-nav></head-nav> -->
+      <div ref="menu_content" class="menu_content">
+        <!-- <bread /> -->
+        <nuxt />
+      </div>
+      <!-- <footerNav></footerNav> -->
+      <!-- <backTop :ele="$refs.menu_right"></backTop> -->
+    </div>
+  </div>
+
   <!-- <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
@@ -40,29 +52,32 @@
 <script>
 // import VLoading from "../baseComponents/VLoading";
 // import VNotification from "../baseComponents/VNotification";
+// import LeftMenu from '@/components/MyApp/leftMenu';
+import myAppMixins from '@/mixins/myApp'
 export default {
   name: 'DefaultLayout',
+  components: {
+    // VLoading,
+    // VNotification
+  },
+  mixins: [myAppMixins],
   data () {
     return {
       clipped: false,
       drawer: false,
       fixed: false,
       items: [
-        { title: "商品管理", icon: "mdi-home-variant",cpnName:'/all-product'},
-        { title: "创建商品", icon: "mdi-dolly",cpnName:'/create-product' },
-        { title: "分类管理", icon: "mdi-sitemap",cpnName:'/category' },
-        { title: "物流模板", icon: "mdi-truck-fast",cpnName:'/shipping' },
-        { title: "订单管理", icon: "mdi-clipboard-file",cpnName:'/order' },
-        { title: "已支付订单", icon: "mdi-database-check",cpnName:'/payments' },
-        { title: "所有用户", icon: "mdi-account-box-multiple",cpnName:'/all-user' },
+        { title: '商品管理', icon: 'mdi-home-variant', cpnName: '/all-product' },
+        { title: '创建商品', icon: 'mdi-dolly', cpnName: '/create-product' },
+        { title: '分类管理', icon: 'mdi-sitemap', cpnName: '/category' },
+        { title: '物流模板', icon: 'mdi-truck-fast', cpnName: '/shipping' },
+        { title: '订单管理', icon: 'mdi-clipboard-file', cpnName: '/order' },
+        { title: '已支付订单', icon: 'mdi-database-check', cpnName: '/payments' },
+        { title: '所有用户', icon: 'mdi-account-box-multiple', cpnName: '/all-user' }
       ],
       miniVariant: false,
       title: 'Initi - Admin'
     }
-  },
-  components: {
-    // VLoading,
-    // VNotification
-  },
+  }
 }
 </script>
