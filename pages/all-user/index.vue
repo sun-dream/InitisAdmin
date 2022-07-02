@@ -1,13 +1,13 @@
 <template>
-  <!-- <Tutorial /> -->
   <div />
 </template>
-
 <script>
 export default {
-  name: 'IndexPage',
+  name: 'AllUserPage',
+  components: {
+  },
   mounted () {
-    this.jumpTo({ name: 'all-product' })
+    // this.jumpTo({ name: 'all-product' })
   }
 }
 </script>

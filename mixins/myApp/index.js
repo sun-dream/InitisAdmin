@@ -8,11 +8,17 @@ const myAppMixins = {
     sidebar () {
       return this.$store.getters[this.myAppVuexBasePath + 'sidebar']
     },
-    isCollapse () {
-      return this.$store.getters[this.myAppVuexBasePath + 'isCollapse']
-    },
+    // isCollapse () {
+    //   return this.$store.getters[this.myAppVuexBasePath + 'isCollapse']
+    // },
     isFooter () {
       return this.$store.getters[this.myAppVuexBasePath + 'isFooter']
+    },
+    permission_routers () {
+      return this.$store.getters[this.myAppVuexBasePath + 'permission/permission_routers']
+    },
+    menuIndex () {
+      return this.$store.getters[this.myAppVuexBasePath + 'permission/menuIndex']
     }
   },
   methods: {

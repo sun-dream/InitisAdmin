@@ -80,13 +80,13 @@ export default {
             if (resp) {
               this.notification({
                 title: '请求结果',
-                message: '<div>Login successful! </div>',
+                message: '登录成功！',
                 type: 'success'
               })
             } else {
               this.notification({
                 title: '请求结果',
-                message: '<div>Login failed, non administrator user, exiting login! </div>',
+                message: 'Login failed, non administrator user, exiting login! ',
                 type: 'error'
               })
             }

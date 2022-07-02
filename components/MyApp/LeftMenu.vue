@@ -1,132 +1,123 @@
 <template>
-  <div class="menu_left cflex" :style="{width:sidebar.width+'px'}">
-    <div class="menu_page_top rflex">
-      <img :class="[&quot;logo&quot;,{&quot;closeLogo&quot;:!sidebar.opened}]" :src="logo" alt="小爱admin">
-      <span v-show="sidebar.opened" class="title">{{ $t('commons.xiaoai') }}<i>Admin</i></span>
-    </div>
-    <div class="menu_page_bottom is-scroll-left">
-      <el-menu
-        mode="vertical"
-        theme="dark"
-        :show-timeout="200"
-        :default-active="$route.path"
-        :collapse="isCollapse"
-        :background-color="menuObj.bgColor"
-        :text-color="menuObj.textColor"
-        :active-text-color="menuObj.activeTextColor"
-        :style="{width:sidebar.width+'px'}"
-      >
-        <template v-for="(item,index) in permission_routers">
-          <!--表示 有一级菜单-->
-          <router-link v-if="!item.hidden && item.noDropdown" :key="index" :to="item.path+'/'+item.children[0].path">
-            <el-menu-item
-              class="dropItem"
-              :index="item.path+'/'+item.children[0].path"
-            >
-              <icon-svg v-if="item.meta.icon" :icon-class="item.meta.icon" />
-              <span v-if="item.meta.title" slot="title">{{ $t(`commons.${item.name}`) }}</span>
-            </el-menu-item>
-          </router-link>
-
-          <!--表示 有二级或者多级菜单 -->
-          <el-submenu v-if="item.children && item.children.length >= 1 && !item.hidden && !item.noDropdown" :key="index" :index="item.path">
-            <template slot="title">
-              <icon-svg v-if="item.meta.icon" :icon-class="item.meta.icon" />
-              <span v-if="item.meta.title" slot="title">{{ $t(`commons.${item.name}`) }}</span>
-            </template>
-            <!--直接定位到子路由上，子路由也可以实现导航功能-->
-            <router-link v-for="(citem,cindex) in item.children" :key="cindex" :to="getIindex(citem,item,cindex)">
-              <el-menu-item
-                v-if="citem.meta.routerType != 'topmenu' && citem.meta.title"
-                :index="getIindex(citem,item,cindex)"
-              >
-                <span slot="title"> {{ $t(`commons.${citem.name}`) }}</span>
-              </el-menu-item>
-            </router-link>
-          </el-submenu>
-        </template>
-      </el-menu>
-    </div>
-  </div>
+  <el-aside :width="isCollapse?'auto':'120px'" class="pos-r">
+    <el-menu
+      :default-active="defaultActive"
+      class="el-menu-vertical-demo h-100"
+      :collapse="isCollapse"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+    >
+      <template v-for="(menuItem, i) in menuData">
+        <el-menu-item
+          :key="i"
+          :index="menuItem.index"
+          class="Level-one-menu"
+        >
+          <v-link :name="menuItem.cpn" class="leftMenuLink">
+            <i v-if="menuItem.menuIcon" :class="menuItem.menuIcon" class="mx-0 nav-icon my-0" />
+            <div v-else class="mx-0 nav-icon my-0">
+              {{ menuItem.menuText }}
+            </div>
+          </v-link>
+          <span slot="title">
+            {{ menuItem.name }}
+          </span>
+        </el-menu-item>
+      </template>
+    </el-menu>
+  </el-aside>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import * as mUtils from '@/utils/mUtils'
-import logoImg from '@/assets/img/logo.png'
+import myAppMixins from '@/mixins/myApp'
+import VLink from '@/baseComponents/VLink'
 export default {
   name: 'LeftMenu',
+  components: {
+    VLink
+  },
+  mixins: [myAppMixins],
   data () {
     return {
-      menuObj: {
-        bgColor: '#fff',
-        textColor: '#666',
-        activeTextColor: '#ff6428'
-      },
-      logo: logoImg
+      isCollapse: true,
+      defaultActive: '',
+      menuData: [
+        { name: '商品管理', index: 'all-product', menuIcon: 'el-icon-folder', menuText: '商品管理', cpn: 'all-product' },
+        { name: '创建商品', index: 'create-product', menuIcon: 'el-icon-folder-add', menuText: '创建商品', cpn: 'create-product' },
+        { name: '分类管理', index: 'category', menuIcon: 'el-icon-paperclip', menuText: '分类管理', cpn: 'category' },
+        { name: '订单管理', index: 'order', menuIcon: 'el-icon-s-order', menuText: '订单管理', cpn: 'order' },
+        { name: '已支付订单', index: 'payments', menuIcon: 'el-icon-s-ticket', menuText: '已支付订单', cpn: 'payments' },
+        { name: '所有用户', index: 'all-user', menuIcon: 'el-icon-user', menuText: '所有用户', cpn: 'all-user' }
+
+      ]
     }
   },
   computed: {
-    ...mapGetters([
-      'permission_routers',
-      'isCollapse',
-      'sidebar',
-      'menuIndex'
-    ])
   },
   created () {
   },
   mounted () {
+    this.initActive(this.$route.name)
   },
   methods: {
-    getIindex (citem, item, cindex) {
-      return (citem.meta.titleList) ? item.path + '/' + citem.path + '/' + citem.meta.titleList[0].path : item.path + '/' + citem.path
+    initActive (cpnName) {
+      this.defaultActive = cpnName
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  $left-bgColor:#fff;  // 左侧菜单背景颜色;
-  $icon-link:#FF6C60;
-    .menu_left{
-        position: absolute;
-        top:0;
-        left:0;
-        bottom:0;
-    }
-    .menu_page_top{
-        width:100%;
-        height: 60px;
-        align-items: center;
-        justify-content: space-around;
-        text-transform: uppercase;
-        box-sizing: border-box;
-        box-shadow:0px 2px 5px 0px rgba(230,224,224,0.5);
-        .logo {
-            height: 36px;
-            width: 36px;
-            vertical-align: middle;
-            display: inline-block;
-        }
-        .closeLogo{
-            width:30px;
-            height:30px;
-        }
-        .title{
-            font-size: 22px;
-            i{
-                color:#FF6C60;
-            }
-        }
-    }
-  .menu_page_bottom {
-      width:100%;
-      overflow-y: scroll;
-      overflow-x: hidden;
-      flex:1;
-      margin-top:3px;
-      z-index: 10;
-      box-shadow: 0 0 10px 0 rgba(230, 224, 224, 0.5)
+<style scoped lang="scss">
+@import "assets/sass/color";
+.aside {
+  overflow: hidden;
+  position: relative;
+  .el-menu-vertical{
+    width: 70px;
+    border-right-width: 0px;
   }
+  .Level-one-menu {
+    height: 50px;
+    border-radius: 4px;
+    padding: 0 !important;
+    display: block;
+    width: 50px;
+    margin: 10px;
+    color: white;
+    background-color: transparent;
+    i {
+        font-size: 20px;
+    }
+  }
+}
+
+::v-deep .Level-one-menu{
+  &.is-active{
+    background-color:rgba(0,0,0,.5) !important;
+  }
+  div.el-tooltip{
+    padding: 0 0 !important;
+    text-align: center;
+
+  }
+  .nuxt-link-active{
+    color: #fff !important;
+  }
+}
+
+.nav-icon {
+  font-size: 30px !important;
+}
+.break {
+  border-top: 3px solid $info;
+  margin-top: 10px;
+  opacity: .5;
+  margin-bottom: 10px;
+  padding: 0 3px;
+}
+.help-btn i {
+  font-size: 36px;
+  color: #86899C;
+  cursor: pointer;
+}
 </style>

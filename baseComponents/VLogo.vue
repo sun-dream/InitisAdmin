@@ -1,10 +1,7 @@
 <template>
   <div class="v-logo" @click="redirect">
     <h4
-      :class="{
-        'text-white': light,
-        'text-primary': !light
-      }"
+      :class="{'text-white': light}"
       :style="sizeStyle"
       class="brand-font text-center"
     >
@@ -45,9 +42,6 @@ export default {
     ...mapGetters('logic/login', [
       'isLoggedIn'
     ]),
-    alt () {
-      return ''
-    },
     sizeStyle () {
       return `font-size: ${this.size}px;`
     }

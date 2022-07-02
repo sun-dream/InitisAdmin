@@ -48,7 +48,7 @@
 // import VLogo from "@/baseComponents/VLogo";
 // import VSlogan from "@/baseComponents/VSlogan";
 export default {
-  name: "VFooters",
+  name: 'VFooters',
   components: {
     //  VSlogan,
     // VLogo
@@ -56,25 +56,25 @@ export default {
   props: {
     userView: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   methods: {
-    getYear() {
-      let nowDate = new Date();
-      let date = {
+    getYear () {
+      const nowDate = new Date()
+      const date = {
         year: nowDate.getFullYear(),
         month: nowDate.getMonth() + 1,
-        date: nowDate.getDate(),
-      };
+        date: nowDate.getDate()
+      }
       // '-' + 0 + date.month + '-' + 0 + date.date;
-      return date.year;
-    },
-  },
-};
+      return date.year
+    }
+  }
+}
 </script>
 <style  scoped>
 .footer-wrap {
@@ -124,4 +124,3 @@ export default {
   padding-left: 32px;
 }
 </style>
-
