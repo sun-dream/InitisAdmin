@@ -25,7 +25,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="商品类别">
+          <el-form-item label="商品类别" prop="category_id">
             <el-select v-model="formInfo.category_id" placeholder="请选择">
               <el-option
                 v-for="item in categoryData"
@@ -37,17 +37,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="厂名">
+          <el-form-item label="厂名" prop="source_name">
             <el-input v-model="formInfo.source_name" placeholder="厂商名称" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="厂家联系方式">
+          <el-form-item label="厂家联系方式" prop="source_contact">
             <el-input v-model="formInfo.source_contact" placeholder="电话/手机" />
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="厂家网址">
+          <el-form-item label="厂家网址" prop="source">
             <el-input v-model="formInfo.source" placeholder="http://...." />
           </el-form-item>
         </el-col>
@@ -62,7 +62,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-      </el-form-item>
     </el-form>
   </div>
 
@@ -98,13 +97,13 @@ export default {
   data () {
     return {
       formInfo: {
-        title: '',
-        source_name: '',
-        source_contact: '',
-        source: '',
+        title: '测试i',
+        source_name: '测试2',
+        source_contact: '测试3',
+        source: '测试4',
         category_id: null,
         status: 'ON_SALE',
-        product_code: ''
+        product_code: '12321'
       }
     }
   },
@@ -117,7 +116,7 @@ export default {
     }
   },
   mounted () {
-    this.initFormInfo()
+    // this.initFormInfo()
     this.getCategoryAllData({ query: '', limit: 100 })
     // this.loadShippingList();
   },
@@ -126,8 +125,14 @@ export default {
       this.$emit('archivesSetHandler', { formInfo: val, stepIndex: 1 })
     },
     nextStepHandler () {
-      const params = this.cloneObj(this.formInfo)
-      this.$emit('formInfoHandler', { formInfo: params, stepIndex: 2 })
+      this.$refs.infoForm.validate((valid) => {
+        if (!valid) {
+          this.notification({ title: '提示', message: '请正确填写内容！', type: 'warning' })
+          return false
+        }
+        const params = this.cloneObj(this.formInfo)
+        this.$emit('formInfoHandler', { formInfo: params, stepIndex: 2 })
+      })
     },
     initFormInfo (newVal) {
       let data = {}

@@ -5,7 +5,12 @@
       <el-step title="上传图片" icon="el-icon-upload" />
       <el-step title="商品详情" icon="el-icon-picture" />
     </el-steps>
-    <product-info />
+    <product-info
+      v-if="stepperIndex === 1"
+      :default-data="createProductForm"
+      @formInfoHandler="saveProducrInfoHandler"
+      @archivesSetHandler="archiveHandler"
+    />
     <!-- <v-form ref="form" v-model="valid">
       <v-stepper v-model="stepperIndex" alt-labels>
         <v-stepper-header>
@@ -161,7 +166,7 @@ export default {
       if (!this.valid) {
         this.notification({
           title: '提示',
-          message: '<h4>提示</h4><div>校验不通过！</div>',
+          message: '校验不通过！',
           type: 'warning',
           duration: 3000
         })
@@ -172,17 +177,19 @@ export default {
       }
     },
     saveProducrInfoHandler ({ formInfo, stepIndex }) {
-      // if (!this.verifyStepHandler()) {
-      //   return;
-      // }
-      this.createProductForm.title = formInfo.title
-      this.createProductForm.product_code = formInfo.product_code
-      this.createProductForm.category_id = formInfo.category_id
-      this.createProductForm.status = formInfo.status
-      this.createProductForm.source_name = formInfo.source_name ? formInfo.source_name : ''
-      this.createProductForm.source_contact = formInfo.source_contact ? formInfo.source_contact : ''
-      this.createProductForm.source = formInfo.source ? formInfo.source : ''
-      this.stepperIndex = stepIndex
+      Object.keys(formInfo).forEach((key) => {
+        this.createProductForm[key] = formInfo[key]
+      })
+      console.log(this.createProductForm, stepIndex)
+
+      // this.createProductForm.title = formInfo.title
+      // this.createProductForm.product_code = formInfo.product_code
+      // this.createProductForm.category_id = formInfo.category_id
+      // this.createProductForm.status = formInfo.status
+      // this.createProductForm.source_name = formInfo.source_name ? formInfo.source_name : ''
+      // this.createProductForm.source_contact = formInfo.source_contact ? formInfo.source_contact : ''
+      // this.createProductForm.source = formInfo.source ? formInfo.source : ''
+      // this.stepperIndex = stepIndex
     },
     nextImgAndVideoStep ({ obj, stepIndex }) {
       if (!this.verifyStepHandler()) {

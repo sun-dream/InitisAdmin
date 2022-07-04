@@ -63,11 +63,10 @@ const createProductMixins = {
         source_contact: [{ required: true, message: '厂家联系方式为必填项', trigger: 'blur' }],
         source: [{ required: true, message: '厂家网址为必填项', trigger: 'blur' }]
       },
-      storageName: 'dropTicktokCreateProductArchives'
+      storageName: ''
     }
   },
   computed: {
-
   },
   methods: {
     getUnitOfWeight (val) {
