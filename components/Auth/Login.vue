@@ -67,7 +67,7 @@ export default {
         if (!valid) {
           this.notification({
             title: '请求结果',
-            message: '<div>请正确填写内容！</div>',
+            message: '请正确填写内容！',
             type: 'warning'
           })
           return false

@@ -13,7 +13,6 @@ const loginMixins = {
       showPassword: false,
       showAgainPassword: false,
       rules: {
-        name: [v => !!v || 'name is required'],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' },
           { min: 4, max: 20, message: '密码应为4-20位的长度', trigger: 'blur' }

@@ -110,7 +110,6 @@ const actionsMixins = {
   updatePage ({ commit, state }, data) {
     commit('UPDATE_PAGE', data)
     commit('UPDATE_SKIP', ((data - 1) * state.limit))
-    console.log(data, ((data - 1) * state.limit))
   },
   getAllHandler ({ dispatch }, { apiStorePath, data = {} }) {
     return new Promise((resolve) => {

@@ -1,0 +1,10 @@
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: "./element-theme/theme/fonts";
+
+// 局部引用
+//@import "~element-ui/packages/theme-chalk/src/button";
+//@import "~element-ui/packages/theme-chalk/src/input";
+
+// 全局
+@import "./element-theme/theme/index.css";

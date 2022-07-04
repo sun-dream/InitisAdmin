@@ -1,13 +1,12 @@
 <template>
-  <!-- <create-product /> -->
-  <div />
+  <create-product />
 </template>
 <script>
-// import createProduct from '@/components/CreateProduct/createProduct'
+import CreateProduct from '@/components/CreateProduct/index'
 export default {
   name: 'CreateProductPage',
   components: {
-    // createProduct
+    CreateProduct
   },
   data () {
     return {

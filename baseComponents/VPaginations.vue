@@ -2,32 +2,20 @@
   <section
     class="d-flex mt-2"
     :class="{
-      'justify-center': alginRight || alginLeft ? false : true,
-      'justify-start': alginLeft,
-      'justify-end': alginRight,
+      'justify-content-center': alginRight || alginLeft ? false : true,
+      'justify-content-start': alginLeft,
+      'justify-content-end': alginRight,
     }"
   >
-    <!-- :page-size="limit" -->
-
     <el-pagination
       :current-page.sync="page"
       :page-sizes="pageSizes"
+      :page-size="limit"
       layout="total, sizes, prev, pager, next, jumper"
       :total="dataTotal"
       @size-change="sizeChangeHandler"
-      @current-change="sizeChangeHandler"
+      @current-change="currentChangeHandler"
     />
-    <div class="pageSizes">
-      <!-- <v-select
-        id="pageSizes-select"
-        v-model="limit"
-        :items="pageSizes"
-        label="Page Sizes"
-        hide-details
-        single-line
-        @change="getData"
-      /> -->
-    </div>
   </section>
 </template>
 
@@ -63,7 +51,6 @@ export default {
         return this.$store.getters[this.paginationsVuex + '/limit']
       },
       set (val) {
-        console.log('limit：' + val)
         this.$store.dispatch(this.paginationsVuex + '/updateLimit', val)
       }
     },
@@ -80,8 +67,9 @@ export default {
         return this.$store.getters[this.paginationsVuex + '/page']
       },
       set (val) {
-        console.log('page:' + val)
-        this.$store.dispatch(this.paginationsVuex + '/updatePage', val)
+        if (this.paginationsVuex) {
+          this.$store.dispatch(this.paginationsVuex + '/updatePage', val)
+        }
       }
     },
     pageSizes () {
@@ -108,15 +96,14 @@ export default {
       this.$store.dispatch(this.paginationsVuex + '/initPagination')
     },
     sizeChangeHandler (val) {
-      console.log('pageSize' + val)
-      // this.limit = val
-      // this.getData()
+      this.limit = val
+      this.getData()
     },
     currentChangeHandler (val) {
-      console.log('page' + val)
+      this.getData()
     },
     getData () {
-      // this.$emit('pageChange')
+      this.$emit('pageChange')
     }
   }
 }

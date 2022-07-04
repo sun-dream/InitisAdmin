@@ -1,19 +1,20 @@
-$primary: #d70056;
-$secondary: #00d781;
-$primary-dark: #d70056;
+$primary: #4262FF;
+$secondary: #ffd02f;
+$primary-dark: #050038;
 //$twitter: #4099FF;
-$danger: #d71500;
-$warning: #d78100;
-$info: #00d781;
+$danger: #ed6f78;
+$warning: #EDB908;
+$info: #86899C;
 $light: #f2f2f2;
-$success: #00d781;
+$success: #7c6;
 
 $primary-light: #ECEFFF;
-$color-text-primary: $primary;
-$color-text-regular: black;
-$color-text-secondary: $secondary;
-$color-text-placeholder: gray;
+$color-text-primary: #4262FF;
+$color-text-regular: #020014;
+$color-text-secondary: #050038;
+$color-text-placeholder: #9b99af;
 
+$border-color-base: #9b99af;
 //$border-color-base: #9b99af;
 
 .url-like, a {
@@ -29,7 +30,6 @@ $color-text-placeholder: gray;
   text-underline: none !important;
   text-decoration: underline !important;
 }
-
 .shadowed {
   //box-shadow: 0 2px 4px rgba(0, 0, 0, .12),
   //0 0 6px rgba(0, 0, 0, .04);
@@ -40,12 +40,6 @@ $color-text-placeholder: gray;
 }
 .text-primary {
   color: $primary;
-}
-.text-primary--important {
-  color: $primary !important;
-}
-.text-white--important {
-  color: white !important;
 }
 .text-primary-dark {
   color: $primary-dark;

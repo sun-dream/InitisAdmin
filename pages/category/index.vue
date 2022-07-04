@@ -1,13 +1,13 @@
 <template>
-  <category />
+  <categorys />
 </template>
 <script>
-import category from '@/components/Category/category'
+import categorys from '@/components/Category/Categorys'
 import categoryMixins from '@/mixins/product/category'
 export default {
   name: 'CategoryPage',
   components: {
-    category
+    categorys
   },
   mixins: [categoryMixins],
   mounted () {

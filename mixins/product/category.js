@@ -6,16 +6,10 @@ const categoryMixins = {
       skip: 0,
       search: '',
       categoryFormRules: {
-        name: [v => !!v || 'name is required'],
-        sort_weight: [(v) => {
-          if (parseFloat(v) > 100) {
-            return '不可大于100'
-          } else if (parseFloat(v).toString() === 'NaN' || parseFloat(v) < 0) {
-            return '不可添加非数字 或者是小于0 的数字'
-          }
-          return true
-        }],
-        parent_id: [v => !!v || '必须要选择一个分类']
+        query: [{ required: true, message: '查询内容不可为空', trigger: 'blur' }],
+        name: [
+          { required: true, message: '名称不能为空', trigger: 'blur' }
+        ]
       },
       statusEnum: {
         ACTIVE: 'ACTIVE',

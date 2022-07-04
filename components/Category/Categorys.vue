@@ -1,6 +1,15 @@
 <template>
   <section class="w-100 categorg-wrap h-100">
-    <el-table :data="categoryData" border style="width: 100%" max-height="700">
+    <categorys-filter
+      ref="categoryFilter"
+      :category-form-title="categoryFormTitle"
+      :category-dialog="categoryDialog"
+      :select-edit-id="selectEditId"
+      @create="createHandler"
+      @close="closeHandler"
+      @save="saveHandler"
+    />
+    <el-table :data="categoryData" border style="width: 100%" size="small" max-height="700">
       <el-table-column prop="name" label="名称" width="160" />
       <el-table-column prop="status" label="状态" width="120">
         <template slot-scope="scope">
@@ -8,21 +17,26 @@
             :value="scope.row.status"
             :active-value="statusEnum.ACTIVE"
             :inactive-value="statusEnum.INACTIVE"
-            @change="statusChangeHandle"
+            @change="statusChangeHandle(scope.row)"
           />
           <span :class="`ml-2 d-inline-block ${scope.row.status===statusEnum.ACTIVE?'el-link':''}`">
-            {{ scope.row.status===statusEnum.ACTIVE?'打开':'关闭' }}
+            {{ scope.row.status===statusEnum.ACTIVE?'开启':'关闭' }}
           </span>
         </template>
       </el-table-column>
       <el-table-column prop="create_at" label="创建时间" width="120">
         <template slot-scope="scope">
           {{ getDate(scope.row.create_at) }}
-          <!-- {{ formatDate(scope.row.create_at,2) }} -->
         </template>
       </el-table-column>
       <el-table-column prop="description" label="备注" min-width="160" />
-      <el-table-column prop="name" label="操作" width="160" />
+      <el-table-column prop="name" label="操作" width="160">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editHandler(scope.row)">
+            编辑
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <v-paginations
       :vuex-path="categoryVuexBasePath"
@@ -93,17 +107,17 @@
   </section>
 </template>
 <script>
-// import categoryFilter from './categoryFilter'
+import CategorysFilter from './CategorysFilter'
 import categoryMixins from '@/mixins/product/category'
 // eslint-disable-next-line no-unused-vars
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Category',
+  name: 'Categorys',
   // eslint-disable-next-line no-trailing-spaces
   components: { 
-    // categoryFilter,
+    CategorysFilter,
     // eslint-disable-next-line vue/no-unused-components
     VPaginations
   },
@@ -131,8 +145,8 @@ export default {
         categoryId: item.id
       }).then((resp) => {
         this.notification({
-          title: '请求结果',
-          message: '<h4>修改成功</h4><div>已更新列表！</div>',
+          title: '修改成功',
+          message: '已更新列表！',
           type: 'success'
         })
         this.getCategoryAllData()
@@ -167,8 +181,8 @@ export default {
           categoryId: params.id
         }).then((resp) => {
           this.notification({
-            title: '请求结果',
-            message: '<h4>修改成功</h4><div>已更新列表！</div>',
+            title: '修改成功',
+            message: '已更新列表！',
             type: 'success'
           })
           this.getCategoryAllData()
@@ -179,8 +193,8 @@ export default {
         this.createdProductCategory(data)
           .then((resp) => {
             this.notification({
-              title: '请求结果',
-              message: '<h4>创建成功</h4><div>已更新列表！</div>',
+              title: '创建成功',
+              message: '已更新列表！',
               type: 'success'
             })
             this.getCategoryAllData()
