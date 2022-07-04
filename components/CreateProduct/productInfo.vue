@@ -117,9 +117,8 @@ export default {
     }
   },
   mounted () {
-    // this.initFormInfo()
-    // this.getCategoryAllData({ query: '', limit: 100 })
-    // this.getCategoryData();
+    this.initFormInfo()
+    this.getCategoryAllData({ query: '', limit: 100 })
     // this.loadShippingList();
   },
   methods: {
