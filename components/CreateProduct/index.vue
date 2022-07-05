@@ -8,8 +8,12 @@
     <product-info
       v-if="stepperIndex === 1"
       :default-data="createProductForm"
-      @formInfoHandler="saveProducrInfoHandler"
+      @nextHandler="nextHandler"
       @archivesSetHandler="archiveHandler"
+    />
+    <upload-product-files
+      v-if="stepperIndex === 2"
+      :default-data="createProductForm"
     />
     <!-- <v-form ref="form" v-model="valid">
       <v-stepper v-model="stepperIndex" alt-labels>
@@ -99,12 +103,12 @@
 
 <script>
 import productInfo from './productInfo'
-// import uploadImgAndVideo from './uploadImgAndVideo'
+import uploadProductFiles from './uploadProductFiles'
 // import productDescription from './productDescription'
 import createProductMixins from '@/mixins/product/createProduct'
 export default {
   name: 'CreateProduct',
-  components: { productInfo },
+  components: { productInfo, uploadProductFiles },
   mixins: [createProductMixins],
   data () {
     return {
@@ -113,7 +117,7 @@ export default {
     }
   },
   mounted () {
-    this.stepperIndex = 1
+    this.stepperIndex = 2
     // if (this.archivesGet() !== null) {
     //   // this.archivesDialog = true
     // }
@@ -161,41 +165,21 @@ export default {
         stepIndex
       })
     },
-    verifyStepHandler (step) {
-      this.$refs.form.validate()
-      if (!this.valid) {
-        this.notification({
-          title: '提示',
-          message: '校验不通过！',
-          type: 'warning',
-          duration: 3000
-        })
-        return false
-      } else {
-        // this.stepperIndex = step + 1 === 5 ? 1 : step + 1;
-        return true
+    nextHandler ({ status, data }) {
+      if (status === this.stepStatusEnum.productInfo) {
+        this.saveProducrInfoHandler({ data })
       }
     },
-    saveProducrInfoHandler ({ formInfo, stepIndex }) {
-      Object.keys(formInfo).forEach((key) => {
-        this.createProductForm[key] = formInfo[key]
+    saveProducrInfoHandler ({ data }) {
+      Object.keys(data).forEach((key) => {
+        this.createProductForm[key] = data[key]
       })
-      console.log(this.createProductForm, stepIndex)
-
-      // this.createProductForm.title = formInfo.title
-      // this.createProductForm.product_code = formInfo.product_code
-      // this.createProductForm.category_id = formInfo.category_id
-      // this.createProductForm.status = formInfo.status
-      // this.createProductForm.source_name = formInfo.source_name ? formInfo.source_name : ''
-      // this.createProductForm.source_contact = formInfo.source_contact ? formInfo.source_contact : ''
-      // this.createProductForm.source = formInfo.source ? formInfo.source : ''
-      // this.stepperIndex = stepIndex
+      this.stepperIndex = 2
     },
     nextImgAndVideoStep ({ obj, stepIndex }) {
       if (!this.verifyStepHandler()) {
         return
       }
-
       this.createProductForm.cover_img = obj.cover_img ? obj.cover_img : null
       this.createProductForm.sample_videos = obj.sample_videos
       this.createProductForm.images = obj.images

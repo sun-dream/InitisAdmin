@@ -1,10 +1,9 @@
 const createProductMixins = {
   data () {
     return {
-      stepperIndex: 0,
-      stepperTotal: 4,
       createProductVuexBasePath: 'logic/product/',
       uploadFilesVuexBasePath: 'logic/uploadFiles/',
+      stepperIndex: 0,
       createProductForm: {
         product_code: '',
         title: '',
@@ -21,38 +20,6 @@ const createProductMixins = {
         cover_img: '',
         sample_videos: [],
         images: []
-
-      },
-      currencyArray: [
-        { name: '人民币', value: 'CNY' },
-        { name: '美元', value: 'USD' },
-        { name: '欧元', value: 'EUR' }
-      ],
-      unitOfWeightOption: [
-        { name: 'g', value: 'G' },
-        { name: 'Kg', value: 'KG' }
-      ],
-      unitOfLengthOption: [
-        { name: 'mm', value: 'MM' },
-        { name: 'cm', value: 'CM' }
-      ],
-      createProductSkuForm: {
-        number: null,
-        title: '',
-        // "purchase_price": null,
-        // "cost_price": null,
-        // "recommend_retail_price": null,
-        price_currency: 'USD',
-        images: [],
-        // "estimated_logistics_cost": null,
-        uploadImages: [], // 服务端返回图片对象
-        uploadImagesValue: [], // 上传图片暂存
-        skuNumberState: {
-          success: '',
-          error: ''
-        },
-        unit_of_weight: 'G',
-        unit_of_length: 'CM'
       },
       rules: {
         title: [{ required: true, message: '商品名称不能为空', trigger: 'blur' }],
@@ -63,7 +30,12 @@ const createProductMixins = {
         source_contact: [{ required: true, message: '厂家联系方式为必填项', trigger: 'blur' }],
         source: [{ required: true, message: '厂家网址为必填项', trigger: 'blur' }]
       },
-      storageName: ''
+      storageName: '',
+      stepStatusEnum: {
+        productInfo: 'productInfo',
+        uploadFiles: 'uploadFiles'
+      },
+      maxNumOfPicUpload: 5
     }
   },
   computed: {

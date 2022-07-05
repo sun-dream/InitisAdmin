@@ -201,3 +201,30 @@ export const setContentHeight = (that, ele, height) => {
     ele.style.height = (document.body.clientHeight - height) + 'px'
   })
 }
+// 计算图片尺寸
+export const asyncImgChecked = ({ file, width, height }) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file) // 必须用file.raw
+    reader.onload = () => { // 让页面中的img标签的src指向读取的路径
+      const img = new Image()
+      img.src = reader.result
+      // console.log(`1当前文件尺寸大小：${img.width}×${img.height}`)
+      if (img.complete) { // 如果存在浏览器缓存中
+        if (img.width > width || img.height > height) {
+          resolve(false)
+        } else {
+          resolve(true)
+        }
+      } else {
+        img.onload = () => {
+          if (img.width > width || img.height > height) {
+            resolve(false)
+          } else {
+            resolve(true)
+          }
+        }
+      }
+    }
+  })
+}

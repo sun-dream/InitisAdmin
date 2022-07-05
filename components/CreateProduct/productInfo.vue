@@ -64,17 +64,6 @@
       </el-row>
     </el-form>
   </div>
-
-  <!-- <v-container>
-    <section v-if="!hideStep" class="d-flex justify-end">
-      <v-btn class="ml-2" @click="archivesSetHandler(formInfo)">
-        存档
-      </v-btn>
-      <v-btn color="primary" class="ml-2" @click="nextStepHandler">
-        下一步
-      </v-btn>
-    </section>
-  </v-container> -->
 </template>
 
 <script>
@@ -131,7 +120,10 @@ export default {
           return false
         }
         const params = this.cloneObj(this.formInfo)
-        this.$emit('formInfoHandler', { formInfo: params, stepIndex: 2 })
+        this.$emit('nextHandler', {
+          status: this.stepStatusEnum.productInfo,
+          data: params
+        })
       })
     },
     initFormInfo (newVal) {

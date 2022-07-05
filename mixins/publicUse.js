@@ -13,12 +13,12 @@ const publicUseMixins = {
         { name: '欧元', value: 'EUR', currencySymbols: '€' }
       ],
       orderStatusArray: [
-        { name: 'Awaiting shipment', zhName: '待支付/已支付', value: 'NORMAL' }, // 可取消	不可删除
-        { name: 'Awaiting shipment', zhName: '待发货 ', value: 'PENDING' }, // 不可取消	不可删除
-        { name: 'Shipment', zhName: '已发货 ', value: 'FULFILLED' }, // 不可取消	不可删除
-        { name: 'Cancelled', zhName: '已取消', value: 'CANCEL' }, // 不可取消	可删除
-        { name: 'Deleted', zhName: '已删除', value: 'DELETE' }, // 不可取消	不可删除
-        { name: 'Completed', zhName: '已完成', value: 'CLOSE' } // 不可取消	可删除
+        { name: 'Awaiting shipment', zhName: '待支付/已支付', value: 'NORMAL' }, // 可取消不可删除
+        { name: 'Awaiting shipment', zhName: '待发货 ', value: 'PENDING' }, // 不可取消不可删除
+        { name: 'Shipment', zhName: '已发货 ', value: 'FULFILLED' }, // 不可取消不可删除
+        { name: 'Cancelled', zhName: '已取消', value: 'CANCEL' }, // 不可取消可删除
+        { name: 'Deleted', zhName: '已删除', value: 'DELETE' }, // 不可取消不可删除
+        { name: 'Completed', zhName: '已完成', value: 'CLOSE' } // 不可取消可删除
       ],
       orderSourceArray: [
         { name: 'unknown', zhName: '未知来源', value: 'UNKNOWN' },
