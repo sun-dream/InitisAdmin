@@ -53,9 +53,9 @@
         </el-col>
         <el-col :span="24" class="">
           <el-form-item label="">
-            <el-button @click="archivesSetHandler(formInfo)">
+            <!-- <el-button @click="archivesSetHandler(formInfo)">
               存档
-            </el-button>
+            </el-button> -->
             <el-button type="primary" @click="nextStepHandler">
               下一步
             </el-button>
