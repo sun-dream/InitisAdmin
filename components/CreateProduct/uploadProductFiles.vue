@@ -62,7 +62,7 @@
       </div>
     </el-upload>
     <div class="d-flex btn-warp justify-content-between align-items-center">
-      <v-button @click="nextStepHandler">
+      <v-button @click="prevStepHandler">
         上一步
       </v-button>
       <v-button type="primary" @click="nextStepHandler">
@@ -70,16 +70,6 @@
       </v-button>
     </div>
   </div>
-  <!-- <v-container>
-    <section v-if="!hideStep" class="d-flex justify-end">
-      <v-btn class="ml-2" @click="archivesSetHandler(formInfo)">
-        存档
-      </v-btn>
-      <v-btn color="primary" class="ml-2" @click="nextStepHandler">
-        下一步
-      </v-btn>
-    </section>
-  </v-container> -->
 </template>
 
 <script>
@@ -103,6 +93,10 @@ export default {
     defaultData: {
       type: Object,
       default: () => {}
+    },
+    defaultUploadFileCache: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -116,12 +110,6 @@ export default {
     }
   },
   watch: {
-    defaultData: {
-      handler (newVal) {
-        // this.initFormInfo(newVal)
-      },
-      deep: true
-    }
   },
   mounted () {
     this.initData()
@@ -194,9 +182,6 @@ export default {
           param.onError(err)
         })
     },
-    archivesSetHandler (val) {
-      this.$emit('archivesSetHandler', { formInfo: val, stepIndex: 1 })
-    },
     nextStepHandler () {
       if (this.videoData.length < 1) {
         this.notification({ title: '提示', message: '至少上传一个视频', type: 'warning' })
@@ -211,10 +196,40 @@ export default {
       this.fileList.forEach((item, index) => {
         params[`image${index + 1}_id`] = item.response.id
       })
-      console.log(params)
+      this.$emit('nextHandler', {
+        status: this.stepStatusEnum.uploadFiles,
+        data: params,
+        uploadFileCache: {
+          images: this.fileList,
+          videos: this.videoData
+        }
+      })
     },
-    initData (newVal) {
+    prevStepHandler () {
+      const params = {}
+      if (this.videoData.length > 0) {
+        params.video1_id = this.videoData[0].response.id
+      }
+      this.fileList.forEach((item, index) => {
+        params[`image${index + 1}_id`] = item.response.id
+      })
+      this.$emit('prevHandler', {
+        status: this.stepStatusEnum.uploadFiles,
+        data: params,
+        uploadFileCache: {
+          images: this.fileList,
+          videos: this.videoData
+        }
+      })
+    },
+    initData () {
       this.uploadAction = process.env.baseURL + '/api/v1/files/user'
+      const data = this.cloneObj(this.defaultUploadFileCache)
+      data.images.forEach((item) => {
+        item.url = item.response.external_url
+      })
+      this.fileList.push(data.images)
+      this.videoData = this.defaultUploadFileCache.videos
     }
   }
 }

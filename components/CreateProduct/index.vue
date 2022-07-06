@@ -13,6 +13,9 @@
     <upload-product-files
       v-if="stepperIndex === 2"
       :default-data="createProductForm"
+      :default-upload-file-cache="uploadFileCache"
+      @nextHandler="nextHandler"
+      @prevHandler="prevHandler"
     />
     <!-- <v-form ref="form" v-model="valid">
       <v-stepper v-model="stepperIndex" alt-labels>
@@ -116,55 +119,32 @@ export default {
     }
   },
   mounted () {
-    this.stepperIndex = 2
-    // if (this.archivesGet() !== null) {
-    //   // this.archivesDialog = true
-    // }
-    // this.$refs.form.resetValidation()
+    this.stepperIndex = 1
   },
   methods: {
-    nextHandler ({ status, data }) {
-      if (status === this.stepStatusEnum.productInfo) {
-        this.saveProducrInfoHandler({ data })
-      }
-    },
-    saveProducrInfoHandler ({ data }) {
+    nextHandler ({ status, data, uploadFileCache }) {
       Object.keys(data).forEach((key) => {
         this.createProductForm[key] = data[key]
       })
-      this.stepperIndex = 2
-    },
-    nextImgAndVideoStep ({ obj, stepIndex }) {
-      if (!this.verifyStepHandler()) {
-        return
+      if (status === this.stepStatusEnum.productInfo) {
+        this.stepperIndex = 2
+        if (uploadFileCache) {
+          this.uploadFileCache = uploadFileCache
+        }
+      } else if (status === this.stepStatusEnum.uploadFiles) {
+        this.stepperIndex = 3
       }
-      this.createProductForm.cover_img = obj.cover_img ? obj.cover_img : null
-      this.createProductForm.sample_videos = obj.sample_videos
-      this.createProductForm.images = obj.images
-      this.stepperIndex = stepIndex
     },
-    prevImgAndVideoStep ({ obj, stepIndex }) {
-      if (!this.verifyStepHandler()) {
-        return
+    prevHandler ({ status, data, uploadFileCache }) {
+      Object.keys(data).forEach((key) => {
+        this.createProductForm[key] = data[key]
+      })
+      if (status === this.stepStatusEnum.uploadFiles) {
+        this.stepperIndex = 1
+        if (uploadFileCache) {
+          this.uploadFileCache = uploadFileCache
+        }
       }
-      this.createProductForm.cover_img = obj.cover_img
-      this.createProductForm.sample_videos = obj.sample_videos
-      this.createProductForm.images = obj.images
-      this.stepperIndex = stepIndex
-    },
-    nextSkuStep ({ skus, stepIndex }) {
-      if (!this.verifyStepHandler()) {
-        return
-      }
-      this.createProductForm.skus = skus
-      this.stepperIndex = stepIndex
-    },
-    prevSkuStep ({ skus, stepIndex }) {
-      if (!this.verifyStepHandler()) {
-        return
-      }
-      this.createProductForm.skus = skus
-      this.stepperIndex = stepIndex
     },
     prevDetail ({ detail, stepIndex }) {
       if (!this.verifyStepHandler()) {
@@ -184,22 +164,14 @@ export default {
     saveStepHandler (stepIndex) {
       const data = this.cloneObj(this.createProductForm)
       if (data.skus.length > 0) {
-        data.skus.forEach((item) => {
-          delete item.uploadImages
-          delete item.uploadImagesValue
-          delete item.skuNumberState
-          delete item.number
-          delete item.calculate
-
-          item.cost_price = parseFloat(item.cost_price)
-          item.recommend_retail_price = parseFloat(item.recommend_retail_price)
-          item.weight = parseFloat(item.weight)
-          item.length = parseFloat(item.length)
-          item.width = parseFloat(item.width)
-          item.height = parseFloat(item.height)
-        })
+        // data.skus.forEach((item) => {
+        //   item.cost_price = parseFloat(item.cost_price)
+        //   item.weight = parseFloat(item.weight)
+        //   item.length = parseFloat(item.length)
+        //   item.width = parseFloat(item.width)
+        //   item.height = parseFloat(item.height)
+        // })
       }
-      delete data.id
       this.createProduct(data)
     }
   }

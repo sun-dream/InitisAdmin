@@ -98,13 +98,14 @@ export default {
   watch: {
     defaultData: {
       handler (newVal) {
-        this.initFormInfo(newVal)
+        // this.initFormInfo(newVal)
       },
       deep: true
     }
   },
   mounted () {
-    // this.initFormInfo()
+    this.initFormInfo()
+    console.log(this.defaultData)
     this.getCategoryAllData({ query: '', limit: 100 })
     // this.loadShippingList();
   },
@@ -122,20 +123,14 @@ export default {
         })
       })
     },
-    initFormInfo (newVal) {
-      let data = {}
-      if (this.isDef(this.defaultData) && this.isDef(this.defaultData.id)) {
-        data = this.cloneObj(this.defaultData)
-      } else if (newVal) {
-        data = this.cloneObj(newVal)
-      }
-      this.formInfo.title = data.title
-      this.formInfo.source_name = data.source_name
-      this.formInfo.source_contact = data.source_contact
-      this.formInfo.source = data.source === 'http://' ? '' : data.source
-      this.formInfo.category_id = data.category_id
-      this.formInfo.status = data.status
-      this.formInfo.product_code = data.product_code
+    initFormInfo () {
+      const data = this.cloneObj(this.defaultData)
+      console.log(data)
+      Object.keys(this.formInfo).forEach((key) => {
+        if (data[key]) {
+          this.formInfo[key] = data[key]
+        }
+      })
     }
   }
 }

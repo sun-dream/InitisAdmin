@@ -3,7 +3,7 @@ const createProductMixins = {
     return {
       createProductVuexBasePath: 'logic/product/',
       uploadFilesVuexBasePath: 'logic/uploadFiles/',
-      stepperIndex: 0,
+      stepperIndex: 1,
       createProductForm: {
         product_code: '',
         title: '',
@@ -35,7 +35,11 @@ const createProductMixins = {
         productInfo: 'productInfo',
         uploadFiles: 'uploadFiles'
       },
-      maxNumOfPicUpload: 5
+      maxNumOfPicUpload: 5,
+      uploadFileCache: {
+        images: [],
+        videos: []
+      }
     }
   },
   computed: {
