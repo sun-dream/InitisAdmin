@@ -78,8 +78,8 @@ const createProductMixins = {
           })
         })
     },
-    uploadFiles (data) {
-      return this.$store.dispatch(this.uploadFilesVuexBasePath + 'uploadFiles', data)
+    uploadFiles ({ data, progressHandler = (progressEvent) => {} }) {
+      return this.$store.dispatch(this.uploadFilesVuexBasePath + 'uploadFiles', { params: data, progressHandler })
     },
     archivesSet (val) {
       localStorage.setItem(this.storageName, JSON.stringify(val))

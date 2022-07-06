@@ -9,7 +9,6 @@
       v-if="stepperIndex === 1"
       :default-data="createProductForm"
       @nextHandler="nextHandler"
-      @archivesSetHandler="archiveHandler"
     />
     <upload-product-files
       v-if="stepperIndex === 2"
@@ -124,47 +123,6 @@ export default {
     // this.$refs.form.resetValidation()
   },
   methods: {
-    removeArchivesData () {
-      this.archivesRemove()
-      // this.archivesDialog = false
-    },
-    initArchivesData () {
-      const archivesData = this.archivesGet()
-      Object.assign(this.createProductForm, archivesData.data)
-      this.stepperIndex = archivesData.stepIndex
-      // this.archivesDialog = false
-    },
-    archiveHandler ({ formInfo, obj, skus, detail, stepIndex }) {
-      if (!this.verifyStepHandler()) {
-        return
-      }
-      const storageData = this.archivesGet()
-      const formData = storageData !== null ? storageData.data : {}
-      Object.assign(formData, this.createProductForm)
-      if (this.isDef(formInfo)) {
-        Object.assign(formData, formInfo)
-      }
-      if (this.isDef(obj)) {
-        Object.assign(formData, obj)
-      }
-      if (this.isDef(skus)) {
-        formData.skus = skus
-      }
-      if (this.isDef(detail)) {
-        formData.detail = detail
-      }
-      formData.id = 'archives'
-      this.notification({
-        title: '提示',
-        message: '<h4>提示</h4><div>当前内容已加入本地缓存！</div>',
-        type: 'success',
-        duration: 3000
-      })
-      this.archivesSet({
-        data: formData,
-        stepIndex
-      })
-    },
     nextHandler ({ status, data }) {
       if (status === this.stepStatusEnum.productInfo) {
         this.saveProducrInfoHandler({ data })

@@ -53,12 +53,9 @@
         </el-col>
         <el-col :span="24" class="">
           <el-form-item label="">
-            <!-- <el-button @click="archivesSetHandler(formInfo)">
-              存档
-            </el-button> -->
-            <el-button type="primary" @click="nextStepHandler">
+            <v-button type="primary" @click="nextStepHandler">
               下一步
-            </el-button>
+            </v-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -70,8 +67,10 @@
 import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
+import VButton from '@/baseComponents/VButton'
 export default {
   name: 'ProductInfo',
+  components: { VButton },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
     hideStep: {
@@ -110,9 +109,6 @@ export default {
     // this.loadShippingList();
   },
   methods: {
-    archivesSetHandler (val) {
-      this.$emit('archivesSetHandler', { formInfo: val, stepIndex: 1 })
-    },
     nextStepHandler () {
       this.$refs.infoForm.validate((valid) => {
         if (!valid) {

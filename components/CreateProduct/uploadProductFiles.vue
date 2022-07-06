@@ -3,9 +3,6 @@
     <h4 class="upload-title h4 shadowed-sm">
       上传视频
     </h4>
-    <!--
-      :before-upload="beforePicUpload"
-    -->
     <el-progress v-if="progressFlag" :percentage="loadProgress" />
     <el-upload
       ref="uploadVideo"
@@ -14,22 +11,26 @@
       :file-list="videoData"
       accept=".mp4"
       :limit="1"
-      :http-request="uploadRequest"
+      :http-request="uploadVideoRequest"
       :on-success="uploadVideoSuccess"
       :on-progress="uploadVideoProcess"
+      :on-remove="uploadVideoRemove"
     >
-      <el-button size="small" type="primary" plain class="w-100 d-block upload-image-btn">
-        点击这里上传！{{ loadProgress }}---{{ progressFlag }}
+      <el-button size="small" :disabled="videoData.length === 1" type="primary" plain class="w-100 d-block upload-image-btn">
+        点击这里上传！
       </el-button>
       <div slot="tip" class="el-upload__tip">
         只能上传
         <span class="text-danger ">.mp4</span>
         文件，还可以上传
-        <span class="text-danger ">1</span>
+        <span class="text-danger ">{{ videoData.length === 1 ? 0 : 1 }}</span>
         个视频
       </div>
     </el-upload>
-
+    <div class="video-player-wrap">
+      <!-- <v-video-player v-if="videoSrc" :src="videoSrc" /> -->
+      <!-- <div v-else /> -->
+    </div>
     <h4 class="upload-title h4 shadowed-sm">
       上传图片
     </h4>
@@ -43,9 +44,9 @@
       list-type="picture"
       accept=".jpg,.jpeg, .png"
       :limit="maxNumOfPicUpload"
-      :http-request="uploadRequest"
+      :http-request="uploadPicRequest"
     >
-      <el-button size="small" type="primary" plain class="w-100 d-block upload-image-btn">
+      <el-button size="small" :disabled="videoData.length === maxNumOfPicUpload" type="primary" plain class="w-100 d-block upload-image-btn">
         点击这里上传！
       </el-button>
       <div slot="tip" class="el-upload__tip">
@@ -60,6 +61,14 @@
         张图片
       </div>
     </el-upload>
+    <div class="d-flex btn-warp justify-content-between align-items-center">
+      <v-button @click="nextStepHandler">
+        上一步
+      </v-button>
+      <v-button type="primary" @click="nextStepHandler">
+        下一步
+      </v-button>
+    </div>
   </div>
   <!-- <v-container>
     <section v-if="!hideStep" class="d-flex justify-end">
@@ -77,10 +86,14 @@
 import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
+import VButton from '@/baseComponents/VButton'
+// import VVideoPlayer from '@/baseComponents/VVideoPlayer'
 // eslint-disable-next-line no-unused-vars
 import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'UploadProductFiles',
+  // eslint-disable-next-line vue/no-unused-components
+  components: { VButton },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
     hideStep: {
@@ -99,6 +112,7 @@ export default {
       progressFlag: false, // 关闭进度条
       fileList: [],
       videoData: []
+    //   videoSrc: ''
     }
   },
   watch: {
@@ -113,9 +127,13 @@ export default {
     this.initData()
   },
   methods: {
-    uploadVideoProcess (event, file, fileList) {
+    uploadVideoRemove (file, fileList) {
+      this.videoData = []
+    //   this.videoSrc = ''
+    },
+    uploadVideoProcess (event) {
       this.progressFlag = true // 显示进度条
-      this.loadProgress = parseInt(event.percent) // 动态获取文件上传进度
+      this.loadProgress = parseInt(((event.loaded / event.total) * 100) | 0, 10) // 动态获取文件上传进度
       if (this.loadProgress >= 100) {
         this.loadProgress = 100
         setTimeout(() => { this.progressFlag = false }, 1000) // 一秒后关闭进度条
@@ -149,9 +167,22 @@ export default {
     uploadVideoSuccess (response, file, fileList) {
       this.videoData = this.cloneObj(fileList)
     },
-    uploadRequest (param) {
-      console.log(param)
-      this.uploadFiles(param.file)
+    uploadVideoRequest (param) {
+      this.uploadFiles({ data: param.file, progressHandler: this.uploadVideoProcess })
+        .then((resp) => {
+          if (resp) {
+            this.notification({ title: '提示', message: '上传成功！', type: 'success' })
+            // this.videoSrc = resp.external_url
+            param.onSuccess(resp)
+          }
+        })
+        .catch((err) => {
+          this.notification({ title: '提示', message: '上传失败！', type: 'error' })
+          param.onError(err)
+        })
+    },
+    uploadPicRequest (param) {
+      this.uploadFiles({ data: param.file })
         .then((resp) => {
           if (resp) {
             this.notification({ title: '提示', message: '上传成功！', type: 'success' })
@@ -167,14 +198,20 @@ export default {
       this.$emit('archivesSetHandler', { formInfo: val, stepIndex: 1 })
     },
     nextStepHandler () {
-      // this.$refs.infoForm.validate((valid) => {
-      //   if (!valid) {
-      //     this.notification({ title: '提示', message: '请正确填写内容！', type: 'warning' })
-      //     return false
-      //   }
-      //   const params = this.cloneObj(this.formInfo)
-      //   this.$emit('formInfoHandler', { formInfo: params, stepIndex: 2 })
-      // })
+      if (this.videoData.length < 1) {
+        this.notification({ title: '提示', message: '至少上传一个视频', type: 'warning' })
+        return
+      }
+      if (this.fileList.length < 1) {
+        this.notification({ title: '提示', message: '至少上传一张图片', type: 'warning' })
+        return
+      }
+      const params = {}
+      params.video1_id = this.videoData[0].response.id
+      this.fileList.forEach((item, index) => {
+        params[`image${index + 1}_id`] = item.response.id
+      })
+      console.log(params)
     },
     initData (newVal) {
       this.uploadAction = process.env.baseURL + '/api/v1/files/user'
@@ -193,12 +230,15 @@ export default {
         border-left: 4px solid $primary;
         margin-bottom: 10px;
     }
+    .btn-warp{
+        margin-top: 20px;
+    }
     .upload-image-btn{
         &:hover span{
             color: #fff;
         }
     }
-    .upload-video-demo{
+    .video-player-wrap{
       margin-bottom: 30px;
     }
     ::v-deep .el-upload.el-upload--picture{

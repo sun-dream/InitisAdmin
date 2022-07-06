@@ -8,12 +8,12 @@ const getters = {
 const mutations = {
 }
 const actions = {
-  uploadFiles ({ commit }, params, progress = () => {}) {
+  uploadFiles ({ commit }, { params, progressHandler = (progressEvent) => {} }) {
     const forms = new FormData()
     const configs = {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress: (progressEvent) => {
-        console.log(123)
+        progressHandler(progressEvent)
       }
     }
     if (Array.isArray(params) && params.length > 0) {
