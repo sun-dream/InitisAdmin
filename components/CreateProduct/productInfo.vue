@@ -128,7 +128,7 @@ export default {
 </script>
 <style lang="scss" scoped>
     .info-wrap{
-        width:600px;
+        width:740px;
         margin:40px auto 0;
     }
 </style>

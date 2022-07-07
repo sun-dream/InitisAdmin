@@ -34,33 +34,36 @@
     <h4 class="upload-title h4 shadowed-sm">
       上传图片
     </h4>
+    <!-- :on-preview="handlePictureCardPreview"
+      :on-remove="handleRemove" -->
     <el-upload
-      ref="uploadImage"
-      class="upload-demo"
       action=""
+      list-type="picture-card"
+      accept=".jpg,.jpeg, .png"
       :on-success="uploadPicSuccess"
       :before-upload="beforePicUpload"
       :file-list="fileList"
-      list-type="picture"
-      accept=".jpg,.jpeg, .png"
       :limit="maxNumOfPicUpload"
       :http-request="uploadPicRequest"
+      :on-preview="handlePictureCardPreview"
+      :on-remove="handlePicRemove"
     >
-      <el-button size="small" :disabled="videoData.length === maxNumOfPicUpload" type="primary" plain class="w-100 d-block upload-image-btn">
-        点击这里上传！
-      </el-button>
-      <div slot="tip" class="el-upload__tip">
-        只能上传
-        <span class="text-danger ">jpg/jpeg/png</span>
-        文件，且不超过
-        <span class="text-danger ">300kb </span>
-        ，尺寸为
-        <span class="text-danger ">300*300</span>
-        ，还可以上传
-        <span class="text-danger ">{{ maxNumOfPicUpload - fileList.length }}</span>
-        张图片
-      </div>
+      <i v-show="fileList.length <= maxNumOfPicUpload" class="el-icon-plus" />
     </el-upload>
+    <div class="el-upload__tip">
+      只能上传
+      <span class="text-danger ">.jpg/.jpeg/.png</span>
+      文件，且不超过
+      <span class="text-danger ">300kb </span>
+      ，尺寸为
+      <span class="text-danger ">300*300</span>
+      ，还可以上传
+      <span class="text-danger ">{{ maxNumOfPicUpload - fileList.length }}</span>
+      张图片
+    </div>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
     <div class="d-flex btn-warp justify-content-between align-items-center">
       <v-button @click="prevStepHandler">
         上一步
@@ -104,8 +107,9 @@ export default {
       loadProgress: 0, // 动态显示进度条
       progressFlag: false, // 关闭进度条
       fileList: [],
-      videoData: []
-    //   videoSrc: ''
+      videoData: [],
+      dialogImageUrl: '',
+      dialogVisible: false
     }
   },
   watch: {
@@ -114,6 +118,13 @@ export default {
     this.initData()
   },
   methods: {
+    handlePicRemove (file, fileList) {
+      this.fileList = this.cloneObj(fileList)
+    },
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
     uploadVideoRemove (file, fileList) {
       this.videoData = []
     //   this.videoSrc = ''
@@ -235,7 +246,7 @@ export default {
 <style lang="scss" scoped>
 @import "assets/sass/color";
     .upload-wrap{
-        width:600px;
+        width:740px;
         margin:40px auto 0;
     }
     .upload-title {

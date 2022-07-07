@@ -1,19 +1,17 @@
 <template>
-  <section class="w-100 h-100">
-    <!-- <product-table /> -->
-  </section>
+  <all-products />
 </template>
 <script>
-// import productTable from '@/components/AllProduct/productTable'
-// import allProductMixins from '@/mixins/product/allProduct'
+import AllProducts from '@/components/AllProducts'
+import allProductMixins from '@/mixins/product/allProduct'
 export default {
   name: 'AllProductPage',
   components: {
-    // productTable
+    AllProducts
   },
-  // mixins: [allProductMixins],
+  mixins: [allProductMixins],
   mounted () {
-    // this.getProductAllData(this.productFilterForm)
+    this.getProductAllData(this.productFilterForm)
   }
 }
 </script>

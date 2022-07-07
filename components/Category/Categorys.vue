@@ -43,67 +43,6 @@
       algin-right
       @pageChange="pageChangeHandler"
     />
-    <!--.
-        { text: '备注', sortable: false, align: '-start', value: 'description' },
-        { text: '操作', value: 'actions', width: 100 }
-     <v-data-table
-      :headers="headers"
-      :items="categoryData"
-      :items-per-page="-1"
-      :loading="fetching"
-      height="630px"
-      hide-default-footer
-    >
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title>分类管理（category）</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical />
-          <v-spacer />
-        </v-toolbar>
-        <category-filter
-          ref="categoryFilter"
-          :category-form-title="categoryFormTitle"
-          :category-dialog="categoryDialog"
-          :select-edit-id="selectEditId"
-          @create="createHandler"
-          @close="closeHandler"
-          @save="saveHandler"
-        />
-      </template>
-      <template #item.status="{ item }">
-        <v-switch
-          :input-value="item.status"
-          flat
-          hide-details
-          :true-value="statusEnum.ACTIVE"
-          :false-value="statusEnum.INACTIVE"
-          :label="`${item.status === statusEnum.ACTIVE ? '启用' : '关闭'}`"
-          @change="statusChangeHandle(item)"
-        />
-      </template>
-      <template #item.create_at="{ item }">
-        {{ getTime(item.create_at) }}
-      </template>
-      <template #item.actions="{ item }">
-        <v-btn
-          tile
-          small
-          color="primary"
-          outlined
-          @click="editHandler(item)"
-        >
-          <v-icon small left>
-            mdi-pencil
-          </v-icon>
-          Edit
-        </v-btn>
-      </template>
-    </v-data-table>
-    <v-paginations
-      :vuex-path="categoryVuexBasePath"
-      algin-right
-      @pageChange="pageChangeHandler"
-    /> -->
   </section>
 </template>
 <script>
@@ -113,12 +52,9 @@ import categoryMixins from '@/mixins/product/category'
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Categorys',
-  // eslint-disable-next-line no-trailing-spaces
-  components: { 
+  name: 'CategorysComponents',
+  components: {
     CategorysFilter,
-    // eslint-disable-next-line vue/no-unused-components
     VPaginations
   },
   mixins: [categoryMixins],

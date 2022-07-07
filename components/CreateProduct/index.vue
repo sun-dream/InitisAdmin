@@ -42,7 +42,7 @@ export default {
     }
   },
   mounted () {
-    this.stepperIndex = 1
+    this.stepperIndex = 2
   },
   methods: {
     nextHandler ({ status, data, uploadFileCache }) {
@@ -66,15 +66,12 @@ export default {
         if (uploadFileCache) {
           this.uploadFileCache = uploadFileCache
         }
-      } else {
-        this.stepperIndex--
       }
+      this.stepperIndex--
     },
     createHandler () {
       const data = this.cloneObj(this.createProductForm)
-      // this.createProduct(data)
-      console.log(data, 123)
-      return false
+      this.createProduct(data)
     }
   }
 }
