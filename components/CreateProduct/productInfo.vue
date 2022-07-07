@@ -85,29 +85,21 @@ export default {
   data () {
     return {
       formInfo: {
-        title: '测试i',
-        source_name: '测试2',
-        source_contact: '测试3',
-        source: '测试4',
+        title: '',
+        source_name: '',
+        source_contact: '',
+        source: '',
         category_id: null,
         status: 'ON_SALE',
-        product_code: '12321'
+        product_code: ''
       }
     }
   },
   watch: {
-    defaultData: {
-      handler (newVal) {
-        // this.initFormInfo(newVal)
-      },
-      deep: true
-    }
   },
   mounted () {
     this.initFormInfo()
-    console.log(this.defaultData)
     this.getCategoryAllData({ query: '', limit: 100 })
-    // this.loadShippingList();
   },
   methods: {
     nextStepHandler () {
@@ -125,7 +117,6 @@ export default {
     },
     initFormInfo () {
       const data = this.cloneObj(this.defaultData)
-      console.log(data)
       Object.keys(this.formInfo).forEach((key) => {
         if (data[key]) {
           this.formInfo[key] = data[key]

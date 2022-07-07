@@ -3,20 +3,23 @@
 <template>
   <div class="video-preview">
     <div v-if="src && src.length > 0" class="preview-ratio" @mouseleave="reset">
-      <video-player :src="src"
-                    :options="options"
-                    :ref="'preview'+src"
-      ></video-player>
+      <video-player
+        :ref="'preview'+src"
+        :src="src"
+        :options="options"
+      />
     </div>
-    <div v-else>No Video</div>
+    <div v-else>
+      No Video
+    </div>
   </div>
 </template>
 
 <script>
-import VideoPlayer from "@/baseComponents/VideoPlayer";
+import VideoPlayer from '@/baseComponents/VideoPlayer'
 export default {
-  name: "VVideoPreview",
-  components: {VideoPlayer},
+  name: 'VVideoPreview',
+  components: { VideoPlayer },
   props: {
     src: {
       type: String,
@@ -50,7 +53,7 @@ export default {
           fullscreenToggle: true, // 全屏按钮
           progressControl: false,
           volumeMenuButton: false,
-          playToggle: false,
+          playToggle: false
         }
       }
     }

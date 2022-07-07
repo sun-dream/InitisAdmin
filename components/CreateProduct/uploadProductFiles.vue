@@ -6,7 +6,7 @@
     <el-progress v-if="progressFlag" :percentage="loadProgress" />
     <el-upload
       ref="uploadVideo"
-      :action="uploadAction"
+      action=""
       class="upload-video-demo"
       :file-list="videoData"
       accept=".mp4"
@@ -37,7 +37,7 @@
     <el-upload
       ref="uploadImage"
       class="upload-demo"
-      :action="uploadAction"
+      action=""
       :on-success="uploadPicSuccess"
       :before-upload="beforePicUpload"
       :file-list="fileList"
@@ -101,7 +101,6 @@ export default {
   },
   data () {
     return {
-      uploadAction: '',
       loadProgress: 0, // 动态显示进度条
       progressFlag: false, // 关闭进度条
       fileList: [],
@@ -223,12 +222,11 @@ export default {
       })
     },
     initData () {
-      this.uploadAction = process.env.baseURL + '/api/v1/files/user'
       const data = this.cloneObj(this.defaultUploadFileCache)
       data.images.forEach((item) => {
         item.url = item.response.external_url
       })
-      this.fileList.push(data.images)
+      this.fileList = data.images
       this.videoData = this.defaultUploadFileCache.videos
     }
   }

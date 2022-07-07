@@ -5,21 +5,20 @@ const createProductMixins = {
       uploadFilesVuexBasePath: 'logic/uploadFiles/',
       stepperIndex: 1,
       createProductForm: {
-        product_code: '',
-        title: '',
-        source_name: '',
-        source_contact: '',
-        source: '',
+        product_code: '12321',
+        title: '测试i',
+        source_name: '测试2',
+        source_contact: '测试3',
+        source: '测试4',
         category_id: null,
         status: 'ON_SALE',
-        detail: {
-          sort_description: '',
-          description: ''
-        },
-        skus: [],
-        cover_img: '',
-        sample_videos: [],
-        images: []
+        description: '',
+        video1_id: '',
+        image1_id: '',
+        image2_id: '',
+        image3_id: '',
+        image4_id: '',
+        image5_id: ''
       },
       rules: {
         title: [{ required: true, message: '商品名称不能为空', trigger: 'blur' }],
@@ -33,7 +32,8 @@ const createProductMixins = {
       storageName: '',
       stepStatusEnum: {
         productInfo: 'productInfo',
-        uploadFiles: 'uploadFiles'
+        uploadFiles: 'uploadFiles',
+        description: 'description'
       },
       maxNumOfPicUpload: 5,
       uploadFileCache: {
@@ -45,20 +45,6 @@ const createProductMixins = {
   computed: {
   },
   methods: {
-    getUnitOfWeight (val) {
-      if (!val) {
-        return 'g'
-      }
-      const unit = this.unitOfWeightOption.filter(item => item.value === val)
-      return unit.length > 0 ? unit[0].name : 'g'
-    },
-    getUnitOfLength (val) {
-      if (!val) {
-        return 'cm'
-      }
-      const unit = this.unitOfLengthOption.filter(item => item.value === val)
-      return unit.length > 0 ? unit[0].name : 'cm'
-    },
     createProduct (data) {
       this.$store.dispatch(this.createProductVuexBasePath + 'createdProduct', data)
         .then((resp) => {
@@ -84,15 +70,6 @@ const createProductMixins = {
     },
     uploadFiles ({ data, progressHandler = (progressEvent) => {} }) {
       return this.$store.dispatch(this.uploadFilesVuexBasePath + 'uploadFiles', { params: data, progressHandler })
-    },
-    archivesSet (val) {
-      localStorage.setItem(this.storageName, JSON.stringify(val))
-    },
-    archivesGet () {
-      return JSON.parse(localStorage.getItem(this.storageName))
-    },
-    archivesRemove () {
-      return localStorage.removeItem(this.storageName)
     },
     checkSkuNumber (skuNumber) {
       return this.$store.dispatch(this.createProductVuexBasePath + 'checkSkuNumber', skuNumber)
