@@ -1,18 +1,26 @@
 <template>
   <div class="d-flex justify-content-between mb-2">
-    <el-form ref="queryForm" :inline="true" :model="categoryFilter" label-width="50px" class="demo-form-inline">
+    <el-form
+      ref="queryForm"
+      :inline="true"
+      :model="categoryFilter"
+      label-width="50px"
+      @submit.native.prevent
+    >
       <el-form-item label="查询" class="mb-0">
-        <el-input v-model="categoryFilter.query" />
+        <el-input v-model="categoryFilter.query" @keyup.enter.native="searchHandle" />
       </el-form-item>
       <el-form-item class="mb-0">
-        <v-button type="primary" icon="el-icon-search" @click="searchHandle">
+        <v-button type="primary" size="small" icon="el-icon-search" @click="searchHandle">
           查询
         </v-button>
       </el-form-item>
     </el-form>
-    <v-button type="primary" icon="el-icon-circle-plus-outline" @click="createHandler">
-      新增分类
-    </v-button>
+    <div class="p-1">
+      <v-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="createHandler">
+        新增分类
+      </v-button>
+    </div>
 
     <el-dialog :title="categoryFormTitle" :visible="categoryDialog">
       <el-form ref="categoryDetailForm" :model="categoryForm" class="px-4" :rules="categoryFormRules">
@@ -73,7 +81,6 @@ export default {
     return {
       valid: false,
       formLabelWidth: '90px',
-      // dialogVisible: false,
       categoryFilter: {
         query: ''
       },
@@ -84,13 +91,6 @@ export default {
         id: null
       }
     }
-  },
-  computed: {
-
-  },
-  watch: {
-  },
-  mounted () {
   },
   methods: {
     searchHandle () {

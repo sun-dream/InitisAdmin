@@ -1,64 +1,39 @@
 <template>
-  <v-img
-    :src="imgSrc"
-    :lazy-src="lazySrc"
-    :width="width"
-    :height="height"
-    @error="errorHandler()"
-  >
-    <template v-slot:placeholder>
-      <v-row class="fill-height ma-0" align="center" justify="center">
-        <v-progress-circular
-          indeterminate
-          color="grey lighten-5"
-        ></v-progress-circular>
-      </v-row>
-    </template>
-  </v-img>
+  <el-image :src="src" fit="cover" class="w-100">
+    <div slot="placeholder" class="image-slot">
+      <i class="el-icon-loading" />
+    </div>
+    <el-image slot="error" fit="contain" :src="errorSrc" />
+  </el-image>
 </template>
 <script>
 const defaultImgSrc = '/default.png'
 export default {
-  name: "VImage",
-  props:{
-    src:{
-      type:String,
-      default: defaultImgSrc
-    },
-    lazySrc:{
-      type:String,
-      default:''
-    },
-    width:{
-      type:String | Number
-    },
-    height:{
-      type:String | Number
-    }
-  },
+  name: 'VImage',
   components: {
   },
-  data() {
-    return {
-      failed_image:false
-    };
-  },
-  computed: {
-    imgSrc(){
-      if(this.failed_image || this.src === ''){
-        return defaultImgSrc
-      }else{
-        return this.src
-      }
+  props: {
+    src: {
+      type: String,
+      default: ''
     }
   },
-  mounted() {},
-  methods: {
-    errorHandler() {
-      this.failed_image = true;
-    },
+  data () {
+    return {
+      errorSrc: defaultImgSrc
+    }
   },
-};
+  computed: {
+  },
+  mounted () {},
+  methods: {
+  }
+}
 </script>
-<style  scoped>
+<style  scoped lang="scss">
+.image-slot{
+  i{
+    font-size: 30px;
+  }
+}
 </style>

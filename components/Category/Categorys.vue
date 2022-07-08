@@ -1,5 +1,5 @@
 <template>
-  <section class="w-100 categorg-wrap h-100">
+  <section class="w-100 categorg-wrap">
     <categorys-filter
       ref="categoryFilter"
       :category-form-title="categoryFormTitle"

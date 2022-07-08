@@ -1,24 +1,36 @@
 const createProductMixins = {
   data () {
+    // 验证网址规则
+    const checkSource = (rule, value, callback) => {
+      // 验证手机号的正则表达式
+
+      /* eslint-disable */
+      const reg =/(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/
+      /* eslint-enable */
+      if (reg.test(value)) {
+        return callback()
+      }
+      callback(new Error('请输入正确的网址'))
+    }
     return {
       createProductVuexBasePath: 'logic/product/',
       uploadFilesVuexBasePath: 'logic/uploadFiles/',
       stepperIndex: 1,
       createProductForm: {
-        product_code: '12321',
-        title: '测试i',
-        source_name: '测试2',
-        source_contact: '测试3',
-        source: '测试4',
+        product_code: '',
+        title: '',
+        source_name: '',
+        source_contact: '',
+        source: '',
         category_id: null,
         status: 'ON_SALE',
         description: '',
-        video1_id: '',
-        image1_id: '',
-        image2_id: '',
-        image3_id: '',
-        image4_id: '',
-        image5_id: ''
+        video1_id: null,
+        image1_id: null,
+        image2_id: null,
+        image3_id: null,
+        image4_id: null,
+        image5_id: null
       },
       rules: {
         title: [{ required: true, message: '商品名称不能为空', trigger: 'blur' }],
@@ -27,9 +39,11 @@ const createProductMixins = {
         category_id: [{ required: true, message: '商品类别为必选项', trigger: 'blur' }],
         source_name: [{ required: true, message: '厂名为必填项', trigger: 'blur' }],
         source_contact: [{ required: true, message: '厂家联系方式为必填项', trigger: 'blur' }],
-        source: [{ required: true, message: '厂家网址为必填项', trigger: 'blur' }]
+        source: [
+          { required: true, message: '厂家网址为必填项', trigger: 'blur' },
+          { validator: checkSource, trigger: 'blur' }
+        ]
       },
-      storageName: '',
       stepStatusEnum: {
         productInfo: 'productInfo',
         uploadFiles: 'uploadFiles',
@@ -45,27 +59,38 @@ const createProductMixins = {
   computed: {
   },
   methods: {
+    initDefaultData () {
+      this.uploadFileCache = {
+        images: [],
+        videos: []
+      }
+      this.createProductForm = {
+        product_code: '',
+        title: '',
+        source_name: '',
+        source_contact: '',
+        source: '',
+        category_id: null,
+        status: 'ON_SALE',
+        description: '',
+        video1_id: null,
+        image1_id: null,
+        image2_id: null,
+        image3_id: null,
+        image4_id: null,
+        image5_id: null
+      }
+      this.stepperIndex = 1
+    },
     createProduct (data) {
       this.$store.dispatch(this.createProductVuexBasePath + 'createdProduct', data)
         .then((resp) => {
           this.notification({
             title: '请求结果',
-            message: '<h4>创建商品成功！</div>',
+            message: '创建商品成功！将自动返回第一步！',
             type: 'success'
           })
-          this.notification({
-            title: '请求结果',
-            message: '<h4>将自动返回第一步！</div>',
-            type: 'success'
-          })
-          this.stepperIndex = 1
-        })
-        .catch((error) => {
-          this.notification({
-            title: '请求结果',
-            message: `<h4>创建商品失败！${error}</div>`,
-            type: 'error'
-          })
+          this.initDefaultData()
         })
     },
     uploadFiles ({ data, progressHandler = (progressEvent) => {} }) {

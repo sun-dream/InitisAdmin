@@ -22,15 +22,15 @@ const allProductMixins = {
     }
   },
   methods: {
-    getProductAllData (data) {
-      this.loadProductList(data)
+    getProductAllData (params = { query: '' }) {
+      this.loadProductList(params)
       this.loadProductPagination()
     },
-    loadProductList (data) {
-      this.$store.dispatch(this.productVuexBasePath + '/getProductList', data)
+    loadProductList (params = { query: '' }) {
+      this.$store.dispatch(this.productVuexBasePath + '/getProductList', params)
     },
-    loadProductPagination (data = { query: '' }) {
-      this.$store.dispatch(this.productVuexBasePath + '/getProductPagination', data)
+    loadProductPagination (params = { query: '' }) {
+      this.$store.dispatch(this.productVuexBasePath + '/getProductPagination', params)
     },
     loadProduct (id) {
       this.$store.dispatch(this.productVuexBasePath + '/getProduct', id)

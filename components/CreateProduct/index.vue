@@ -37,12 +37,10 @@ export default {
   mixins: [createProductMixins],
   data () {
     return {
-      valid: false
-      // archivesDialog: false
     }
   },
   mounted () {
-    this.stepperIndex = 2
+    this.initDefaultData()
   },
   methods: {
     nextHandler ({ status, data, uploadFileCache }) {
