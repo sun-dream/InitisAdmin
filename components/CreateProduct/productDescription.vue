@@ -18,6 +18,7 @@
         <i class="el-icon-plus avatar-uploader-icon upload-descriptoon-icon" />
       </el-upload>
     </div>
+    <item-title text="商品详情" />
     <section
       ref="myQuillEditor"
       v-quill:myQuillEditor="editorOption"
@@ -29,7 +30,7 @@
     <!-- @blur="onEditorBlur($event)"
       @focus="onEditorFocus($event)"
       @ready="onEditorReady($event)" -->
-    <div class="d-flex btn-warp justify-content-between align-items-center">
+    <div v-if="!editStatus" class="d-flex btn-warp justify-content-between align-items-center">
       <v-button @click="prevDetailHandler">
         上一步
       </v-button>
@@ -43,6 +44,7 @@
 <script>
 // 工具栏配置
 // import Quill from 'quill'
+import itemTitle from './itemTitle'
 import createProductMixins from '@/mixins/product/createProduct'
 import VButton from '@/baseComponents/VButton'
 const toolbarOptions = [
@@ -61,9 +63,13 @@ const toolbarOptions = [
 ]
 export default {
   name: 'ProductDescription',
-  components: { VButton },
+  components: { VButton, itemTitle },
   mixins: [createProductMixins],
   props: {
+    editStatus: {
+      type: Boolean,
+      default: false
+    },
     defaultData: {
       type: Object,
       default: () => {}
@@ -157,7 +163,7 @@ export default {
 }
 .description-wrap{
   margin: 20px auto 0;
- width: 1000px;
+ width: 740px;
 }
  .upload-image-wrap{
     position: absolute;

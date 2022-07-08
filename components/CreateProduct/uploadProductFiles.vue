@@ -1,8 +1,6 @@
 <template>
   <div class="upload-wrap">
-    <h4 class="upload-title h4 shadowed-sm">
-      上传视频
-    </h4>
+    <item-title text="上传视频" />
     <el-progress v-if="progressFlag" :percentage="loadProgress" />
     <el-upload
       ref="uploadVideo"
@@ -31,9 +29,7 @@
       <!-- <v-video-player v-if="videoSrc" :src="videoSrc" /> -->
       <!-- <div v-else /> -->
     </div>
-    <h4 class="upload-title h4 shadowed-sm">
-      上传图片
-    </h4>
+    <item-title text="上传图片" />
     <!-- :on-preview="handlePictureCardPreview"
       :on-remove="handleRemove" -->
     <el-upload
@@ -64,7 +60,7 @@
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
-    <div class="d-flex btn-warp justify-content-between align-items-center">
+    <div v-if="!editStatus" class="d-flex btn-warp justify-content-between align-items-center">
       <v-button @click="prevStepHandler">
         上一步
       </v-button>
@@ -76,6 +72,7 @@
 </template>
 
 <script>
+import itemTitle from './itemTitle'
 import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
@@ -86,10 +83,10 @@ import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'UploadProductFiles',
   // eslint-disable-next-line vue/no-unused-components
-  components: { VButton },
+  components: { VButton, itemTitle },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
-    hideStep: {
+    editStatus: {
       type: Boolean,
       default: false
     },
@@ -249,7 +246,7 @@ export default {
         width:740px;
         margin:40px auto 0;
     }
-    .upload-title {
+    .product-info-title {
         padding: 10px 6px;
         border-left: 4px solid $primary;
         margin-bottom: 10px;

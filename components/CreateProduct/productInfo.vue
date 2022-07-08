@@ -1,5 +1,6 @@
 <template>
   <div class="info-wrap">
+    <item-title text="基本信息" />
     <el-form ref="infoForm" :model="formInfo" :rules="rules" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="24">
@@ -51,7 +52,7 @@
             <el-input v-model="formInfo.source" placeholder="http://...." />
           </el-form-item>
         </el-col>
-        <el-col :span="24" class="">
+        <el-col v-if="!editStatus" :span="24" class="">
           <el-form-item label="">
             <v-button type="primary" @click="nextStepHandler">
               下一步
@@ -60,20 +61,22 @@
         </el-col>
       </el-row>
     </el-form>
+    </itemtitle>
   </div>
 </template>
 
 <script>
+import itemTitle from './itemTitle'
 import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
 import VButton from '@/baseComponents/VButton'
 export default {
   name: 'ProductInfo',
-  components: { VButton },
+  components: { VButton, itemTitle },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
-    hideStep: {
+    editStatus: {
       type: Boolean,
       default: false
     },
@@ -127,6 +130,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import "assets/sass/color";
+    .product-info-title {
+        padding: 10px 6px;
+        border-left: 4px solid $primary;
+        margin-bottom: 10px;
+    }
     .info-wrap{
         width:740px;
         margin:40px auto 0;

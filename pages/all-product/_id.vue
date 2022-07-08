@@ -1,13 +1,13 @@
 <template>
-  <create-product />
+  <edit-product />
 </template>
 <script>
-import CreateProduct from '@/components/CreateProduct/index'
+import EditProduct from '@/components/EditProduct/index'
 import breadcrumbMixins from '@/mixins/breadcrumb'
 export default {
-  name: 'CreateProductPage',
+  name: 'ProductForIdPage',
   components: {
-    CreateProduct
+    EditProduct
   },
   mixins: [breadcrumbMixins],
   data () {
@@ -15,7 +15,10 @@ export default {
     }
   },
   mounted () {
-    this.breadcrumbs = [{ text: '创建商品', cpnName: 'create-product' }]
+    this.breadcrumbs = [
+      { text: '商品管理', cpnName: 'all-product' },
+      { text: '商品编辑', cpnName: 'all-product' }
+    ]
   },
   methods: {}
 }

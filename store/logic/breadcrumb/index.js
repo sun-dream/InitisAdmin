@@ -1,20 +1,26 @@
 const state = () => {
   return {
-    homeCpn:{ text: "Initi", disabled: false, nuxt:true,exact:true,to: { name: "index" } },
+    homeCpn: { text: 'Initi', cpnName: '/' },
     breads: []
   }
 }
 
 const getters = {
-    breads: state => {
-        let arr = JSON.parse(JSON.stringify(state.breads))
-        arr.unshift(state.homeCpn)
-        return arr
-    }
+  breads: (state) => {
+    const arr = JSON.parse(JSON.stringify(state.breads))
+    arr.unshift(state.homeCpn)
+    return arr
+  }
 }
 const mutations = {
-  UPDATA_BREADS(state, val) {
-    state.breads = val
+  UPDATA_BREADS (state, val) {
+    const arr = []
+    if (Array.isArray(val)) {
+      arr.push(...val)
+    } else if (val.cpnName && val.text) {
+      arr.push(val)
+    }
+    state.breads = JSON.parse(JSON.stringify(arr))
   }
 }
 const actions = {
@@ -22,8 +28,8 @@ const actions = {
 }
 
 export default {
-    state,
-    mutations,
-    actions,
-    getters
+  state,
+  mutations,
+  actions,
+  getters
 }

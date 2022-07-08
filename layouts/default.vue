@@ -4,25 +4,23 @@
     <el-container class="is-vertical">
       <the-header />
       <el-main>
+        <v-bread-crumb />
         <nuxt />
       </el-main>
     </el-container>
   </el-container>
 </template>
 <script>
-// import VLoading from "../baseComponents/VLoading";
-// import VNotification from "../baseComponents/VNotification";
+import VBreadCrumb from '@/baseComponents/VBreadCrumb'
 import LeftMenu from '@/components/MyApp/LeftMenu'
 import TheHeader from '@/components/MyApp/TheHeader'
 import myAppMixins from '@/mixins/myApp'
-
 export default {
   name: 'DefaultLayout',
   components: {
     LeftMenu,
-    theHeader: TheHeader
-    // VLoading,
-    // VNotification
+    theHeader: TheHeader,
+    VBreadCrumb
   },
   mixins: [myAppMixins],
   data () {
@@ -32,16 +30,9 @@ export default {
     }
   },
   methods: {
-
   }
 }
 </script>
 
 <style scoped lang="scss">
-$adminHeaderHeight: 50px;
-#theHeader {
-  height:$adminHeaderHeight;
-  width: 100%;
-  z-index:5;
-}
 </style>

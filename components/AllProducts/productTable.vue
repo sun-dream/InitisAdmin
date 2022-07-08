@@ -30,7 +30,7 @@
             个sku
           </div>
           <div v-else>
-            未检测出sku,现在创建？
+            未检测出sku,<span>现在创建？</span>
           </div>
         </template>
       </el-table-column>
