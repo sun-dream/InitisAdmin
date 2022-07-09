@@ -5,7 +5,7 @@
 import EditProduct from '@/components/EditProduct/index'
 import breadcrumbMixins from '@/mixins/breadcrumb'
 export default {
-  name: 'ProductForIdPage',
+  name: 'ProductSkuPage',
   components: {
     EditProduct
   },
@@ -17,7 +17,7 @@ export default {
   mounted () {
     this.breadcrumbs = [
       { text: '商品管理', cpnName: 'all-product' },
-      { text: '商品编辑', cpnName: 'all-product' }
+      { text: 'sku管理', cpnName: 'all-product' }
     ]
   },
   methods: {}

@@ -21,6 +21,14 @@ const actions = {
           })
       })
     })
+  },
+  getFiles ({ state, commit, dispatch }, { id }) {
+    return new Promise((resolve, reject) => {
+      dispatch('api/upload/getFile', id, { root: true })
+        .then((data) => {
+          resolve(data)
+        })
+    })
   }
 }
 

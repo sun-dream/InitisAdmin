@@ -4,30 +4,19 @@ const state = () => {
   return {
     productList: [],
     productAllList: [],
-    productObject: {},
-    productBlockList: []
+    productItem: {}
   }
 }
 const getters = {
   productList: state => state.productList,
-  productAllList: state => state.productAllList,
-  productObject: state => state.productObject,
-  productBlockList: state => state.productBlockList
+  productItem: state => state.productItem
 }
 const mutations = {
   UPDATE_PRODUCT_LIST_DATA (state, val) {
     state.productList = val
   },
-  UPDATE_PRODUCT_All_LIST (state, val) {
-    if (Array.isArray(val) && val.length) {
-      state.productAllList.push.apply(state.productAllList, val)
-    }
-  },
-  CLEAT_PRODUCT_ALL_LIST (state) {
-    state.productAllList = []
-  },
-  UPDATE_PRODUCT_OBJECT_DATA (state, val) {
-    state.productObject = val
+  UPDATE_PRODUCT_ITEM (state, val) {
+    state.productItem = val
   }
 }
 const actions = {
@@ -63,10 +52,11 @@ const actions = {
       })
     })
   },
-  getProduct ({ state, commit, dispatch }, id = null) {
+  getProductItem ({ state, commit, dispatch }, id = null) {
     return new Promise((resolve) => {
-      dispatch('api/product/getProduct', id, { root: true }).then((resp) => {
-        commit('UPDATE_PRODUCT_OBJECT_DATA', resp)
+      dispatch('api/product/getProductItem', id, { root: true }).then((resp) => {
+        commit('UPDATE_PRODUCT_ITEM', resp)
+        resolve(resp)
       })
     })
   },
@@ -78,25 +68,23 @@ const actions = {
             dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
             resolve(data)
           }).catch((err) => {
-            console.log(err, 12312)
-
             dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
             reject(err)
           })
       })
     })
-  },
-  updateProduct ({ state, commit, dispatch }, { data, productId }) {
-    return new Promise((resolve) => {
-      dispatch('api/product/updateProduct', { data, productId }, { root: true })
-        .then((resp) => {
-          resolve(resp)
-          if (resp === null && resp === undefined) {
-            resolve(null)
-          }
-        })
-    })
   }
+  // updateProduct ({ state, commit, dispatch }, { data, productId }) {
+  //   return new Promise((resolve) => {
+  //     dispatch('api/product/updateProduct', { data, productId }, { root: true })
+  //       .then((resp) => {
+  //         resolve(resp)
+  //         if (resp === null && resp === undefined) {
+  //           resolve(null)
+  //         }
+  //       })
+  //   })
+  // }
 }
 
 export default {

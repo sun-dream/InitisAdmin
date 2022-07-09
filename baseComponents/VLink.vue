@@ -1,5 +1,11 @@
 <template>
-  <n-link :to="{name:name}" :class="className">
+  <n-link
+    :to="{
+      name:name,
+      params:params
+    }"
+    :class="className"
+  >
     <slot />
   </n-link>
 </template>
@@ -10,6 +16,10 @@ export default {
     name: {
       type: String,
       default: '/'
+    },
+    params: {
+      type: Object,
+      default: () => ({})
     },
     className: {
       type: String,

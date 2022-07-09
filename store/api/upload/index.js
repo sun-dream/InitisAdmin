@@ -30,6 +30,13 @@ const actions = {
         reject(error)
       })
     })
+  },
+  getFile ({ commit }, id) {
+    return new Promise((resolve) => {
+      this.$axios.get('files/user/id/' + id).then((resp) => {
+        resolve(resp.data)
+      })
+    })
   }
 }
 

@@ -3,7 +3,7 @@
     <left-menu />
     <el-container class="is-vertical">
       <the-header />
-      <el-main>
+      <el-main class="pos-r">
         <v-bread-crumb />
         <nuxt />
       </el-main>

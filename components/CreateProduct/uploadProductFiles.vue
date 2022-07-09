@@ -1,6 +1,6 @@
 <template>
   <div class="upload-wrap">
-    <item-title text="上传视频" />
+    <item-title text="商品视频" />
     <el-progress v-if="progressFlag" :percentage="loadProgress" />
     <el-upload
       ref="uploadVideo"
@@ -25,11 +25,10 @@
         个视频
       </div>
     </el-upload>
-    <div class="video-player-wrap">
-      <!-- <v-video-player v-if="videoSrc" :src="videoSrc" /> -->
-      <!-- <div v-else /> -->
+    <div v-if="videoData[0]" class="video-player-wrap">
+      <V-Video-Preview :src=" videoData[0].url" />
     </div>
-    <item-title text="上传图片" />
+    <item-title text="商品主图" />
     <!-- :on-preview="handlePictureCardPreview"
       :on-remove="handleRemove" -->
     <el-upload
@@ -39,7 +38,6 @@
       :on-success="uploadPicSuccess"
       :before-upload="beforePicUpload"
       :file-list="fileList"
-      :limit="maxNumOfPicUpload"
       :http-request="uploadPicRequest"
       :on-preview="handlePictureCardPreview"
       :on-remove="handlePicRemove"
@@ -77,22 +75,19 @@ import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
 import VButton from '@/baseComponents/VButton'
+import VVideoPreview from '@/baseComponents/VVideoPreview'
 // import VVideoPlayer from '@/baseComponents/VVideoPlayer'
 // eslint-disable-next-line no-unused-vars
 import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'UploadProductFiles',
   // eslint-disable-next-line vue/no-unused-components
-  components: { VButton, itemTitle },
+  components: { VButton, itemTitle, VVideoPreview },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
     editStatus: {
       type: Boolean,
       default: false
-    },
-    defaultData: {
-      type: Object,
-      default: () => {}
     },
     defaultUploadFileCache: {
       type: Object,
@@ -110,6 +105,12 @@ export default {
     }
   },
   watch: {
+    defaultUploadFileCache: {
+      deep: true,
+      handler (newData, oldData) {
+        this.initData()
+      }
+    }
   },
   mounted () {
     this.initData()
@@ -124,7 +125,6 @@ export default {
     },
     uploadVideoRemove (file, fileList) {
       this.videoData = []
-    //   this.videoSrc = ''
     },
     uploadVideoProcess (event) {
       this.progressFlag = true // 显示进度条
@@ -232,10 +232,13 @@ export default {
     initData () {
       const data = this.cloneObj(this.defaultUploadFileCache)
       data.images.forEach((item) => {
-        item.url = item.response.external_url
+        item.url = item.response && item.response.external_url ? item.response.external_url : item.url
+      })
+      data.videos.forEach((item) => {
+        item.url = item.response && item.response.external_url ? item.response.external_url : item.url
       })
       this.fileList = data.images
-      this.videoData = this.defaultUploadFileCache.videos
+      this.videoData = data.videos
     }
   }
 }

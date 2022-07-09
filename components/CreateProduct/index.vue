@@ -1,5 +1,5 @@
 <template>
-  <section class="w-100  p-3">
+  <section class="w-100 p-3">
     <el-steps :active="stepperIndex" simple>
       <el-step title="商品信息" icon="el-icon-edit" />
       <el-step title="上传图片" icon="el-icon-upload" />

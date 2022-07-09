@@ -2,7 +2,7 @@
   <el-breadcrumb separator="/" class="mb-2">
     <template v-for="item in breadcrumbs">
       <el-breadcrumb-item :key="item.text+'-'+item.cpnName">
-        <v-link :name="item.cpnName">
+        <v-link :name="item.cpnName" :params="item.params?item.params:{}">
           {{ item.text }}
         </v-link>
       </el-breadcrumb-item>

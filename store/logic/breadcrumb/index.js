@@ -1,6 +1,6 @@
 const state = () => {
   return {
-    homeCpn: { text: 'Initi', cpnName: '/' },
+    homeCpn: { text: 'Initi', cpnName: 'index' },
     breads: []
   }
 }
@@ -24,7 +24,6 @@ const mutations = {
   }
 }
 const actions = {
-
 }
 
 export default {

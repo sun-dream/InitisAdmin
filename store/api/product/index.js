@@ -29,75 +29,75 @@ const actions = {
       })
     })
   },
-  getProduct ({ commit }, id) {
+  getProductItem ({ commit }, id) {
     return new Promise((resolve) => {
-      this.$axios.get('product/' + id).then((resp) => {
+      this.$axios.get('products/admin/id/' + id).then((resp) => {
         resolve(resp.data)
       })
     })
-  },
-  getProductByNumber ({ commit }, number) {
-    return new Promise((resolve) => {
-      this.$axios.get('product/number/' + number).then((resp) => {
-        resolve(resp.data.data)
-      })
-    })
-  },
-  uploadProductImage ({ commit }, params) {
-    const forms = new FormData()
-    const configs = {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    }
-    if (Array.isArray(params) && params.length > 0) {
-      for (let i = 0; i < params.length; i++) {
-        forms.append('files', params[i])
-      }
-    } else {
-      forms.append('files', params)
-    }
-    return new Promise((resolve) => {
-      this.$axios.post('upload/product_image', forms, configs).then((resp) => {
-        resolve(resp.data.data)
-      })
-    })
-  },
-  updateProduct ({ commit }, { data, productId }) {
-    return new Promise((resolve) => {
-      this.$axios.put('product/' + productId, data).then((resp) => {
-        resolve(resp.data.data)
-      })
-    })
-  },
-  checkSkuNumber ({ commit }, skuNumber) {
-    return new Promise((resolve, reject) => {
-      this.$axios.get('sku/check_sku_number/' + skuNumber).then((resp) => {
-        resolve(resp.data.data)
-      })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-  updateCoverSkuForProductId ({ commit }, { productId, data }) {
-    return new Promise((resolve, reject) => {
-      this.$axios.put('sku/update_cover/' + productId, data).then((resp) => {
-        resolve(resp.data.data)
-      })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-  calculateCalcCost ({ commit }, params) {
-    return new Promise((resolve, reject) => {
-      this.$axios.post('calculate/calc_cost', params).then((resp) => {
-        resolve(resp.data.data)
-      })
-        .catch((error) => {
-          reject(error)
-        })
-    })
   }
+  // getProductByNumber ({ commit }, number) {
+  //   return new Promise((resolve) => {
+  //     this.$axios.get('product/number/' + number).then((resp) => {
+  //       resolve(resp.data.data)
+  //     })
+  //   })
+  // },
+  // uploadProductImage ({ commit }, params) {
+  //   const forms = new FormData()
+  //   const configs = {
+  //     headers: { 'Content-Type': 'multipart/form-data' }
+  //   }
+  //   if (Array.isArray(params) && params.length > 0) {
+  //     for (let i = 0; i < params.length; i++) {
+  //       forms.append('files', params[i])
+  //     }
+  //   } else {
+  //     forms.append('files', params)
+  //   }
+  //   return new Promise((resolve) => {
+  //     this.$axios.post('upload/product_image', forms, configs).then((resp) => {
+  //       resolve(resp.data.data)
+  //     })
+  //   })
+  // },
+  // updateProduct ({ commit }, { data, productId }) {
+  //   return new Promise((resolve) => {
+  //     this.$axios.put('product/' + productId, data).then((resp) => {
+  //       resolve(resp.data.data)
+  //     })
+  //   })
+  // },
+  // checkSkuNumber ({ commit }, skuNumber) {
+  //   return new Promise((resolve, reject) => {
+  //     this.$axios.get('sku/check_sku_number/' + skuNumber).then((resp) => {
+  //       resolve(resp.data.data)
+  //     })
+  //       .catch((error) => {
+  //         reject(error)
+  //       })
+  //   })
+  // },
+  // updateCoverSkuForProductId ({ commit }, { productId, data }) {
+  //   return new Promise((resolve, reject) => {
+  //     this.$axios.put('sku/update_cover/' + productId, data).then((resp) => {
+  //       resolve(resp.data.data)
+  //     })
+  //       .catch((error) => {
+  //         reject(error)
+  //       })
+  //   })
+  // },
+  // calculateCalcCost ({ commit }, params) {
+  //   return new Promise((resolve, reject) => {
+  //     this.$axios.post('calculate/calc_cost', params).then((resp) => {
+  //       resolve(resp.data.data)
+  //     })
+  //       .catch((error) => {
+  //         reject(error)
+  //       })
+  //   })
+  // }
 }
 
 export default {

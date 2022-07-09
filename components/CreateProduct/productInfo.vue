@@ -1,5 +1,5 @@
 <template>
-  <div class="info-wrap">
+  <div :class="editStatus?'info-wrap-edit':'info-wrap'">
     <item-title text="基本信息" />
     <el-form ref="infoForm" :model="formInfo" :rules="rules" label-width="120px">
       <el-row :gutter="20">
@@ -99,6 +99,12 @@ export default {
     }
   },
   watch: {
+    defaultData: {
+      deep: true,
+      handler (newData, oldData) {
+        this.initFormInfo()
+      }
+    }
   },
   mounted () {
     this.initFormInfo()
@@ -139,5 +145,9 @@ export default {
     .info-wrap{
         width:740px;
         margin:40px auto 0;
+    }
+    .info-wrap-edit{
+        width:740px;
+        margin:0 auto 0;
     }
 </style>

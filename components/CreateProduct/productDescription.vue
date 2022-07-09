@@ -100,12 +100,15 @@ export default {
       }
     }
   },
-  computed: {
-    // 当前富文本实例
-    // editor () { return this.$refs.myQuillEditor.quill }
-  },
   watch: {
+    defaultData: {
+      deep: true,
+      handler (newData, oldData) {
+        this.initDetail()
+      }
+    }
   },
+
   mounted () {
     this.initDetail()
   },
@@ -162,7 +165,7 @@ export default {
   margin-bottom: 20px;
 }
 .description-wrap{
-  margin: 20px auto 0;
+  margin: 40px auto 0;
  width: 740px;
 }
  .upload-image-wrap{

@@ -14,11 +14,8 @@ const allProductMixins = {
     productList () {
       return this.$store.getters[this.productVuexBasePath + '/productList']
     },
-    productObject () {
-      return this.$store.getters[this.productVuexBasePath + '/productObject']
-    },
-    productAllList () { // 滚动加载数据存放
-      return this.$store.getters[this.productVuexBasePath + '/productAllList']
+    productItem () {
+      return this.$store.getters[this.productVuexBasePath + '/productItem']
     }
   },
   methods: {
@@ -32,22 +29,22 @@ const allProductMixins = {
     loadProductPagination (params = { query: '' }) {
       this.$store.dispatch(this.productVuexBasePath + '/getProductPagination', params)
     },
-    loadProduct (id) {
-      this.$store.dispatch(this.productVuexBasePath + '/getProduct', id)
-    },
-    loadProductByNumber (number) {
-      this.$store.dispatch(this.productVuexBasePath + '/getProductByNumber', number)
-    },
-    updateProduct ({ data, productId }) {
-      return this.$store.dispatch(this.productVuexBasePath + '/updateProduct', { data, productId })
-    },
-
-    updateCoverSkuForProductId ({ data, productId }) {
-      return this.$store.dispatch(this.productVuexBasePath + '/updateCoverSkuForProductId', { data, productId })
-    },
-    loadProductAllList (params) {
-      return this.$store.dispatch(this.productVuexBasePath + '/getProductAllList', params)
+    getProductItem (id) {
+      return this.$store.dispatch(this.productVuexBasePath + '/getProductItem', id)
     }
+    // loadProductByNumber (number) {
+    //   this.$store.dispatch(this.productVuexBasePath + '/getProductByNumber', number)
+    // },
+    // updateProduct ({ data, productId }) {
+    //   return this.$store.dispatch(this.productVuexBasePath + '/updateProduct', { data, productId })
+    // },
+
+    // updateCoverSkuForProductId ({ data, productId }) {
+    //   return this.$store.dispatch(this.productVuexBasePath + '/updateCoverSkuForProductId', { data, productId })
+    // },
+    // loadProductAllList (params) {
+    //   return this.$store.dispatch(this.productVuexBasePath + '/getProductAllList', params)
+    // }
   }
 }
 

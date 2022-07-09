@@ -72,9 +72,5 @@ export default {
 <style scoped>
   .preview-ratio {
     background-color: black;
-    width: 203px;
-    height: 360px;
-    min-width: 135px;
-    min-height: 240px;
   }
 </style>

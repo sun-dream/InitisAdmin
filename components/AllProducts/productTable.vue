@@ -86,7 +86,10 @@ export default {
   },
   methods: {
     editHandler (product) {
-
+      this.$router.push({
+        name: 'all-product-edit-id',
+        params: { id: product.id }
+      })
     },
     pageChangeHandler (data) {
       this.getProductAllData(data)
