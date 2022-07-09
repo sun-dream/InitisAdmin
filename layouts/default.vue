@@ -3,7 +3,7 @@
     <left-menu />
     <el-container class="is-vertical">
       <the-header />
-      <el-main class="pos-r">
+      <el-main v-loading="fetching" class="pos-r">
         <v-bread-crumb />
         <nuxt />
       </el-main>
@@ -28,6 +28,8 @@ export default {
       show: false,
       title: 'Initi - Admin'
     }
+  },
+  mounted () {
   },
   methods: {
   }

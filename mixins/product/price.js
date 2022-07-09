@@ -1,5 +1,5 @@
 const priceMixins = {
-  data() {
+  data () {
     return {
     }
   },
@@ -10,7 +10,7 @@ const priceMixins = {
       let min = 9999999
       if (Array.isArray(product.skus) && product.skus.length > 0) {
         product.skus.forEach((sku) => {
-          if (sku.purchase_price < min ) { min = sku.purchase_price }
+          if (sku.purchase_price < min) { min = sku.purchase_price }
         })
         return min
       } else {
@@ -21,7 +21,7 @@ const priceMixins = {
       let max = 0
       if (Array.isArray(product.skus) && product.skus.length > 0) {
         product.skus.forEach((sku) => {
-          if (sku.purchase_price > max ) { max = sku.purchase_price }
+          if (sku.purchase_price > max) { max = sku.purchase_price }
         })
         return max
       } else {
@@ -32,7 +32,7 @@ const priceMixins = {
       let min = 9999999
       if (Array.isArray(product.skus) && product.skus.length > 0) {
         product.skus.forEach((sku) => {
-          if (sku.recommend_retail_price < min ) { min = sku.recommend_retail_price }
+          if (sku.recommend_retail_price < min) { min = sku.recommend_retail_price }
         })
         return min
       } else {
@@ -43,29 +43,29 @@ const priceMixins = {
       let max = 0
       if (Array.isArray(product.skus) && product.skus.length > 0) {
         product.skus.forEach((sku) => {
-          if (sku.recommend_retail_price > max ) { max = sku.recommend_retail_price }
+          if (sku.recommend_retail_price > max) { max = sku.recommend_retail_price }
         })
         return max
       } else {
         return null
       }
     },
-    getSampleCostMin(product){
+    getSampleCostMin (product) {
       let min = 9999999
       if (Array.isArray(product.skus) && product.skus.length > 0) {
         product.skus.forEach((sku) => {
-          if (sku.sample_price < min ) { min = sku.sample_price }
+          if (sku.sample_price < min) { min = sku.sample_price }
         })
         return min
       } else {
         return null
       }
     },
-    getSampleCostMax(product){
+    getSampleCostMax (product) {
       let max = 0
       if (Array.isArray(product.skus) && product.skus.length > 0) {
         product.skus.forEach((sku) => {
-          if (sku.sample_price > max ) { max = sku.sample_price }
+          if (sku.sample_price > max) { max = sku.sample_price }
         })
         return max
       } else {

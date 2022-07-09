@@ -54,9 +54,12 @@ const actions = {
   },
   getProductItem ({ state, commit, dispatch }, id = null) {
     return new Promise((resolve) => {
-      dispatch('api/product/getProductItem', id, { root: true }).then((resp) => {
-        commit('UPDATE_PRODUCT_ITEM', resp)
-        resolve(resp)
+      dispatch('logic/fetching/beforeUpdateFatching', {}, { root: true }).then((_) => {
+        dispatch('api/product/getProductItem', id, { root: true }).then((resp) => {
+          commit('UPDATE_PRODUCT_ITEM', resp)
+          resolve(resp)
+          dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
+        })
       })
     })
   },
@@ -73,18 +76,18 @@ const actions = {
           })
       })
     })
+  },
+  updateProduct ({ state, commit, dispatch }, { data, id }) {
+    return new Promise((resolve) => {
+      dispatch('logic/fetching/beforeUpdateFatching', {}, { root: true }).then((_) => {
+        dispatch('api/product/updateProduct', { data, id }, { root: true })
+          .then((resp) => {
+            resolve(resp)
+            dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
+          })
+      })
+    })
   }
-  // updateProduct ({ state, commit, dispatch }, { data, productId }) {
-  //   return new Promise((resolve) => {
-  //     dispatch('api/product/updateProduct', { data, productId }, { root: true })
-  //       .then((resp) => {
-  //         resolve(resp)
-  //         if (resp === null && resp === undefined) {
-  //           resolve(null)
-  //         }
-  //       })
-  //   })
-  // }
 }
 
 export default {

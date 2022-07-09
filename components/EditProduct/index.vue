@@ -4,19 +4,29 @@
     class="w-100 product-edit-wrap "
     @scroll="handleScroll"
   >
-    <div ref="btnWrap" :class="`btn-wrap ${headerFixed ? 'issFixed' : ''}`" />
+    <div ref="btnWrap" :class="`btn-wrap shadowed d-flex justify-content-between align-items-center ${headerFixed ? 'issFixed' : ''}`">
+      <v-button size="small" @click="resetHandler">
+        重置到初始状态
+      </v-button>
+      <v-button type="primary" size="small" @click="submitHandler">
+        商品更新
+      </v-button>
+    </div>
     <product-info
+      ref="prodcutInfoRef"
       :edit-status="true"
       :default-data="createProductForm"
       @nextHandler="nextHandler"
     />
     <upload-product-files
+      ref="prodcutFilesRef"
       :edit-status="true"
       :default-data="createProductForm"
       :default-upload-file-cache="uploadFileCache"
       @nextHandler="nextHandler"
     />
     <product-description
+      ref="prodcutDescriptionRef"
       :edit-status="true"
       :default-data="createProductForm"
       @nextHandler="nextHandler"
@@ -31,10 +41,10 @@ import uploadProductFiles from '@/components/CreateProduct/uploadProductFiles'
 import createProductMixins from '@/mixins/product/createProduct'
 import allProductMixins from '@/mixins/product/allProduct'
 import uploadFilesMixins from '@/mixins/uploadFiles'
-
+import VButton from '@/baseComponents/VButton'
 export default {
   name: 'EditProduct',
-  components: { productInfo, uploadProductFiles, productDescription },
+  components: { productInfo, uploadProductFiles, productDescription, VButton },
   mixins: [createProductMixins, allProductMixins, uploadFilesMixins],
   data () {
     return {
@@ -56,9 +66,6 @@ export default {
       this.$refs.productEditWrap.addEventListener('scroll', this.handleScroll)
     })
   },
-  destroyed () {
-    // this.$refs.productEditWrap.removeEventListener('scroll', this.handleScroll)
-  },
   methods: {
     initData () {
       this.getProductItem(this.$route.params.id).then((resp) => {
@@ -69,16 +76,18 @@ export default {
           this.createProductForm[key] = resp[key]
         })
         for (let i = 0; i < this.maxNumOfPicUpload; i++) {
-          if (this.createProductForm[`image${i + 1}_id`]) {
+          if (resp[`image${i + 1}_id`]) {
             this.uploadFileCache.images.push({
-              url: this.createProductForm[`image${i + 1}`].external_url
+              url: resp[`image${i + 1}`].external_url,
+              response: resp[`image${i + 1}`]
             })
           }
         }
-        if (this.createProductForm.video1_id) {
+        if (resp.video1_id) {
           this.uploadFileCache.videos.push({
-            url: this.createProductForm.video1.external_url,
-            name: this.createProductForm.video1.file_name
+            url: resp.video1.external_url,
+            name: resp.video1.file_name,
+            response: resp.video1
           })
         }
       })
@@ -91,25 +100,40 @@ export default {
         this.$refs.productEditWrap.scrollTop
       // 判断页面滚动的距离是否大于吸顶元素的位置
       this.headerFixed = scrollTop > this.offsetTop + this.offsetHeight
-      console.log(this.headerFixed, scrollTop, this.offsetTop, this.offsetHeight)
     },
     nextHandler ({ status, data, uploadFileCache }) {
       Object.keys(data).forEach((key) => {
         this.createProductForm[key] = data[key]
       })
-      if (
+      if (status === this.stepStatusEnum.productInfo) {
+        this.$refs.prodcutFilesRef.nextStepHandler()
+      } else if (
         status === this.stepStatusEnum.uploadFiles &&
         this.isDef(uploadFileCache)
       ) {
         this.uploadFileCache = uploadFileCache
-      }
-      if (status === this.stepStatusEnum.description) {
-        this.createHandler()
+        this.$refs.prodcutDescriptionRef.nextStepHandler()
+      } else if (status === this.stepStatusEnum.description) {
+        this.updateHandler()
       }
     },
+    resetHandler () {
+      this.initData()
+    },
     submitHandler () {
-      const data = this.cloneObj(this.createProductForm)
-      this.createProduct(data)
+      this.$refs.prodcutInfoRef.nextStepHandler()
+    },
+    updateHandler () {
+      if (this.productItem.id) {
+        this.notification({ title: '提示', message: '商品正在更新中...', type: 'warning' })
+        this.updateProduct({ data: this.createProductForm, id: this.productItem.id })
+          .then((resp) => {
+            console.log(resp)
+            this.notification({ title: '提示', message: '更新成功！', type: 'success' })
+          })
+      } else {
+        this.notification({ title: '提示', message: '更新失败，请重新尝试', type: 'error' })
+      }
     }
   }
 }
@@ -121,15 +145,17 @@ export default {
 }
 .btn-wrap {
   height: 40px;
-  width: 100%;
+  width: 740px;
+  margin: 0 auto;
   margin-bottom: 10px;
-  background-color: skyblue;
+  background:#fff;
 }
 .issFixed {
   position: absolute;
-  width:calc(100% - 60px);
+  width:740px;
   top: 35px;
-  left: 20px;
+  left: 50%;
+  margin-left: -378px;
   right: 0px;
   z-index: 4;
 }

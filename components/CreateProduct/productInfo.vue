@@ -61,7 +61,6 @@
         </el-col>
       </el-row>
     </el-form>
-    </itemtitle>
   </div>
 </template>
 

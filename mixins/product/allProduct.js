@@ -31,20 +31,10 @@ const allProductMixins = {
     },
     getProductItem (id) {
       return this.$store.dispatch(this.productVuexBasePath + '/getProductItem', id)
+    },
+    updateProduct ({ data, id }) {
+      return this.$store.dispatch(this.productVuexBasePath + '/updateProduct', { data, id })
     }
-    // loadProductByNumber (number) {
-    //   this.$store.dispatch(this.productVuexBasePath + '/getProductByNumber', number)
-    // },
-    // updateProduct ({ data, productId }) {
-    //   return this.$store.dispatch(this.productVuexBasePath + '/updateProduct', { data, productId })
-    // },
-
-    // updateCoverSkuForProductId ({ data, productId }) {
-    //   return this.$store.dispatch(this.productVuexBasePath + '/updateCoverSkuForProductId', { data, productId })
-    // },
-    // loadProductAllList (params) {
-    //   return this.$store.dispatch(this.productVuexBasePath + '/getProductAllList', params)
-    // }
   }
 }
 

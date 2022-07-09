@@ -35,6 +35,13 @@ const actions = {
         resolve(resp.data)
       })
     })
+  },
+  updateProduct ({ commit }, { data, id }) {
+    return new Promise((resolve) => {
+      this.$axios.put('products/admin/id/' + id, data).then((resp) => {
+        resolve(resp.data)
+      })
+    })
   }
   // getProductByNumber ({ commit }, number) {
   //   return new Promise((resolve) => {
@@ -43,31 +50,8 @@ const actions = {
   //     })
   //   })
   // },
-  // uploadProductImage ({ commit }, params) {
-  //   const forms = new FormData()
-  //   const configs = {
-  //     headers: { 'Content-Type': 'multipart/form-data' }
-  //   }
-  //   if (Array.isArray(params) && params.length > 0) {
-  //     for (let i = 0; i < params.length; i++) {
-  //       forms.append('files', params[i])
-  //     }
-  //   } else {
-  //     forms.append('files', params)
-  //   }
-  //   return new Promise((resolve) => {
-  //     this.$axios.post('upload/product_image', forms, configs).then((resp) => {
-  //       resolve(resp.data.data)
-  //     })
-  //   })
   // },
-  // updateProduct ({ commit }, { data, productId }) {
-  //   return new Promise((resolve) => {
-  //     this.$axios.put('product/' + productId, data).then((resp) => {
-  //       resolve(resp.data.data)
-  //     })
-  //   })
-  // },
+
   // checkSkuNumber ({ commit }, skuNumber) {
   //   return new Promise((resolve, reject) => {
   //     this.$axios.get('sku/check_sku_number/' + skuNumber).then((resp) => {
