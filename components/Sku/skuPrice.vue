@@ -1,0 +1,143 @@
+<template>
+  <div :class="editStatus?'info-wrap-edit':'info-wrap'">
+    <item-title v-if="!editStatus" text="价格管理" />
+    <el-form ref="infoForm" :model="formInfo" :rules="rules" label-width="120px">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="采购价格" prop="purchase_price">
+            <el-input v-model.number="formInfo.purchase_price" placeholder="采购价格" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="样品价格" prop="sample_price">
+            <el-input v-model.number="formInfo.sample_price" placeholder="样品价格" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="成本价" prop="cost_price">
+            <el-input v-model.number="formInfo.cost_price" placeholder="成本价" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="基本价格" prop="base_price">
+            <el-input v-model.number="formInfo.base_price" placeholder="基本价格" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="基本利润" prop="base_profit">
+            <el-input v-model.number="formInfo.base_profit" placeholder="基本利润" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="货币" prop="currency">
+            <el-select v-model="formInfo.currency" filterable placeholder="请选择">
+              <el-option
+                v-for="item in currencysOption"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col v-if="!editStatus" :span="24" class="">
+          <el-form-item label="">
+            <div v-if="!editStatus" class="d-flex btn-warp justify-content-between align-items-center">
+              <v-button @click="prevStepHandler">
+                上一步
+              </v-button>
+              <v-button type="primary" @click="nextStepHandler">
+                下一步
+              </v-button>
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
+</template>
+
+<script>
+import itemTitle from './itemTitle'
+import VButton from '@/baseComponents/VButton'
+import skuofProductMixins from '@/mixins/product/sku'
+export default {
+  name: 'SkuPrice',
+  components: { itemTitle, VButton },
+  mixins: [skuofProductMixins],
+  props: {
+    editStatus: {
+      type: Boolean,
+      default: false
+    },
+    defaultData: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data () {
+    return {
+      formInfo: {
+        currency: 'AED',
+        purchase_price: 0,
+        sample_price: 0,
+        cost_price: 0,
+        base_price: 0,
+        base_profit: 0
+      }
+    }
+  },
+  watch: {
+    defaultData: {
+      deep: true,
+      handler (newData, oldData) {
+        this.initFormInfo()
+      }
+    }
+  },
+  mounted () {
+    this.initFormInfo()
+  },
+  methods: {
+    nextStepHandler () {
+      this.$refs.infoForm.validate((valid) => {
+        if (!valid) {
+          this.notification({ title: '提示', message: '请正确填写内容！', type: 'warning' })
+          return false
+        }
+        const params = this.cloneObj(this.formInfo)
+        this.$emit('nextHandler', {
+          status: this.stepStatusEnum.skuPrice,
+          data: params
+        })
+      })
+    },
+    prevStepHandler () {
+      const params = this.cloneObj(this.formInfo)
+      this.$emit('prevHandler', {
+        status: this.stepStatusEnum.skuPrice,
+        data: params
+      })
+    },
+    initFormInfo () {
+      const data = this.cloneObj(this.defaultData)
+      Object.keys(this.formInfo).forEach((key) => {
+        if (data[key]) {
+          this.formInfo[key] = data[key]
+        }
+      })
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+@import "assets/sass/color";
+    .info-wrap{
+        margin:40px auto 0;
+    }
+    .info-wrap-edit{
+        width:740px;
+        margin:0 auto 0;
+    }
+</style>

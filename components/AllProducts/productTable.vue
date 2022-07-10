@@ -24,7 +24,15 @@
         <template slot-scope="scope">
           <div v-if="scope.row.skus.length">
             一共有
-            <v-button size="small" type="primary" plain>
+            <v-button
+              size="small"
+              type="primary"
+              plain
+              @click="jumpTo({
+                name:'all-product-sku-id',
+                params:{id:scope.row.id}
+              })"
+            >
               {{ scope.row.skus.length }}
             </v-button>
             个sku

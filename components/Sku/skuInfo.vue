@@ -1,20 +1,20 @@
 <template>
   <div :class="editStatus?'info-wrap-edit':'info-wrap'">
-    <item-title text="基本信息" />
+    <item-title v-if="!editStatus" text="SKU基础信息" />
     <el-form ref="infoForm" :model="formInfo" :rules="rules" label-width="120px">
       <el-row :gutter="20">
-        <el-col :span="24">
+        <el-col :span="12">
           <el-form-item label="名称" prop="title">
-            <el-input v-model="formInfo.title" placeholder="商品名称" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item label="商品编号" prop="product_code">
-            <el-input v-model="formInfo.product_code" placeholder="商品编号" />
+            <el-input v-model="formInfo.title" placeholder="sku名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="商品状态" prop="status">
+          <el-form-item label="sku编号" prop="sku_code">
+            <el-input v-model="formInfo.sku_code" placeholder="sku编号" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="状态" prop="status">
             <el-select v-model="formInfo.status" placeholder="请选择">
               <el-option
                 v-for="item in statusArray"
@@ -26,30 +26,47 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="商品类别" prop="category_id">
-            <el-select v-model="formInfo.category_id" placeholder="请选择">
+          <el-form-item label="重量" prop="weight">
+            <el-input v-model.number="formInfo.weight" placeholder="0.1" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="重量单位" prop="unit_of_weight">
+            <el-select v-model="formInfo.unit_of_weight" placeholder="请选择">
               <el-option
-                v-for="item in categoryData"
+                v-for="item in unitOfWeightArray"
                 :key="item.value"
                 :label="item.name"
-                :value="item.id"
+                :value="item.value"
               />
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="24">
-          <el-form-item label="厂名" prop="source_name">
-            <el-input v-model="formInfo.source_name" placeholder="厂商名称" />
+        <el-col :span="12">
+          <el-form-item label="长度" prop="length">
+            <el-input v-model.number="formInfo.length" placeholder="1" />
           </el-form-item>
         </el-col>
-        <el-col :span="24">
-          <el-form-item label="厂家联系方式" prop="source_contact">
-            <el-input v-model="formInfo.source_contact" placeholder="电话/手机" />
+        <el-col :span="12">
+          <el-form-item label="宽度" prop="width">
+            <el-input v-model.number="formInfo.width" placeholder="1" />
           </el-form-item>
         </el-col>
-        <el-col :span="24">
-          <el-form-item label="厂家网址" prop="source">
-            <el-input v-model="formInfo.source" placeholder="http://...." />
+        <el-col :span="12">
+          <el-form-item label="高度" prop="height">
+            <el-input v-model.number="formInfo.height" placeholder="1" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="长量单位" prop="unit_of_length">
+            <el-select v-model="formInfo.unit_of_length" placeholder="请选择">
+              <el-option
+                v-for="item in unitOfWeightArray"
+                :key="item.value"
+                :label="item.name"
+                :value="item.value"
+              />
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col v-if="!editStatus" :span="24" class="">
@@ -66,14 +83,12 @@
 
 <script>
 import itemTitle from './itemTitle'
-import createProductMixins from '@/mixins/product/createProduct'
-import categoryMixins from '@/mixins/product/category'
-import publicUseMixins from '@/mixins/publicUse'
 import VButton from '@/baseComponents/VButton'
+import skuofProductMixins from '@/mixins/product/sku'
 export default {
-  name: 'ProductInfo',
-  components: { VButton, itemTitle },
-  mixins: [createProductMixins, categoryMixins, publicUseMixins],
+  name: 'SkuInfo',
+  components: { itemTitle, VButton },
+  mixins: [skuofProductMixins],
   props: {
     editStatus: {
       type: Boolean,
@@ -88,12 +103,14 @@ export default {
     return {
       formInfo: {
         title: '',
-        source_name: '',
-        source_contact: '',
-        source: '',
-        category_id: null,
-        status: 'ON_SALE',
-        product_code: ''
+        weight: 0,
+        unit_of_weight: 'G',
+        length: 0,
+        width: 0,
+        height: 0,
+        unit_of_length: 'MM',
+        status: 'ACTIVE',
+        sku_code: ''
       }
     }
   },
@@ -107,7 +124,6 @@ export default {
   },
   mounted () {
     this.initFormInfo()
-    this.getCategoryAllData({ query: '', limit: 100 })
   },
   methods: {
     nextStepHandler () {
@@ -118,7 +134,7 @@ export default {
         }
         const params = this.cloneObj(this.formInfo)
         this.$emit('nextHandler', {
-          status: this.stepStatusEnum.productInfo,
+          status: this.stepStatusEnum.skuInfo,
           data: params
         })
       })
@@ -137,7 +153,6 @@ export default {
 <style lang="scss" scoped>
 @import "assets/sass/color";
     .info-wrap{
-        width:740px;
         margin:40px auto 0;
     }
     .info-wrap-edit{

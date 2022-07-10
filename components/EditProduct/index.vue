@@ -69,7 +69,9 @@ export default {
   methods: {
     initData () {
       this.getProductItem(this.$route.params.id).then((resp) => {
-        if (!resp.id) {
+        if (resp === null || !resp.id) {
+          this.notification({ title: '提示', message: '未检测到商品信息，返回到商品列表', type: 'error' })
+          this.jumpTo({ name: 'index' })
           return
         }
         Object.keys(resp).forEach((key) => {
@@ -119,6 +121,7 @@ export default {
     },
     resetHandler () {
       this.initData()
+      this.notification({ title: '提示', message: '已重置', type: 'success' })
     },
     submitHandler () {
       this.$refs.prodcutInfoRef.nextStepHandler()
@@ -128,7 +131,6 @@ export default {
         this.notification({ title: '提示', message: '商品正在更新中...', type: 'warning' })
         this.updateProduct({ data: this.createProductForm, id: this.productItem.id })
           .then((resp) => {
-            console.log(resp)
             this.notification({ title: '提示', message: '更新成功！', type: 'success' })
           })
       } else {

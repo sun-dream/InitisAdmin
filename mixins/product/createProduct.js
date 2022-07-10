@@ -2,8 +2,6 @@ const createProductMixins = {
   data () {
     // 验证网址规则
     const checkSource = (rule, value, callback) => {
-      // 验证手机号的正则表达式
-
       /* eslint-disable */
       const reg =/(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/
       /* eslint-enable */
@@ -95,12 +93,6 @@ const createProductMixins = {
     },
     uploadFiles ({ data, progressHandler = (progressEvent) => {} }) {
       return this.$store.dispatch(this.uploadFilesVuexBasePath + 'uploadFiles', { params: data, progressHandler })
-    },
-    checkSkuNumber (skuNumber) {
-      return this.$store.dispatch(this.createProductVuexBasePath + 'checkSkuNumber', skuNumber)
-    },
-    calculateCalcCost (params) {
-      return this.$store.dispatch(this.createProductVuexBasePath + 'calculateCalcCost', params)
     }
   }
 }

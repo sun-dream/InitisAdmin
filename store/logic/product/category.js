@@ -49,9 +49,16 @@ const actions = {
     })
   },
   createdProductCategory ({ state, commit, dispatch }, params = {}) {
-    return new Promise((resolve) => {
-      dispatch('api/product/category/createdProductCategory', params, { root: true }).then((resp) => {
-        resolve(resp)
+    return new Promise((resolve, reject) => {
+      dispatch('logic/fetching/beforeUpdateFatching', params, { root: true }).then((_) => {
+        dispatch('api/product/category/createdProductCategory', params, { root: true })
+          .then((resp) => {
+            dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
+            resolve(resp)
+          }).catch((err) => {
+            dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
+            reject(err)
+          })
       })
     })
   },
