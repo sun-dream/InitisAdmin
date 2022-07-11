@@ -1,36 +1,36 @@
 <template>
-  <div :class="editStatus?'info-wrap-edit':'info-wrap'">
+  <div :class="`${editStatus ? '':'info-wrap'}`">
     <item-title v-if="!editStatus" text="价格管理" />
     <el-form ref="infoForm" :model="formInfo" :rules="rules" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="采购价格" prop="purchase_price">
-            <el-input v-model.number="formInfo.purchase_price" placeholder="采购价格" />
+            <v-input v-model="formInfo.purchase_price" :loading="loadingState('purchase_price')" placeholder="采购价格" @blur="inputBlur({key:'purchase_price',value:formInfo.purchase_price})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="样品价格" prop="sample_price">
-            <el-input v-model.number="formInfo.sample_price" placeholder="样品价格" />
+            <v-input v-model="formInfo.sample_price" :loading="loadingState('sample_price')" placeholder="样品价格" @blur="inputBlur({key:'sample_price',value:formInfo.sample_price})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="成本价" prop="cost_price">
-            <el-input v-model.number="formInfo.cost_price" placeholder="成本价" />
+            <v-input v-model="formInfo.cost_price" :loading="loadingState('cost_price')" placeholder="成本价" @blur="inputBlur({key:'cost_price',value:formInfo.cost_price})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="基本价格" prop="base_price">
-            <el-input v-model.number="formInfo.base_price" placeholder="基本价格" />
+            <v-input v-model="formInfo.base_price" :loading="loadingState('base_price')" placeholder="基本价格" @blur="inputBlur({key:'base_price',value:formInfo.base_price})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="基本利润" prop="base_profit">
-            <el-input v-model.number="formInfo.base_profit" placeholder="基本利润" />
+            <v-input v-model="formInfo.base_profit" :loading="loadingState('base_profit')" placeholder="基本利润" @blur="inputBlur({key:'base_profit',value:formInfo.base_profit})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="货币" prop="currency">
-            <el-select v-model="formInfo.currency" filterable placeholder="请选择">
+            <el-select v-model="formInfo.currency" filterable placeholder="请选择" @change="inputBlur({key:'currency',value:formInfo.currency})">
               <el-option
                 v-for="item in currencysOption"
                 :key="item.value"
@@ -62,14 +62,23 @@
 import itemTitle from './itemTitle'
 import VButton from '@/baseComponents/VButton'
 import skuofProductMixins from '@/mixins/product/sku'
+import VInput from '@/baseComponents/VInput'
 export default {
   name: 'SkuPrice',
-  components: { itemTitle, VButton },
+  components: { itemTitle, VButton, VInput },
   mixins: [skuofProductMixins],
   props: {
     editStatus: {
       type: Boolean,
       default: false
+    },
+    editIndex: {
+      type: Number,
+      default: 0
+    },
+    allLoading: {
+      type: Array,
+      default: () => []
     },
     defaultData: {
       type: Object,
@@ -80,11 +89,19 @@ export default {
     return {
       formInfo: {
         currency: 'AED',
-        purchase_price: 0,
-        sample_price: 0,
-        cost_price: 0,
-        base_price: 0,
-        base_profit: 0
+        purchase_price: null,
+        sample_price: null,
+        cost_price: null,
+        base_price: null,
+        base_profit: null
+      }
+    }
+  },
+  computed: {
+    loadingState (itemKey) {
+      return (itemKeys) => {
+        const itemKey = itemKeys + this.editIndex + 'loading'
+        return this.allLoading.includes(itemKey)
       }
     }
   },
@@ -100,6 +117,18 @@ export default {
     this.initFormInfo()
   },
   methods: {
+    inputBlur ({ key, value }) {
+      if (!this.editStatus) {
+        return
+      }
+      this.$refs.infoForm.validate((valid) => {
+        if (!valid) {
+          this.notification({ title: '提示', message: '请正确填写内容！', type: 'warning' })
+          return false
+        }
+        this.$emit('updateHandler', { key, value, index: this.editIndex })
+      })
+    },
     nextStepHandler () {
       this.$refs.infoForm.validate((valid) => {
         if (!valid) {
@@ -135,9 +164,5 @@ export default {
 @import "assets/sass/color";
     .info-wrap{
         margin:40px auto 0;
-    }
-    .info-wrap-edit{
-        width:740px;
-        margin:0 auto 0;
     }
 </style>

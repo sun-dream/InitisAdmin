@@ -14,14 +14,14 @@ const actions = {
         resolve(resp.data)
       })
     })
+  },
+  updateSku ({ commit }, { params, skuId }) {
+    return new Promise((resolve) => {
+      this.$axios.put('skus/admin/id/' + skuId, params).then((resp) => {
+        resolve(resp.data)
+      })
+    })
   }
-  // updateProductCategory({ commit }, { params, categoryId }) {
-  //   return new Promise((resolve) => {
-  //     this.$axios.put('categories/admin/id/' + categoryId, params).then((resp) => {
-  //       resolve(resp.data)
-  //     })
-  //   })
-  // }
 }
 
 export default {

@@ -14,7 +14,7 @@
         <v-button size="small" @click="goToCreateHandler">
           创建新的SKU
         </v-button>
-        <v-button type="primary" size="small" @click="submitHandler">
+        <v-button type="primary" size="small">
           商品更新
         </v-button>
       </div>
@@ -25,8 +25,10 @@
           <sku-info
             :ref="`skuInfoRef${index}`"
             :edit-status="true"
+            :edit-index="index"
             :default-data="item"
-            @nextHandler="nextHandler"
+            :all-loading="loadings"
+            @updateHandler="updateHandler"
           />
         </el-tab-pane>
         <el-tab-pane label="价格管理">
@@ -34,15 +36,17 @@
             :ref="`skuPriceRef${index}`"
             :edit-status="true"
             :default-data="item"
-            @nextHandler="nextHandler"
+            :edit-index="index"
+            :all-loading="loadings"
           />
         </el-tab-pane>
         <el-tab-pane label="图片管理">
           <sku-images
             :ref="`skusFilesRef${index}`"
             :edit-status="true"
-            :default-upload-file-cache="skusImages[index]"
-            @nextHandler="nextHandler"
+            :edit-index="index"
+            :default-data="item"
+            :all-loading="loadings"
           />
         </el-tab-pane>
       </el-tabs>
@@ -90,19 +94,9 @@ export default {
         if (resp === null || !resp.id) {
           this.notification({ title: '提示', message: '未检测到商品信息，返回到商品列表', type: 'error' })
           this.jumpTo({ name: 'index' })
-          return
         }
         if (Array.isArray(resp.skus) && resp.skus.length > 0) {
           this.skus = this.cloneObj(resp.skus)
-          for (let i = 0; i < this.maxNumOfPicUpload; i++) {
-            console.log(resp, resp.skus[`image${i + 1}_id`])
-            if (resp.skus[`image${i + 1}_id`]) {
-              this.skusImages.push({
-                url: resp.skus[`image${i + 1}`].external_url,
-                response: resp.skus[`image${i + 1}`]
-              })
-            }
-          }
         }
       })
     },
@@ -115,17 +109,22 @@ export default {
       // 判断页面滚动的距离是否大于吸顶元素的位置
       this.headerFixed = scrollTop > this.offsetTop + this.offsetHeight
     },
-    nextHandler ({ status, data, uploadFileCache }) {
-    },
     goToCreateHandler () {
       if (this.$route.params.id) {
         this.jumpTo({ name: 'all-product-sku-id-create', params: { id: this.$route.params.id } })
       }
     },
-    submitHandler () {
-    },
-    updateHandler () {
-
+    updateHandler ({ key, value, index }) {
+      const loadingName = key + index + 'loading'
+      this.loadings.push(loadingName)
+      const data = this.cloneObj(this.skus[index])
+      const { id, params } = this.initUpdateParams({ key, value, data })
+      this.notification({ title: '发起请求', message: `${key}-正在更新中`, type: 'warning' })
+      this.updateSku({ params, skuId: id })
+        .then((resp) => {
+          this.loadings.splice(this.loadings.findIndex(item => item === loadingName), 1)
+          this.notification({ title: '请求结果', message: `${key}-正在更新完成`, type: 'success' })
+        })
     }
   }
 }

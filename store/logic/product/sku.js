@@ -24,6 +24,16 @@ const actions = {
           })
       })
     })
+  },
+  updateSku ({ state, commit, dispatch }, { params, skuId }) {
+    return new Promise((resolve, reject) => {
+      dispatch('api/product/sku/updateSku', { params, skuId }, { root: true })
+        .then((data) => {
+          resolve(data)
+        }).catch((err) => {
+          reject(err)
+        })
+    })
   }
 }
 

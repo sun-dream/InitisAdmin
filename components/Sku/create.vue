@@ -20,7 +20,6 @@
       <sku-images
         v-if="stepperIndex === 3"
         :default-data="skuOfProductForm"
-        :default-upload-file-cache="uploadFileCache"
         @nextHandler="nextHandler"
         @prevHandler="prevHandler"
       />
@@ -44,21 +43,22 @@ export default {
     }
   },
   mounted () {
-    this.initDefaultData()
     this.initData()
+    this.initDefaultData()
   },
   methods: {
     initData () {
       this.getProductItem(this.$route.params.id).then((resp) => {
-
       })
     },
-    nextHandler ({ status, data, uploadFileCache }) {
+    nextHandler ({ status, data, imagesResp }) {
       Object.keys(data).forEach((key) => {
         this.skuOfProductForm[key] = data[key]
       })
-      if (status === this.stepStatusEnum.uploadFiles && this.isDef(uploadFileCache)) {
-        this.uploadFileCache = uploadFileCache
+      if (imagesResp && Object.keys(imagesResp)) {
+        Object.keys(imagesResp).forEach((key) => {
+          this.skuOfProductForm[key] = imagesResp[key]
+        })
       }
       if (status === this.stepStatusEnum.skuImage) {
         this.createHandler()
@@ -66,14 +66,14 @@ export default {
         this.stepperIndex++
       }
     },
-    prevHandler ({ status, data, uploadFileCache }) {
+    prevHandler ({ status, data, imagesResp }) {
       Object.keys(data).forEach((key) => {
         this.skuOfProductForm[key] = data[key]
       })
-      if (status === this.stepStatusEnum.uploadFiles) {
-        if (uploadFileCache) {
-          this.uploadFileCache = uploadFileCache
-        }
+      if (imagesResp && Object.keys(imagesResp)) {
+        Object.keys(imagesResp).forEach((key) => {
+          this.skuOfProductForm[key] = imagesResp[key]
+        })
       }
       this.stepperIndex--
     },

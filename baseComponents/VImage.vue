@@ -1,5 +1,5 @@
 <template>
-  <el-image :src="src" fit="cover" class="w-100">
+  <el-image :src="src" fit="cover" class="w-100" v-bind="$attrs" v-on="$listeners">
     <div slot="placeholder" class="image-slot">
       <i class="el-icon-loading" />
     </div>
