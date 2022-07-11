@@ -27,7 +27,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="重量" prop="weight">
-            <v-input v-model="formInfo.weight" :loading="loadingState('weight')" placeholder="商品重量" @blur="inputBlur({key:'weight',value:formInfo.weight})" />
+            <v-input v-model.number="formInfo.weight" :loading="loadingState('weight')" placeholder="商品重量" @blur="inputBlur({key:'weight',value:formInfo.weight})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -44,17 +44,17 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="长度" prop="length">
-            <v-input v-model="formInfo.length" :loading="loadingState('length')" placeholder="商品长度" @blur="inputBlur({key:'length',value:formInfo.length})" />
+            <v-input v-model.number="formInfo.length" :loading="loadingState('length')" placeholder="商品长度" @blur="inputBlur({key:'length',value:formInfo.length})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="宽度" prop="width">
-            <v-input v-model="formInfo.width" :loading="loadingState('width')" placeholder="商品宽度" @blur="inputBlur({key:'width',value:formInfo.width})" />
+            <v-input v-model.number="formInfo.width" :loading="loadingState('width')" placeholder="商品宽度" @blur="inputBlur({key:'width',value:formInfo.width})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="高度" prop="height">
-            <v-input v-model="formInfo.height" :loading="loadingState('height')" placeholder="商品高度" @blur="inputBlur({key:'height',value:formInfo.height})" />
+            <v-input v-model.number="formInfo.height" :loading="loadingState('height')" placeholder="商品高度" @blur="inputBlur({key:'height',value:formInfo.height})" />
           </el-form-item>
         </el-col>
         <el-col :span="12">

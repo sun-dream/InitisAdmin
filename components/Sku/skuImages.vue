@@ -24,15 +24,14 @@
         :before-upload="beforePicUpload"
         :http-request="uploadPicRequest"
       >
-        <div v-if="getImageSrc(key,value)" class="avatar pos-r">
+        <div v-if="getImageSrc(key,value)" class="avatar pos-r" @click.stop="()=>{}">
           <v-image :src="getImageSrc(key,value)" @click.stop="()=>{}" />
           <div class="pos-a  pic-item-edit justify-content-center align-items-center">
             <i class="el-icon-zoom-in" @click.stop="enlargePicHandler(key,value)" />
-            <i class="el-icon-delete" @click.stop="handlePicRemove(key,value)" />
+            <i class="el-icon-delete" @click.stop="handlePicRemove(key)" />
           </div>
         </div>
         <i v-else class="el-icon-plus image-uploader-icon" @click="handleSelectItem(key)" />
-        </v-image>
       </el-upload>
     </template>
     <el-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="previewSrcList" />
@@ -63,6 +62,14 @@ export default {
     editStatus: {
       type: Boolean,
       default: false
+    },
+    editIndex: {
+      type: Number,
+      default: 0
+    },
+    allLoading: {
+      type: Array,
+      default: () => []
     },
     defaultData: {
       type: Object,
@@ -112,7 +119,7 @@ export default {
     this.initData()
   },
   methods: {
-    handlePicRemove (key, val) {
+    handlePicRemove (key) {
       const keys = key.split('_')[0]
       this.images[keys] = {}
       this.imageIds[key] = null
@@ -147,15 +154,21 @@ export default {
         }
       })
     },
-    uploadPicRequest (param, key) {
+    uploadPicRequest (param) {
       this.uploadFiles({ data: param.file })
         .then((resp) => {
-          if (resp) {
-            this.imageIds[this.selectUploadKey] = resp.id
-            const key = this.selectUploadKey.split('_')[0]
-            this.images[key] = resp
-            this.notification({ title: '提示', message: '上传成功！', type: 'success' })
+          if (!resp) {
+            return
           }
+          this.imageIds[this.selectUploadKey] = resp.id
+          const keys = this.selectUploadKey.split('_')[0]
+          this.images[keys] = resp
+          if (!this.editStatus) {
+            this.notification({ title: '提示', message: '上传成功！', type: 'success' })
+            return
+          }
+          this.$emit('updateHandler', { key: this.selectUploadKey, value: resp.id, index: this.editIndex })
+          this.selectUploadKey = null
         })
     },
     nextStepHandler () {

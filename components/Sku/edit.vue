@@ -10,14 +10,9 @@
         <span class="text-primary mx-1">{{ skus.length }}</span>
         个sku
       </p>
-      <div>
-        <v-button size="small" @click="goToCreateHandler">
-          创建新的SKU
-        </v-button>
-        <v-button type="primary" size="small">
-          商品更新
-        </v-button>
-      </div>
+      <v-button size="small" type="primary" @click="goToCreateHandler">
+        创建新的SKU
+      </v-button>
     </div>
     <div class="sku-tabs-wrap">
       <el-tabs v-for="(item,index) in skus" :key="item.id+index" class="sku-item" type="border-card">
@@ -38,6 +33,7 @@
             :default-data="item"
             :edit-index="index"
             :all-loading="loadings"
+            @updateHandler="updateHandler"
           />
         </el-tab-pane>
         <el-tab-pane label="图片管理">
@@ -47,6 +43,7 @@
             :edit-index="index"
             :default-data="item"
             :all-loading="loadings"
+            @updateHandler="updateHandler"
           />
         </el-tab-pane>
       </el-tabs>

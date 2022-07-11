@@ -38,7 +38,9 @@
             个sku
           </div>
           <div v-else>
-            未检测出sku,<span>现在创建？</span>
+            <v-link :name="'all-product-sku-id-create'" :params="{id:scope.row.id}">
+              未检测出sku,<span>现在创建？</span>
+            </v-link>
           </div>
         </template>
       </el-table-column>
@@ -57,9 +59,9 @@
       </el-table-column>
       <el-table-column prop="name" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editHandler(scope.row)">
+          <v-button type="text" size="small" @click="editHandler(scope.row)">
             编辑
-          </el-button>
+          </v-button>
         </template>
       </el-table-column>
     </el-table>
@@ -72,6 +74,7 @@
 </template>
 <script>
 import VButton from '../../baseComponents/VButton.vue'
+import VLink from '../../baseComponents/VLink.vue'
 import allProductMixins from '@/mixins/product/allProduct'
 import publicUseMixins from '@/mixins/publicUse'
 // eslint-disable-next-line no-unused-vars
@@ -81,7 +84,7 @@ import VImage from '@/baseComponents/VImage'
 export default {
   name: 'CategorysComponents',
   components: {
-    VPaginations, VImage, VButton
+    VPaginations, VImage, VButton, VLink
   },
   mixins: [allProductMixins, publicUseMixins],
   data () {
