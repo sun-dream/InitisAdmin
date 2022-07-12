@@ -4,7 +4,7 @@
 <script>
 import Order from '@/components/Order'
 import breadcrumbMixins from '@/mixins/breadcrumb'
-import ordersMixins from '@/mixins/order'
+import ordersMixins from '@/mixins/orders'
 export default {
   name: 'OrdertPage',
   components: {

@@ -13,7 +13,6 @@
       张图片
     </div>
     <template v-for="(value,key) in imageIds">
-      <!-- <span :key="index">{{ value }}+{{ key }}</span> -->
       <el-upload
         :key="key"
         :ref="`uploadImg${key}`"

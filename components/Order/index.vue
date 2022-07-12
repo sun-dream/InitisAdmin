@@ -76,11 +76,6 @@ export default {
     }
   },
   computed: {
-    getDate (val) {
-      return function (val) {
-        return mUtils.formatDate(val, 3)
-      }
-    }
   },
   mounted () {
   },
