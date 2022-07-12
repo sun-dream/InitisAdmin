@@ -105,6 +105,10 @@ const actionsMixins = {
       commit('UPDATE_TOTAL', data.total)
       commit('UPDATE_PAGE_COUNT', data.pages)
       commit('UPDATE_PAGE', (state.skip / state.limit + 1))
+    } else {
+      commit('UPDATE_TOTAL', data.total)
+      commit('UPDATE_PAGE_COUNT', 1)
+      commit('UPDATE_PAGE', (state.skip / state.limit + 1))
     }
   },
   updatePage ({ commit, state }, data) {

@@ -47,12 +47,12 @@ const categoryMixins = {
     },
     getCategoryAllData (params = { query: '' }) {
       this.getCategoryData(params)
-      this.getCategoryDataPagination()
+      this.getCategoryDataPagination(params)
     },
-    getCategoryData (params = { query: '' }) {
+    getCategoryData (params) {
       this.$store.dispatch(this.categoryVuexBasePath + '/getCategoryData', params)
     },
-    getCategoryDataPagination (params = { query: '' }) {
+    getCategoryDataPagination (params) {
       this.$store.dispatch(this.categoryVuexBasePath + '/getCategoryPagination', params)
     },
     createdProductCategory (data) {

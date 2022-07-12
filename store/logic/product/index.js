@@ -40,7 +40,6 @@ const actions = {
   getProductPagination ({ state, commit, dispatch }, params = { query: '' }) {
     return new Promise((resolve, reject) => {
       dispatch('beforeGetPaginationHandler', params).then((data) => {
-        resolve(data)
         dispatch('api/product/getProductPagination', params, { root: true })
           .then((resp) => {
             dispatch('afterGetPaginationHandler', resp)

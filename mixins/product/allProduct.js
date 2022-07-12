@@ -21,7 +21,7 @@ const allProductMixins = {
   methods: {
     getProductAllData (params = { query: '' }) {
       this.loadProductList(params)
-      this.loadProductPagination()
+      this.loadProductPagination(params)
     },
     loadProductList (params = { query: '' }) {
       this.$store.dispatch(this.productVuexBasePath + '/getProductList', params)

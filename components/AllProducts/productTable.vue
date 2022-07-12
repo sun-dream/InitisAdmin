@@ -1,6 +1,6 @@
 <template>
   <section class="w-100 categorg-wrap h-100">
-    <el-table :data="productList" border style="width: 100%" size="small" max-height="680">
+    <el-table :data="productList" border style="width: 100%" size="small" max-height="640">
       <el-table-column prop="name" label="图片" width="100">
         <template slot-scope="scope">
           <div class="table-cell-pic-wrap d-flex  align-items-center">

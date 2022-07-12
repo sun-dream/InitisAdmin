@@ -39,7 +39,6 @@ const actions = {
         dispatch('api/product/category/getCategoryPagination', params, { root: true })
           .then((resp) => {
             dispatch('afterGetPaginationHandler', resp)
-
             resolve(resp)
           }).catch((err) => {
             dispatch('afterGetPaginationHandler', false)

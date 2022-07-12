@@ -39,13 +39,6 @@ export default {
       }
     }
   },
-  computed: {
-
-  },
-  watch: {
-  },
-  mounted () {
-  },
   methods: {
     searchHandle () {
       this.getProductAllData(this.filter)

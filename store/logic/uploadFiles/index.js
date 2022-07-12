@@ -1,11 +1,16 @@
 const state = () => {
   return {
+    fileObject: {}
   }
 }
 
 const getters = {
+  fileObject: state => state.fileObject
 }
 const mutations = {
+  UPDATA_FILES_OBJECT (state, val) {
+    state.fileObject = val
+  }
 }
 const actions = {
   uploadFiles ({ state, commit, dispatch }, { params, progressHandler = (progressEvent) => {} }) {
@@ -26,6 +31,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       dispatch('api/upload/getFile', id, { root: true })
         .then((data) => {
+          if (data) {
+            commit('UPDATA_FILES_OBJECT', data)
+          }
           resolve(data)
         })
     })
