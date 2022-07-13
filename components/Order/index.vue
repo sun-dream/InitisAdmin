@@ -7,16 +7,14 @@
       :select-edit-id="selectEditId"
       @close="closeHandler"
       @save="saveHandler"
-    />
-    <el-table :data="userList" border size="small" max-height="700">
-      <el-table-column prop="full_name" label="名字" width="160">
+    />-->
+    <el-table :data="orderList" border size="small" max-height="700">
+      <el-table-column prop="total_price" label="订单金额" width="160">
         <template slot-scope="scope">
-          <el-tag size="medium">
-            {{ scope.row.full_name }}
-          </el-tag>
+          <p>  {{ scope.row.total_price }}</p>
         </template>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" width="140" />
+      <!--  <el-table-column prop="email" label="邮箱" width="140" />
       <el-table-column prop="phone" label="电话" width="140" />
       <el-table-column prop="hashed_password" label="密码" width="160">
         <template slot-scope="scope">
@@ -42,7 +40,7 @@
             </el-tag>
           </div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="name" label="操作" width="160">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editHandler(scope.row)">
@@ -52,22 +50,24 @@
       </el-table-column>
     </el-table>
     <v-paginations
-      :vuex-path="userVuexBasePath"
+      :vuex-path="orderVuexBasePath"
       algin-right
       @pageChange="pageChangeHandler"
-    /> -->
+    />
   </section>
 </template>
 <script>
+import ordersMixins from '@/mixins/orders'
 import userMixins from '@/mixins/user'
 // eslint-disable-next-line no-unused-vars
 import * as mUtils from '@/assets/utils/mUtils'
-// import VPaginations from '@/baseComponents/VPaginations'
+import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'MyOrder',
   components: {
+    VPaginations
   },
-  mixins: [userMixins],
+  mixins: [ordersMixins, userMixins],
   data () {
     return {
       userDialog: false,
@@ -80,7 +80,8 @@ export default {
   mounted () {
   },
   methods: {
-
+    editHandler () {},
+    pageChangeHandler () {}
   }
 }
 </script>

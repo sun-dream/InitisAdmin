@@ -31,8 +31,8 @@ const ordersMixins = {
   },
   methods: {
     getOrderData (params = { query: '' }) {
-      this.loadUserList(params)
-      this.loadUserPagination(params)
+      this.loadOrderList(params)
+      this.loadOrderPagination(params)
     },
     loadOrderList (params = { query: '' }) {
       this.$store.dispatch(this.orderVuexBasePath + '/getOrderList', params)

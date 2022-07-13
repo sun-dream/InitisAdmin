@@ -17,7 +17,7 @@
           <el-form-item label="商品状态" prop="status">
             <el-select v-model="formInfo.status" placeholder="请选择">
               <el-option
-                v-for="item in statusArray"
+                v-for="item in productStatusArray"
                 :key="item.value"
                 :label="item.name"
                 :value="item.value"

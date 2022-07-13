@@ -62,11 +62,12 @@
 import itemTitle from './itemTitle'
 import VButton from '@/baseComponents/VButton'
 import skuofProductMixins from '@/mixins/product/sku'
+import publicUseMixins from '@/mixins/publicUse'
 import VInput from '@/baseComponents/VInput'
 export default {
   name: 'SkuPrice',
   components: { itemTitle, VButton, VInput },
-  mixins: [skuofProductMixins],
+  mixins: [skuofProductMixins, publicUseMixins],
   props: {
     editStatus: {
       type: Boolean,

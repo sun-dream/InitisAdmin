@@ -29,7 +29,7 @@
               type="primary"
               plain
               @click="jumpTo({
-                name:'all-product-sku-id',
+                name:'all-product-id-sku',
                 params:{id:scope.row.id}
               })"
             >
@@ -38,7 +38,7 @@
             个sku
           </div>
           <div v-else>
-            <v-link :name="'all-product-sku-id-create'" :params="{id:scope.row.id}">
+            <v-link :name="'all-product-id-sku-create'" :params="{id:scope.row.id}">
               未检测出sku,<span>现在创建？</span>
             </v-link>
           </div>
@@ -98,7 +98,7 @@ export default {
   methods: {
     editHandler (product) {
       this.$router.push({
-        name: 'all-product-edit-id',
+        name: 'all-product-id-edit',
         params: { id: product.id }
       })
     },
