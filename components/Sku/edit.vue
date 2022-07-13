@@ -108,7 +108,7 @@ export default {
     },
     goToCreateHandler () {
       if (this.$route.params.id) {
-        this.jumpTo({ name: 'all-product-sku-id-create', params: { id: this.$route.params.id } })
+        this.jumpTo({ name: 'all-product-id-sku-create', params: { id: this.$route.params.id } })
       }
     },
     updateHandler ({ key, value, index }) {

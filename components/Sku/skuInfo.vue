@@ -17,7 +17,7 @@
           <el-form-item label="状态" prop="status">
             <el-select v-model="formInfo.status" placeholder="请选择" @change="inputBlur({key:'status',value:formInfo.status})">
               <el-option
-                v-for="item in statusArray"
+                v-for="item in skuStatusArray"
                 :key="item.value"
                 :label="item.name"
                 :value="item.value"

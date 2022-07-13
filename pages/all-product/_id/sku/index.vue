@@ -11,10 +11,6 @@ export default {
     SkuEdit
   },
   mixins: [breadcrumbMixins, allProductMixins],
-  data () {
-    return {
-    }
-  },
   watch: {
     productItem: {
       deep: true,
@@ -26,11 +22,11 @@ export default {
   methods: {
     initBread (item) {
       const arr = [
-        { text: '商品管理', cpnName: 'all-product' },
-        { text: 'Sku列表', cpnName: 'all-product-sku' }
+        { text: '商品管理', cpnName: 'all-product' }
       ]
       if (item.id) {
-        arr.push({ text: 'productTitle' + item.title, cpnName: 'all-product-sku-id', params: { id: item.id } })
+        arr.push({ text: 'Title：' + item.title, cpnName: 'all-product-id-sku', params: { id: item.id } })
+        arr.push({ text: 'Sku列表', cpnName: 'all-product-id-sku', params: { id: item.id } })
       }
       this.breadcrumbs = arr
     }
