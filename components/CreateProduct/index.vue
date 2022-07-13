@@ -13,7 +13,6 @@
     <upload-product-files
       v-if="stepperIndex === 2"
       :default-data="createProductForm"
-      :default-upload-file-cache="uploadFileCache"
       @nextHandler="nextHandler"
       @prevHandler="prevHandler"
     />
@@ -43,12 +42,14 @@ export default {
     this.initDefaultData()
   },
   methods: {
-    nextHandler ({ status, data, uploadFileCache }) {
+    nextHandler ({ status, data, imagesAndVideoResp }) {
       Object.keys(data).forEach((key) => {
         this.createProductForm[key] = data[key]
       })
-      if (status === this.stepStatusEnum.uploadFiles && this.isDef(uploadFileCache)) {
-        this.uploadFileCache = uploadFileCache
+      if (imagesAndVideoResp && Object.keys(imagesAndVideoResp)) {
+        Object.keys(imagesAndVideoResp).forEach((key) => {
+          this.createProductForm[key] = imagesAndVideoResp[key]
+        })
       }
       if (status === this.stepStatusEnum.description) {
         this.createHandler()
@@ -56,19 +57,25 @@ export default {
         this.stepperIndex++
       }
     },
-    prevHandler ({ status, data, uploadFileCache }) {
+    prevHandler ({ status, data, imagesAndVideoResp }) {
       Object.keys(data).forEach((key) => {
         this.createProductForm[key] = data[key]
       })
-      if (status === this.stepStatusEnum.uploadFiles) {
-        if (uploadFileCache) {
-          this.uploadFileCache = uploadFileCache
-        }
+      if (imagesAndVideoResp && Object.keys(imagesAndVideoResp)) {
+        Object.keys(imagesAndVideoResp).forEach((key) => {
+          this.createProductForm[key] = imagesAndVideoResp[key]
+        })
       }
       this.stepperIndex--
     },
     createHandler () {
       const data = this.cloneObj(this.createProductForm)
+      delete data.image1
+      delete data.image2
+      delete data.image3
+      delete data.image4
+      delete data.image5
+      delete data.video1
       this.createProduct(data)
     }
   }

@@ -58,17 +58,13 @@ const createProductMixins = {
   },
   methods: {
     initDefaultData () {
-      this.uploadFileCache = {
-        images: [],
-        videos: []
-      }
       this.createProductForm = {
-        product_code: '',
-        title: '',
-        source_name: '',
-        source_contact: '',
-        source: '',
-        category_id: null,
+        product_code: '12312321',
+        title: '123',
+        source_name: '123',
+        source_contact: '123',
+        source: 'http://www.baidu.com',
+        category_id: 123,
         status: 'ON_SALE',
         description: '',
         video1_id: null,

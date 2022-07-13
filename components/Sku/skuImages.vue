@@ -77,7 +77,6 @@ export default {
   },
   data () {
     return {
-      fileList: [],
       selectUploadKey: null,
       imageIds: { image1_id: null, image2_id: null, image3_id: null, image4_id: null, image5_id: null },
       images: { image1: {}, image2: {}, image3: {}, image4: {}, image5: {} },
