@@ -120,17 +120,6 @@ export default {
       } else if (status === this.stepStatusEnum.description) {
         this.updateHandler()
       }
-      // if (status === this.stepStatusEnum.productInfo) {
-      //   this.$refs.prodcutFilesRef.nextStepHandler()
-      // } else if (
-      //   status === this.stepStatusEnum.uploadFiles &&
-      //   this.isDef(uploadFileCache)
-      // ) {
-      //   this.uploadFileCache = uploadFileCache
-      //   this.$refs.prodcutDescriptionRef.nextStepHandler()
-      // } else if (status === this.stepStatusEnum.description) {
-      //   this.updateHandler()
-      // }
     },
     resetHandler () {
       this.initData()
