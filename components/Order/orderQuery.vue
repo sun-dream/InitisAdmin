@@ -15,6 +15,9 @@
         </v-button>
       </el-form-item>
     </el-form>
+    <v-button type="primary" size="small" icon="el-icon-search" @click="shipmentHandler">
+      发货
+    </v-button>
   </div>
 </template>
 
@@ -34,9 +37,9 @@ export default {
       type: String,
       default: ''
     },
-    orderDialog: {
-      type: Boolean,
-      default: false
+    shipmentSku: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
@@ -57,6 +60,13 @@ export default {
   watch: {
   },
   methods: {
+    shipmentHandler () {
+      if (this.shipmentSku.length > 0) {
+        console.log(1)
+      } else {
+        this.notification({ title: '提示', message: '请至少选中1个待发货的订单', type: 'warning' })
+      }
+    },
     closeEditFormHandler () {
       this.userForm = {
         is_active: false,

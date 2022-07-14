@@ -48,7 +48,8 @@ export default {
         { name: '分类管理', index: 'category', menuIcon: 'el-icon-paperclip', menuText: '分类管理', cpn: 'category' },
         { name: '订单管理', index: 'order', menuIcon: 'el-icon-s-order', menuText: '订单管理', cpn: 'order' },
         { name: '已支付订单', index: 'payments', menuIcon: 'el-icon-s-ticket', menuText: '已支付订单', cpn: 'payments' },
-        { name: '所有用户', index: 'all-user', menuIcon: 'el-icon-user', menuText: '所有用户', cpn: 'all-user' }
+        { name: '所有用户', index: 'all-user', menuIcon: 'el-icon-user', menuText: '所有用户', cpn: 'all-user' },
+        { name: 'Brand Store', index: 'brand-stores', menuIcon: 'el-icon-s-shop', menuText: 'Brand Store', cpn: 'brand-stores' }
 
       ]
     }

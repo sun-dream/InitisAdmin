@@ -1,11 +1,6 @@
 const ordersMixins = {
   data () {
     return {
-      filter: {
-        status: [],
-        order_number: '',
-        payment_status: []
-      },
       orderStatusFilters: [
         { name: 'All Orders', value: 'ALL', zhName: '全部', isAdmin: false },
         { name: 'Awaiting Payment', value: 'UNPAID', zhName: '待付款', isAdmin: false },
@@ -68,13 +63,13 @@ const ordersMixins = {
       // this.orderSkuStatusOption.filter = ()
     },
     getOrderSkuUndeliveredQuantity  (data) {
-      let n = 0
+      const arr = []
       data.forEach((item) => {
         if (item.status === 'UNFULFILLED') {
-          n++
+          arr.push(item)
         }
       })
-      return n
+      return arr
     }
     // createOrder (params = {}) {
     //   return this.$store.dispatch(this.orderVuexBasePath + '/createOrder', params)

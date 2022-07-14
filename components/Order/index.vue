@@ -1,14 +1,8 @@
 <template>
   <section class="w-100">
-    <order-query />
-    <!-- <user-filter
-      ref="userFilter"
-      :user-form-title="userFormTitle"
-      :user-dialog="userDialog"
-      :select-edit-id="selectEditId"
-      @close="closeHandler"
-      @save="saveHandler"
-    />-->
+    <order-query
+      :shipment-sku="shipmentSku"
+    />
     <el-table :data="orderList" border size="small" max-height="700" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column prop="customer_id" label="客户" width="180">
@@ -26,8 +20,8 @@
             <el-tag size="small" effect="dark">
               {{ scope.row.order_skus.length }}
             </el-tag>
-            <el-tag type="warning" size="small" effect="dark">
-              {{ getOrderSkuUndeliveredQuantity(scope.row.order_skus) }}
+            <el-tag v-if="getOrderSkuUndeliveredQuantity(scope.row.order_skus).length" type="warning" size="small" effect="dark">
+              {{ getOrderSkuUndeliveredQuantity(scope.row.order_skus).length }}
             </el-tag>
           </div>
         </template>
@@ -65,12 +59,12 @@
     </el-table>
     <address-dialog
       :dialog-status.sync="addressDialogStatus"
-      :default-data="selectTdData"
+      :default-data="selectRowData"
     />
     <v-paginations
       :vuex-path="orderVuexBasePath"
       algin-right
-      @pageChange="pageChangeHandler"
+      @pageChange="getOrderData()"
     />
   </section>
 </template>
@@ -90,10 +84,9 @@ export default {
   mixins: [ordersMixins, userMixins, publicUseMixins],
   data () {
     return {
-      selectTdData: {},
-      addressDialogStatus: false,
-      userFormTitle: '',
-      selectEditId: null
+      selectRowData: {},
+      shipmentSku: [],
+      addressDialogStatus: false
     }
   },
   computed: {
@@ -107,15 +100,26 @@ export default {
   },
   methods: {
     handleSelectionChange (val) {
-      console.log(val)
+      const rows = this.cloneObj(val)
+      let arr = []
+      if (Array.isArray(rows) && rows.length > 0) {
+        rows.forEach((order) => {
+          if (Array.isArray(order.order_skus) && order.order_skus.length > 0) {
+            const skuUnFulfilleds = this.getOrderSkuUndeliveredQuantity(order.order_skus)
+            if (skuUnFulfilleds.length > 0) {
+              arr.push(...skuUnFulfilleds)
+            }
+          }
+        })
+        // && Array.isArray(val.order_skus) && val.order_skus.length > 0
+      } else {
+        arr = []
+      }
+      this.shipmentSku = arr
     },
     addressViewHandler (data) {
-      this.selectTdData = data
+      this.selectRowData = data
       this.addressDialogStatus = true
-    },
-    editHandler () {},
-    pageChangeHandler () {
-      this.getOrderData()
     }
   }
 }
