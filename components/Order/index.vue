@@ -1,5 +1,5 @@
 <template>
-  <section class="w-100 user-wrap">
+  <section class="w-100">
     <!-- <user-filter
       ref="userFilter"
       :user-form-title="userFormTitle"
@@ -8,47 +8,64 @@
       @close="closeHandler"
       @save="saveHandler"
     />-->
-    <el-table :data="orderList" border size="small" max-height="700">
-      <el-table-column prop="total_price" label="订单金额" width="160">
+    <el-table :data="orderList" border size="small" max-height="700" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column prop="customer_id" label="客户" width="180">
         <template slot-scope="scope">
-          <p>  {{ scope.row.total_price }}</p>
+          <div v-if="scope.row.customer_id" class="customer-wrap">
+            <p>名字：{{ scope.row.customer.full_name||'-' }}</p>
+            <p>电话：{{ scope.row.customer.phone||'-' }}</p>
+            <p>邮箱：{{ scope.row.customer.email||'-' }}</p>
+          </div>
         </template>
       </el-table-column>
-      <!--  <el-table-column prop="email" label="邮箱" width="140" />
-      <el-table-column prop="phone" label="电话" width="140" />
-      <el-table-column prop="hashed_password" label="密码" width="160">
+      <el-table-column prop="order_skus" label="sku数量 / 待发货" width="140">
         <template slot-scope="scope">
-          <p class="title-line">
-            {{ scope.row.hashed_password }}
-          </p>
+          <div class="d-flex justify-content-between align-items-center ">
+            <el-tag size="small" effect="dark">
+              {{ scope.row.order_skus.length }}
+            </el-tag>
+            <el-tag type="warning" size="small" effect="dark">
+              {{ getOrderSkuUndeliveredQuantity(scope.row.order_skus) }}
+            </el-tag>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column prop="create_at" label="创建时间" width="110">
+
+      <el-table-column prop="quantity" label="购买数量" width="80" />
+      <el-table-column prop="total_price" label="订单金额" width="120">
+        <template slot-scope="scope">
+          {{ getCurrencySymbols(scope.row.currency) }} {{ scope.row.total_price }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="create_at" label="购买时间" width="110">
         <template slot-scope="scope">
           <i class="el-icon-time" />
           {{ getDate(scope.row.create_at) }}
         </template>
       </el-table-column>
-      <el-table-column prop="create_at" label="激活状态、超级管理员状态" min-width="200">
+      <el-table-column prop="note" label="备注" min-width="110">
         <template slot-scope="scope">
-          <div class="d-flex align-items-center">
-            <span :class="`${scope.row.is_active ? 'text-primary':'text-info'} mr-2`">
-              {{ scope.row.is_active ? '已激活':'未激活' }}
-            </span>
-            <el-tag v-if="scope.row.is_superuser" size="small" effect="dark">
-              超级管理员
-            </el-tag>
-          </div>
+          <p class="title-line">
+            {{ scope.row.note }}
+          </p>
         </template>
-      </el-table-column> -->
-      <el-table-column prop="name" label="操作" width="160">
+      </el-table-column>
+      <el-table-column prop="name" label="操作" width="180">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editHandler(scope.row)">
-            编辑
+          <el-button type="text" size="small" @click="addressViewHandler(scope.row)">
+            收获地址
+          </el-button>
+          <el-button type="text" size="small" @click="jumpTo({name:'order-detail-id',params:{id:scope.row.id}})">
+            订单详情
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <address-dialog
+      :dialog-status.sync="addressDialogStatus"
+      :default-data="selectTdData"
+    />
     <v-paginations
       :vuex-path="orderVuexBasePath"
       algin-right
@@ -57,35 +74,70 @@
   </section>
 </template>
 <script>
+import addressDialog from './addressDialog.vue'
 import ordersMixins from '@/mixins/orders'
 import userMixins from '@/mixins/user'
-// eslint-disable-next-line no-unused-vars
+import publicUseMixins from '@/mixins/publicUse'
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'MyOrder',
   components: {
-    VPaginations
+    VPaginations, addressDialog
   },
-  mixins: [ordersMixins, userMixins],
+  mixins: [ordersMixins, userMixins, publicUseMixins],
   data () {
     return {
-      userDialog: false,
+      selectTdData: {},
+      addressDialogStatus: false,
       userFormTitle: '',
       selectEditId: null
     }
   },
   computed: {
+    getDate (val) {
+      return function (val) {
+        return mUtils.formatDate(val, 3)
+      }
+    }
   },
   mounted () {
   },
   methods: {
+    handleSelectionChange (val) {
+
+    },
+    addressViewHandler (data) {
+      this.selectTdData = data
+      this.addressDialogStatus = true
+    },
     editHandler () {},
-    pageChangeHandler () {}
+    pageChangeHandler () {
+      this.getOrderData()
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
 @import "assets/sass/color";
-
+  .title-line{
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;//溢出内容隐藏
+  text-overflow: ellipsis;//文本溢出部分用省略号表示
+  display: -webkit-box;//特别显示模式
+  -webkit-line-clamp: 2;//行数
+  line-clamp: 2;
+  -webkit-box-orient: vertical;//盒子中内容竖直排列
+}
+.customer-wrap{
+  font-size: 0;
+  p{
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow:ellipsis;
+    font-size: 14px;
+    line-height: 16px;
+  }
+}
 </style>

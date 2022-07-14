@@ -79,17 +79,10 @@ const publicUseMixins = {
       return this.productStatusArray[statusIndex].name
     },
     getCurrencySymbols (val) {
-      // if (!val) {
-      //   return '-'
-      // }
-      // let symbolsIndex = 0
-      // for (let index = 0; index < this.currencyArray.length; index++) {
-      //   if (this.currencyArray[index].value === val) {
-      //     symbolsIndex = index
-      //     break
-      //   }
-      // }
-      // return this.currencyArray[symbolsIndex].currencySymbols
+      if (!val) {
+        return '-'
+      }
+      return this.currencySymbol[val]
     }
   }
 }

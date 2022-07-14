@@ -21,6 +21,17 @@ const ordersMixins = {
         { name: 'CLOSE', value: 'CLOSE', zhName: '关闭', isAdmin: true },
         { name: 'DELETE', value: 'DELETE', zhName: '删除', isAdmin: true }
       ],
+      orderSkuStatusOption: [
+        { name: '未付款', value: 'UNPAID' },
+        { name: '付款失败', value: 'FAILED' },
+        { name: '已取消', value: 'CANCELED' },
+        { name: '未发货', value: 'UNFULFILLED' },
+        { name: '已发货', value: 'FULFILLED' },
+        { name: '已退款', value: 'REFUNDED' },
+        { name: '不可退款', value: 'NONREFUNDABLE' },
+        { name: '已关闭', value: 'CLOSED' },
+        { name: '未激活', value: 'INACTIVE' }
+      ],
       orderVuexBasePath: 'logic/order'
     }
   },
@@ -39,6 +50,23 @@ const ordersMixins = {
     },
     loadOrderPagination (params = { query: '' }) {
       this.$store.dispatch(this.orderVuexBasePath + '/getOrderPagination', params)
+    },
+    getOrderskuStatus (data) {
+      if (!data) {
+        return ''
+      }
+      const checkedStatus = this.orderSkuStatusOption.find(item => data === item.value)
+      return checkedStatus
+      // this.orderSkuStatusOption.filter = ()
+    },
+    getOrderSkuUndeliveredQuantity  (data) {
+      let n = 0
+      data.forEach((item) => {
+        if (item.status === 'UNFULFILLED') {
+          n++
+        }
+      })
+      return n
     }
     // createOrder (params = {}) {
     //   return this.$store.dispatch(this.orderVuexBasePath + '/createOrder', params)
