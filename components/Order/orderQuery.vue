@@ -15,21 +15,28 @@
         </v-button>
       </el-form-item>
     </el-form>
-    <v-button type="primary" size="small" icon="el-icon-search" @click="shipmentHandler">
-      发货
-    </v-button>
+    <div class="shipment-wrap">
+      <v-button type="primary" size="small" icon="el-icon-truck" @click="shipmentHandler">
+        发货
+      </v-button>
+      <shipment-dialog
+        :show-dialog.sync="shipmentsDialogVisible"
+        :default-data="shipmentSku"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import VButton from '../../baseComponents/VButton.vue'
+import shipmentDialog from './shipmentDialog'
 import ordersMixins from '@/mixins/orders'
 // import VImage from '@/baseComponents/VImage'
 export default {
   name: 'OrderQuery',
   components: {
-    VButton
-    // VImage
+    VButton,
+    shipmentDialog
   },
   mixins: [ordersMixins],
   props: {
@@ -44,17 +51,7 @@ export default {
   },
   data () {
     return {
-      valid: false,
-      formLabelWidth: '100px',
-      userForm: {
-        is_active: false,
-        is_superuser: false,
-        full_name: '',
-        email: '',
-        phone: '',
-        hashed_password: '',
-        avatar_id: null
-      }
+      shipmentsDialogVisible: false
     }
   },
   watch: {
@@ -62,7 +59,7 @@ export default {
   methods: {
     shipmentHandler () {
       if (this.shipmentSku.length > 0) {
-        console.log(1)
+        this.shipmentsDialogVisible = true
       } else {
         this.notification({ title: '提示', message: '请至少选中1个待发货的订单', type: 'warning' })
       }
@@ -90,31 +87,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    .avatar-uploader{
-        width: 178px;
-        margin: 0 auto;
-    }
-  ::v-deep .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  ::v-deep.avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
+   .shipment-wrap{
+      padding-top: 2px;
+   }
 </style>

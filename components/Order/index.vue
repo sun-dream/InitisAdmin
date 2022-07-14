@@ -1,8 +1,6 @@
 <template>
   <section class="w-100">
-    <order-query
-      :shipment-sku="shipmentSku"
-    />
+    <order-query :shipment-sku="shipmentSku" />
     <el-table :data="orderList" border size="small" max-height="700" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column prop="customer_id" label="客户" width="180">
