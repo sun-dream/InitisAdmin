@@ -9,10 +9,10 @@
       @submit.native.prevent
     >
       <el-form-item label="查询" class="mb-0">
-        <el-input v-model="filter.query" @keyup.enter.native="searchHandle" />
+        <el-input v-model="productQuery" @keyup.enter.native="getProductAllData()" />
       </el-form-item>
       <el-form-item class="mb-0">
-        <v-button type="primary" size="small" icon="el-icon-search" @click="searchHandle">
+        <v-button type="primary" size="small" icon="el-icon-search" @click="getProductAllData()">
           查询
         </v-button>
       </el-form-item>
@@ -40,9 +40,6 @@ export default {
     }
   },
   methods: {
-    searchHandle () {
-      this.getProductAllData(this.filter)
-    }
   }
 }
 </script>

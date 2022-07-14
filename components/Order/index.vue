@@ -1,5 +1,6 @@
 <template>
   <section class="w-100">
+    <order-query />
     <!-- <user-filter
       ref="userFilter"
       :user-form-title="userFormTitle"
@@ -75,6 +76,7 @@
 </template>
 <script>
 import addressDialog from './addressDialog.vue'
+import orderQuery from './orderQuery.vue'
 import ordersMixins from '@/mixins/orders'
 import userMixins from '@/mixins/user'
 import publicUseMixins from '@/mixins/publicUse'
@@ -83,7 +85,7 @@ import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'MyOrder',
   components: {
-    VPaginations, addressDialog
+    VPaginations, addressDialog, orderQuery
   },
   mixins: [ordersMixins, userMixins, publicUseMixins],
   data () {
@@ -105,7 +107,7 @@ export default {
   },
   methods: {
     handleSelectionChange (val) {
-
+      console.log(val)
     },
     addressViewHandler (data) {
       this.selectTdData = data

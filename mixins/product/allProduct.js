@@ -11,6 +11,14 @@ const allProductMixins = {
     }
   },
   computed: {
+    productQuery: {
+      get () {
+        return this.$store.getters[this.productVuexBasePath + '/productQuery']
+      },
+      set (val) {
+        this.$store.commit(this.productVuexBasePath + '/UPDATE_PRODUCT_QUERY', val)
+      }
+    },
     productList () {
       return this.$store.getters[this.productVuexBasePath + '/productList']
     },
@@ -19,7 +27,7 @@ const allProductMixins = {
     }
   },
   methods: {
-    getProductAllData (params = { query: '' }) {
+    getProductAllData (params = { query: this.productQuery }) {
       this.loadProductList(params)
       this.loadProductPagination(params)
     },

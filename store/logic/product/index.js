@@ -2,16 +2,20 @@ import paginationMixins from '@/vuexUtils/paginationMixins'
 
 const state = () => {
   return {
+    productQuery: '',
     productList: [],
-    productAllList: [],
     productItem: {}
   }
 }
 const getters = {
+  productQuery: state => state.productQuery,
   productList: state => state.productList,
   productItem: state => state.productItem
 }
 const mutations = {
+  UPDATE_PRODUCT_QUERY (state, val) {
+    state.productQuery = val
+  },
   UPDATE_PRODUCT_LIST_DATA (state, val) {
     state.productList = val
   },

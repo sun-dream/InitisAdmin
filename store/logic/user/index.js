@@ -1,15 +1,19 @@
 import paginationMixins from '@/vuexUtils/paginationMixins'
 const state = () => {
   return {
+    usersQuery: '',
     usersList: []
   }
 }
 
 const getters = {
+  usersQuery: state => state.usersQuery,
   usersList: state => state.usersList
-
 }
 const mutations = {
+  UPDATA_USERS_QUERY (state, val) {
+    state.usersQuery = val
+  },
   UPDATA_USERS_LIST (state, val) {
     state.usersList = val
   }

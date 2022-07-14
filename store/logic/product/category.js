@@ -1,15 +1,20 @@
 import paginationMixins from '@/vuexUtils/paginationMixins'
 const state = () => {
   return {
+    categoryQuery: '',
     categoryData: []
   }
 }
 
 const getters = {
+  categoryQuery: state => state.categoryQuery,
   categoryData: state => state.categoryData
 
 }
 const mutations = {
+  UPDATA_CATEGORY_QUERY (state, val) {
+    state.categoryQuery = val
+  },
   UPDATA_CATEGORY_DATA (state, val) {
     state.categoryData = val
   }

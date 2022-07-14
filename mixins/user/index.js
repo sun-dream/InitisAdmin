@@ -11,12 +11,20 @@ const userMixins = {
     }
   },
   computed: {
+    usersQuery: {
+      get () {
+        return this.$store.getters[this.userVuexBasePath + '/usersQuery']
+      },
+      set (val) {
+        this.$store.commit(this.userVuexBasePath + '/UPDATA_USERS_QUERY', val)
+      }
+    },
     userList () {
       return this.$store.getters[this.userVuexBasePath + '/usersList']
     }
   },
   methods: {
-    getUserData (params = { query: '' }) {
+    getUserData (params = { query: this.usersQuery }) {
       this.loadUserList(params)
       this.loadUserPagination(params)
     },

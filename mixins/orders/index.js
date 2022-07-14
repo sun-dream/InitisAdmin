@@ -36,12 +36,20 @@ const ordersMixins = {
     }
   },
   computed: {
+    orderQuery: {
+      get () {
+        return this.$store.getters[this.orderVuexBasePath + '/orderQuery']
+      },
+      set (val) {
+        this.$store.commit(this.orderVuexBasePath + '/UPDATE_ORDER_QUERY', val)
+      }
+    },
     orderList () {
       return this.$store.getters[this.orderVuexBasePath + '/orderList']
     }
   },
   methods: {
-    getOrderData (params = { query: '' }) {
+    getOrderData (params = { query: this.orderQuery }) {
       this.loadOrderList(params)
       this.loadOrderPagination(params)
     },

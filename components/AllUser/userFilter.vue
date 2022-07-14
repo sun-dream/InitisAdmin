@@ -3,15 +3,14 @@
     <el-form
       ref="queryForm"
       :inline="true"
-      :model="userFilter"
       label-width="50px"
       @submit.native.prevent
     >
       <el-form-item label="查询" class="mb-0">
-        <el-input v-model="userFilter.query" @keyup.enter.native="searchHandle" />
+        <el-input v-model="usersQuery" @keyup.enter.native="getUserData()" />
       </el-form-item>
       <el-form-item class="mb-0">
-        <v-button type="primary" size="small" icon="el-icon-search" @click="searchHandle">
+        <v-button type="primary" size="small" icon="el-icon-search" @click="getUserData()">
           查询
         </v-button>
       </el-form-item>
@@ -116,9 +115,6 @@ export default {
     return {
       valid: false,
       formLabelWidth: '100px',
-      userFilter: {
-        query: ''
-      },
       userForm: {
         is_active: false,
         is_superuser: false,
@@ -169,9 +165,6 @@ export default {
           this.getFiles(resp.id)
           this.userForm.avatar_id = resp.id
         })
-    },
-    searchHandle () {
-      this.getUserData(this.userFilter)
     },
     closeEditFormHandler () {
       this.userForm = {

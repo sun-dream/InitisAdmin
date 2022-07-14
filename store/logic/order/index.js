@@ -2,16 +2,21 @@ import paginationMixins from '@/vuexUtils/paginationMixins'
 
 const state = () => {
   return {
+    orderQuery: '',
     orderList: []
   }
 }
 
 const getters = {
+  orderQuery: state => state.orderQuery,
   orderList: state => state.orderList
 
 }
 const mutations = {
-  UPDATA_ORDER_LIST_DATA (state, val) {
+  UPDATE_ORDER_QUERY (state, val) {
+    state.orderQuery = val
+  },
+  UPDATE_ORDER_LIST_DATA (state, val) {
     state.orderList = val
   }
 }
@@ -23,7 +28,7 @@ const actions = {
           .then((resp) => {
             dispatch('afterGetDataHandler', resp)
             if (resp && Array.isArray(resp)) {
-              commit('UPDATA_ORDER_LIST_DATA', resp)
+              commit('UPDATE_ORDER_LIST_DATA', resp)
             }
             resolve(resp)
           })

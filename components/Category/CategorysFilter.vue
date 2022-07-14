@@ -8,10 +8,10 @@
       @submit.native.prevent
     >
       <el-form-item label="查询" class="mb-0">
-        <el-input v-model="categoryFilter.query" @keyup.enter.native="searchHandle" />
+        <el-input v-model="categoryQuery" @keyup.enter.native="getCategoryAllData()" />
       </el-form-item>
       <el-form-item class="mb-0">
-        <v-button type="primary" size="small" icon="el-icon-search" @click="searchHandle">
+        <v-button type="primary" size="small" icon="el-icon-search" @click="getCategoryAllData()">
           查询
         </v-button>
       </el-form-item>
@@ -81,9 +81,7 @@ export default {
     return {
       valid: false,
       formLabelWidth: '90px',
-      categoryFilter: {
-        query: ''
-      },
+      categoryFilter: {},
       categoryForm: {
         name: '',
         description: '',
@@ -93,9 +91,6 @@ export default {
     }
   },
   methods: {
-    searchHandle () {
-      this.getCategoryAllData(this.categoryFilter)
-    },
     createHandler () {
       this.$emit('create')
     },

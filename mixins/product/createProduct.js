@@ -59,12 +59,12 @@ const createProductMixins = {
   methods: {
     initDefaultData () {
       this.createProductForm = {
-        product_code: '12312321',
-        title: '123',
-        source_name: '123',
-        source_contact: '123',
-        source: 'http://www.baidu.com',
-        category_id: 123,
+        product_code: '',
+        title: '',
+        source_name: '',
+        source_contact: '',
+        source: '',
+        category_id: null,
         status: 'ON_SALE',
         description: '',
         video1_id: null,

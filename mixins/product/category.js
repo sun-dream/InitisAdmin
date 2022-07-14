@@ -18,18 +18,19 @@ const categoryMixins = {
     }
   },
   computed: {
+    categoryQuery: {
+      get () {
+        return this.$store.getters[this.categoryVuexBasePath + '/categoryQuery']
+      },
+      set (val) {
+        this.$store.commit(this.categoryVuexBasePath + '/UPDATA_CATEGORY_QUERY', val)
+      }
+    },
     categoryData () {
       return this.$store.getters[this.categoryVuexBasePath + '/categoryData']
     },
     fetching () {
       return this.$store.getters[this.categoryVuexBasePath + '/fetching']
-    },
-    categoryDataOption () {
-      if (this.categoryData.length < 1) {
-        return []
-      } else {
-        return this.cloneObj(this.renderTreeClosure(this.categoryData))
-      }
     }
   },
   methods: {
@@ -45,7 +46,7 @@ const categoryMixins = {
       s = s.split(' ')[0]
       return s
     },
-    getCategoryAllData (params = { query: '' }) {
+    getCategoryAllData (params = { query: this.categoryQuery }) {
       this.getCategoryData(params)
       this.getCategoryDataPagination(params)
     },
