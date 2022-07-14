@@ -22,7 +22,6 @@
       ref="prodcutFilesRef"
       :edit-status="true"
       :default-data="createProductForm"
-      :default-upload-file-cache="uploadFileCache"
       @nextHandler="nextHandler"
     />
     <product-description
@@ -103,7 +102,7 @@ export default {
       // 判断页面滚动的距离是否大于吸顶元素的位置
       this.headerFixed = scrollTop > this.offsetTop + this.offsetHeight
     },
-    nextHandler ({ status, data, uploadFileCache }) {
+    nextHandler ({ status, data, uploadFileCache, imagesAndVideoResp }) {
       Object.keys(data).forEach((key) => {
         this.createProductForm[key] = data[key]
       })
@@ -111,9 +110,12 @@ export default {
         this.$refs.prodcutFilesRef.nextStepHandler()
       } else if (
         status === this.stepStatusEnum.uploadFiles &&
-        this.isDef(uploadFileCache)
+        this.isDef(imagesAndVideoResp)
       ) {
-        this.uploadFileCache = uploadFileCache
+        // this.uploadFileCache = uploadFileCache
+        Object.keys(imagesAndVideoResp).forEach((key) => {
+          this.createProductForm[key] = imagesAndVideoResp[key]
+        })
         this.$refs.prodcutDescriptionRef.nextStepHandler()
       } else if (status === this.stepStatusEnum.description) {
         this.updateHandler()
@@ -129,7 +131,18 @@ export default {
     updateHandler () {
       if (this.productItem.id) {
         this.notification({ title: '提示', message: '商品正在更新中...', type: 'warning' })
-        this.updateProduct({ data: this.createProductForm, id: this.productItem.id })
+        const data = this.cloneObj(this.createProductForm)
+        delete data.image1
+        delete data.image2
+        delete data.image3
+        delete data.image4
+        delete data.image5
+        delete data.video1
+        delete data.update_at
+        delete data.create_at
+        delete data.skus
+        delete data.id
+        this.updateProduct({ data, id: this.productItem.id })
           .then((resp) => {
             this.notification({ title: '提示', message: '更新成功！', type: 'success' })
           })

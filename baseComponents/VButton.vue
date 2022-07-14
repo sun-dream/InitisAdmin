@@ -1,6 +1,5 @@
 <template>
   <el-button v-bind="$attrs" v-on="$listeners">
-    {{ text }}
     <slot />
   </el-button>
 </template>
@@ -9,11 +8,6 @@ export default {
   name: 'VButton',
   inheritAttrs: false,
   props: {
-    text: {
-      type: String,
-      required: false,
-      default: ''
-    }
   }
 }
 </script>

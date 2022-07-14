@@ -1,63 +1,56 @@
 <template>
   <div class="upload-wrap">
     <item-title text="商品视频" />
-    <el-progress v-if="progressFlag" :percentage="loadProgress" />
-    <el-upload
-      ref="uploadVideo"
-      action=""
-      class="upload-video-demo"
-      :file-list="videoData"
-      accept=".mp4"
-      :limit="1"
-      :http-request="uploadVideoRequest"
-      :on-success="uploadVideoSuccess"
-      :on-progress="uploadVideoProcess"
-      :on-remove="uploadVideoRemove"
-    >
-      <el-button size="small" :disabled="videoData.length === 1" type="primary" plain class="w-100 d-block upload-image-btn">
-        点击这里上传！
-      </el-button>
-      <div slot="tip" class="el-upload__tip">
-        只能上传
-        <span class="text-danger ">.mp4</span>
-        文件，还可以上传
-        <span class="text-danger ">{{ videoData.length === 1 ? 0 : 1 }}</span>
-        个视频
-      </div>
-    </el-upload>
-    <div v-if="videoData[0]" class="video-player-wrap">
-      <V-Video-Preview :src=" videoData[0].url" />
-    </div>
-    <item-title text="商品主图" />
-    <!-- :on-preview="handlePictureCardPreview"
-      :on-remove="handleRemove" -->
-    <el-upload
-      action=""
-      list-type="picture-card"
-      accept=".jpg,.jpeg, .png"
-      :on-success="uploadPicSuccess"
-      :before-upload="beforePicUpload"
-      :file-list="fileList"
-      :http-request="uploadPicRequest"
-      :on-preview="handlePictureCardPreview"
-      :on-remove="handlePicRemove"
-    >
-      <i v-show="fileList.length <= maxNumOfPicUpload" class="el-icon-plus" />
-    </el-upload>
     <div class="el-upload__tip">
       只能上传
-      <span class="text-danger ">.jpg/.jpeg/.png</span>
-      文件，且不超过
-      <span class="text-danger ">300kb </span>
-      ，尺寸为
-      <span class="text-danger ">300*300</span>
-      ，还可以上传
-      <span class="text-danger ">{{ maxNumOfPicUpload - fileList.length }}</span>
-      张图片
+      <span class="text-danger ">.mp4</span>
+      文件，还可以上传
+      <span class="text-danger ">{{ videoObject.id ? 0 : 1 }}</span>
+      个视频
     </div>
-    <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="dialogImageUrl" alt="">
-    </el-dialog>
+    <el-upload
+      v-if="!videoObject.id"
+      class="video-uploader"
+      action=""
+      accept=".mp4"
+      :show-file-list="false"
+      :http-request="uploadRequest"
+      :on-success="uploadVideoSuccess"
+    >
+      <i class="el-icon-plus video-uploader-icon" />
+    </el-upload>
+    <div v-else class="video-player-wrap pos-r">
+      <div class="pos-a video-player-remove">
+        <v-button type="danger" size="small" circle icon="el-icon-delete" @click="uploadVideoRemove" />
+      </div>
+      <video width="320" height="240" controls class="video-player">
+        <source :src="videoObject.id ? videoObject.data.external_url :''" type="video/mp4">
+        您的浏览器不支持Video标签。
+      </video>
+    </div>
+    <item-title text="商品主图" />
+    <template v-for="(value,key) in imageIds">
+      <el-upload
+        :key="key"
+        :ref="`uploadImg${key}`"
+        class="image-uploader"
+        action=""
+        :show-file-list="false"
+        accept=".jpg,.jpeg,.png"
+        :before-upload="beforePicUpload"
+        :http-request="uploadRequest"
+      >
+        <div v-if="getImageSrc(key,value)" class="upload-image-item pos-r" @click.stop="()=>{}">
+          <v-image :src="getImageSrc(key,value)" @click.stop="()=>{}" />
+          <div class="pos-a  pic-item-edit justify-content-center align-items-center">
+            <i class="el-icon-zoom-in" @click.stop="enlargePicHandler(key,value)" />
+            <i class="el-icon-delete" @click.stop="handlePicRemove(key)" />
+          </div>
+        </div>
+        <i v-else class="el-icon-plus image-uploader-icon" @click="uploadPicSuccess(key)" />
+      </el-upload>
+    </template>
+    <el-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="previewSrcList" />
     <div v-if="!editStatus" class="d-flex btn-warp justify-content-between align-items-center">
       <v-button @click="prevStepHandler">
         上一步
@@ -70,42 +63,68 @@
 </template>
 
 <script>
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import itemTitle from './itemTitle'
 import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
 import VButton from '@/baseComponents/VButton'
-import VVideoPreview from '@/baseComponents/VVideoPreview'
+import VImage from '@/baseComponents/VImage'
+// import VVideoPreview from '@/baseComponents/VVideoPreview'
 // import VVideoPlayer from '@/baseComponents/VVideoPlayer'
 // eslint-disable-next-line no-unused-vars
 import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'UploadProductFiles',
   // eslint-disable-next-line vue/no-unused-components
-  components: { VButton, itemTitle, VVideoPreview },
+  components: { VButton, itemTitle, VImage, ElImageViewer },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
     editStatus: {
       type: Boolean,
       default: false
     },
-    defaultUploadFileCache: {
+    defaultData: {
       type: Object,
       default: () => {}
     }
   },
   data () {
     return {
-      loadProgress: 0, // 动态显示进度条
-      progressFlag: false, // 关闭进度条
-      fileList: [],
-      videoData: [],
-      dialogImageUrl: '',
-      dialogVisible: false
+      selectPicUploadKey: null,
+      imageIds: { image1_id: null, image2_id: null, image3_id: null, image4_id: null, image5_id: null },
+      images: { image1: {}, image2: {}, image3: {}, image4: {}, image5: {} },
+      videoObject: {
+        id: null,
+        data: { external_url: '' }
+      },
+      previewSrcList: [],
+      showViewer: false
+    }
+  },
+  computed: {
+    uploadImagesLength () {
+      let n = 0
+      Object.keys(this.imageIds).forEach((key) => {
+        if (this.imageIds[key] === null) {
+          n++
+        }
+      })
+      return n
+    },
+    getImageSrc (key, value) {
+      return function (key, value) {
+        if (key && value) {
+          const keys = key.split('_')[0]
+          return this.images[keys].external_url
+        } else {
+          return ''
+        }
+      }
     }
   },
   watch: {
-    defaultUploadFileCache: {
+    defaultData: {
       deep: true,
       handler (newData, oldData) {
         this.initData()
@@ -116,31 +135,29 @@ export default {
     this.initData()
   },
   methods: {
-    handlePicRemove (file, fileList) {
-      this.fileList = this.cloneObj(fileList)
+    closeViewer () {
+      this.showViewer = false
+      this.previewSrcList[0] = ''
     },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
+    enlargePicHandler (key, value) {
+      this.showViewer = true
+      this.previewSrcList[0] = key && value ? this.cloneObj(this.getImageSrc(key, value)) : ''
+    },
+    handlePicRemove (key) {
+      const keys = key.split('_')[0]
+      this.images[keys] = {}
+      this.imageIds[key] = null
     },
     uploadVideoRemove (file, fileList) {
-      this.videoData = []
-    },
-    uploadVideoProcess (event) {
-      this.progressFlag = true // 显示进度条
-      this.loadProgress = parseInt(((event.loaded / event.total) * 100) | 0, 10) // 动态获取文件上传进度
-      if (this.loadProgress >= 100) {
-        this.loadProgress = 100
-        setTimeout(() => { this.progressFlag = false }, 1000) // 一秒后关闭进度条
+      this.videoObject = {
+        id: null,
+        data: { external_url: '' }
       }
     },
     beforePicUpload (file) {
       return new Promise((resolve, reject) => {
         const isLt = file.size / 1024 < 200 // 判断是否小于200Kb
-        if (this.fileList.length === this.maxNumOfPicUpload) {
-          this.notification({ title: '提示', message: '最多上传五张图片', type: 'warning' })
-          reject(new Error('最多上传五张图片!'))
-        } else if (!isLt) {
+        if (!isLt) {
           this.notification({ title: '提示', message: '图片大小不能超过300KB! 请重新上传', type: 'warning' })
           reject(new Error('图片大小不能超过300KB!'))
         } else {
@@ -156,32 +173,27 @@ export default {
         }
       })
     },
-    uploadPicSuccess (response, file, fileList) {
-      this.fileList = this.cloneObj(fileList)
+    uploadPicSuccess (key) {
+      this.selectUploadKey = key
     },
     uploadVideoSuccess (response, file, fileList) {
-      this.videoData = this.cloneObj(fileList)
+      this.videoObject.id = response ? response.id : null
+      this.videoObject.data = response || {}
     },
-    uploadVideoRequest (param) {
-      this.uploadFiles({ data: param.file, progressHandler: this.uploadVideoProcess })
-        .then((resp) => {
-          if (resp) {
-            this.notification({ title: '提示', message: '上传成功！', type: 'success' })
-            // this.videoSrc = resp.external_url
-            param.onSuccess(resp)
-          }
-        })
-        .catch((err) => {
-          this.notification({ title: '提示', message: '上传失败！', type: 'error' })
-          param.onError(err)
-        })
-    },
-    uploadPicRequest (param) {
+    uploadRequest (param) {
+      this.notification({ title: '提示', message: '上传文件中...', type: 'warning' })
       this.uploadFiles({ data: param.file })
         .then((resp) => {
           if (resp) {
             this.notification({ title: '提示', message: '上传成功！', type: 'success' })
             param.onSuccess(resp)
+            if (!this.selectUploadKey) {
+              return
+            }
+            this.imageIds[this.selectUploadKey] = resp.id
+            const keys = this.selectUploadKey.split('_')[0]
+            this.images[keys] = resp
+            this.selectUploadKey = null
           }
         })
         .catch((err) => {
@@ -190,55 +202,41 @@ export default {
         })
     },
     nextStepHandler () {
-      if (this.videoData.length < 1) {
+      if (!this.videoObject.id) {
         this.notification({ title: '提示', message: '至少上传一个视频', type: 'warning' })
         return
       }
-      if (this.fileList.length < 1) {
-        this.notification({ title: '提示', message: '至少上传一张图片', type: 'warning' })
+      if (this.uploadImagesLength === 5) {
+        this.notification({ title: '提示', message: '必须至少上传一张图片', type: 'warning' })
         return
       }
-      const params = {}
-      params.video1_id = this.videoData[0].response.id
-      this.fileList.forEach((item, index) => {
-        params[`image${index + 1}_id`] = item.response.id
-      })
+      const params = this.cloneObj(this.imageIds)
+      params.video1_id = this.videoObject.id
       this.$emit('nextHandler', {
         status: this.stepStatusEnum.uploadFiles,
         data: params,
-        uploadFileCache: {
-          images: this.fileList,
-          videos: this.videoData
-        }
+        imagesAndVideoResp: { ...this.images, video1: this.videoObject.data }
       })
     },
     prevStepHandler () {
-      const params = {}
-      if (this.videoData.length > 0) {
-        params.video1_id = this.videoData[0].response.id
-      }
-      this.fileList.forEach((item, index) => {
-        params[`image${index + 1}_id`] = item.response.id
-      })
+      const params = this.cloneObj(this.imageIds)
+      params.video1_id = this.videoObject.id
       this.$emit('prevHandler', {
         status: this.stepStatusEnum.uploadFiles,
         data: params,
-        uploadFileCache: {
-          images: this.fileList,
-          videos: this.videoData
-        }
+        imagesAndVideoResp: { ...this.images, video1: this.videoObject.data }
       })
     },
     initData () {
-      const data = this.cloneObj(this.defaultUploadFileCache)
-      data.images.forEach((item) => {
-        item.url = item.response && item.response.external_url ? item.response.external_url : item.url
-      })
-      data.videos.forEach((item) => {
-        item.url = item.response && item.response.external_url ? item.response.external_url : item.url
-      })
-      this.fileList = data.images
-      this.videoData = data.videos
+      const data = this.cloneObj(this.defaultData)
+      this.videoObject.id = data.video1_id !== null ? data.video1_id : null
+      this.videoObject.data = data.video1 ? data.video1 : {}
+      for (let i = 0; i < this.maxNumOfPicUpload; i++) {
+        if (data[`image${i + 1}_id`] !== null) {
+          this.imageIds[`image${i + 1}_id`] = data[`image${i + 1}_id`]
+          this.images[`image${i + 1}`] = data[`image${i + 1}`]
+        }
+      }
     }
   }
 }
@@ -249,26 +247,96 @@ export default {
         width:740px;
         margin:40px auto 0;
     }
-    .product-info-title {
-        padding: 10px 6px;
-        border-left: 4px solid $primary;
-        margin-bottom: 10px;
-    }
     .btn-warp{
         margin-top: 20px;
     }
-    .upload-image-btn{
-        &:hover span{
-            color: #fff;
-        }
+    ::v-deep .video-uploader .el-upload {
+      border: 2px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 200px;
+      line-height: 200px;
+      margin: 10px auto 0;
+    }
+    .video-uploader-icon{
+      font-size:40px;
+      color: #999999;
     }
     .video-player-wrap{
-      margin-bottom: 30px;
-    }
-    ::v-deep .el-upload.el-upload--picture{
+      overflow: hidden;
+      .video-player{
         width: 100%;
-    }
-     ::v-deep .el-upload.el-upload--text{
+        background-color: #000;
+      }
+      .video-player-remove{
+        z-index: 10;
+        text-align: center;
         width: 100%;
+        height: 42px;
+        top: -42px;
+        left: 0;
+        padding:4px 6px 0 0;
+        background-color: rgba(255,255,255,.4);
+        transition: all .2s;
+      }
+      &:hover{
+        .video-player-remove{
+          top: 0;
+        }
+      }
+    }
+    .image-uploader {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .image-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 178px;
+      height: 178px;
+      line-height: 178px;
+      text-align: center;
+    }
+    ::v-deep .image-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    ::v-deep .image-uploader .el-upload:hover {
+      border-color: #409EFF;
+    }
+    .upload-image-item {
+      width: 178px;
+      height: 178px;
+      display: block;
+      &:hover{
+        .pic-item-edit{
+          display: flex;
+        }
+      }
+      .pic-item-edit{
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0,0,0,.5);
+        display: none;
+        transition: background-color .2s;
+        i{
+          color: #fff;
+          font-weight: bold;
+          font-size: 16px;
+          margin: 0 10px;
+          transition: all .2s;
+          &:hover{
+            transform: scale(1.2);
+          }
+        }
+      }
     }
 </style>
