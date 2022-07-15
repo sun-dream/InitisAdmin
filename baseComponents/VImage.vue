@@ -1,5 +1,5 @@
 <template>
-  <el-image :src="src" fit="cover" class="w-100" v-bind="$attrs" v-on="$listeners">
+  <el-image :src="src" fit="cover" class="w-100 v-image" v-bind="$attrs" v-on="$listeners">
     <div slot="placeholder" class="image-slot">
       <i class="el-icon-loading" />
     </div>
@@ -31,6 +31,9 @@ export default {
 }
 </script>
 <style  scoped lang="scss">
+.v-image{
+  font-size:0
+}
 .image-slot{
   i{
     font-size: 30px;

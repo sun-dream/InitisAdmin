@@ -1,7 +1,20 @@
 <template>
   <section class="w-100 categorg-wrap">
     <el-table :data="brandStoresList" border style="width: 100%" size="small" max-height="700">
-      <el-table-column prop="name" label="名称" width="160" />
+      <el-table-column prop="name" label="商店名称" width="160">
+        <template slot-scope="scope">
+          <div class="d-flex align-items-center">
+            <div class="img-wrap">
+              <v-image :src="getBrandStoreImageSrc(scope.row)" style="" />
+            </div>
+            <div class="store-info ml-2">
+              <p class="title-line">
+                {{ scope.row.name }}
+              </p>
+            </div>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" width="120" />
       <el-table-column prop="create_at" label="创建时间" width="120" />
       <el-table-column prop="description" label="备注" min-width="160" />
@@ -23,13 +36,15 @@
 <script>
 // import CategorysFilter from './CategorysFilter'
 import brandStoresMixins from '@/mixins/brandStores'
+
+import VImage from '@/baseComponents/VImage'
 // eslint-disable-next-line no-unused-vars
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'CategorysComponents',
   components: {
-    VPaginations
+    VPaginations, VImage
   },
   mixins: [brandStoresMixins],
   data () {
@@ -49,72 +64,36 @@ export default {
   mounted () {
   },
   methods: {
-    statusChangeHandle (item) {
-      this.updateProductCategory({
-        params: { status: item.status === this.statusEnum.ACTIVE ? this.statusEnum.INACTIVE : this.statusEnum.ACTIVE },
-        categoryId: item.id
-      }).then((resp) => {
-        this.notification({
-          title: '修改成功',
-          message: '已更新列表！',
-          type: 'success'
-        })
-        this.getCategoryAllData()
-      })
-    },
-    pageChangeHandler () {
-      this.getCategoryAllData()
+    getBrandStoreImageSrc (data) {
+      const src = ''
+      return src
     },
     editHandler (category) {
-      this.categoryDialog = true
-      this.categoryFormTitle = '编辑商品分类'
-      const data = this.cloneObj(category)
-      this.$refs.categoryFilter.categoryForm = data
-      this.selectEditId = category.id
-    },
-    createHandler () {
-      this.categoryDialog = true
-      this.categoryFormTitle = '创建商品分类'
-      this.selectEditId = null
-    },
-    closeHandler () {
-      this.categoryDialog = false
-      this.categoryFormTitle = ''
-      this.selectEditId = null
-    },
-    saveHandler (params) {
-      const data = this.cloneObj(params)
-      delete data.id
-      if (params.id) {
-        this.updateProductCategory({
-          params: { ...data },
-          categoryId: params.id
-        }).then((resp) => {
-          this.notification({
-            title: '修改成功',
-            message: '已更新列表！',
-            type: 'success'
-          })
-          this.getCategoryAllData()
-          this.closeHandler()
-          this.$refs.categoryFilter.closeEditFormHandler()
-        })
-      } else {
-        this.createdProductCategory(data)
-          .then((resp) => {
-            this.notification({
-              title: '创建成功',
-              message: '已更新列表！',
-              type: 'success'
-            })
-            this.getCategoryAllData()
-            this.closeHandler()
-            this.$refs.categoryFilter.closeEditFormHandler()
-          })
-      }
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+ .title-line{
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;//溢出内容隐藏
+  text-overflow: ellipsis;//文本溢出部分用省略号表示
+  display: -webkit-box;//特别显示模式
+  -webkit-line-clamp: 2;//行数
+  line-clamp: 2;
+  -webkit-box-orient: vertical;//盒子中内容竖直排列
+}
+
+.img-wrap{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+.store-info{
+    width: 122px;
+    line-height: 14px;
+}
+.date-warp{
+  line-height: 14px;
+}
 </style>

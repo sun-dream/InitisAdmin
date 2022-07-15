@@ -10,7 +10,7 @@
     <el-table-column type="selection" width="55" align="center" />
     <el-table-column prop="id" label="商品" width="180">
       <template slot-scope="scope">
-        <div class="product-wrap d-flex align-items-center">
+        <div class=" d-flex align-items-center">
           <div class="img-wrap">
             <v-image :src="getSkuImageSrc(scope.row)" />
           </div>
