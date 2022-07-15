@@ -85,11 +85,9 @@ export default {
     }
   },
   mounted () {
-    // this.$refs.skuTable.toggleRowSelection([...this.defaultData])
     this.defaultData.forEach((row) => {
       this.$refs.skuTable.toggleRowSelection(row)
     })
-    console.log([...this.defaultData])
   },
   methods: {
     getSkuImageSrc (data) {

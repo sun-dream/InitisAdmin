@@ -46,12 +46,12 @@
       </el-table-column>
       <el-table-column prop="name" label="操作" width="180">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addressViewHandler(scope.row)">
+          <v-button type="text" size="small" @click="addressViewHandler(scope.row)">
             收获地址
-          </el-button>
-          <el-button type="text" size="small" @click="jumpTo({name:'order-detail-id',params:{id:scope.row.id}})">
+          </v-button>
+          <v-button type="text" size="small" @click="jumpTo({name:'order-detail-id',params:{id:scope.row.id}})">
             订单详情
-          </el-button>
+          </v-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,6 +67,7 @@
   </section>
 </template>
 <script>
+import VButton from '../../baseComponents/VButton.vue'
 import addressDialog from './addressDialog.vue'
 import orderQuery from './orderQuery.vue'
 import ordersMixins from '@/mixins/orders'
@@ -77,7 +78,7 @@ import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'MyOrder',
   components: {
-    VPaginations, addressDialog, orderQuery
+    VPaginations, addressDialog, orderQuery, VButton
   },
   mixins: [ordersMixins, userMixins, publicUseMixins],
   data () {

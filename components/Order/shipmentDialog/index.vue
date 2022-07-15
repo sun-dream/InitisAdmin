@@ -11,7 +11,7 @@
       <el-step title="填写物流信息" />
     </el-steps>
     <sku-list v-if="stepIndex===0" ref="skuList" :default-data="defaultData" :select-skus.sync="selectSku" />
-    <shipment-form v-if="stepIndex===1" ref="shipmentsForm" :default-data="defaultData" />
+    <shipment-form v-if="stepIndex===1" ref="shipmentsForm" :select-skus-ids="selectSkuIds" @close="close" />
     <span slot="footer" class="dialog-footer">
       <v-button v-if="stepIndex !== 0" @click="prevHandler">上一步</v-button>
       <v-button v-if="stepIndex !== 1" type="primary" @click="nextHandler">下一步</v-button>
@@ -30,7 +30,6 @@ export default {
   name: 'ShipmentDialogIndex',
   components: {
     VButton, skuList, shipmentForm
-    // VImage
   },
   mixins: [ordersMixins],
   props: {
@@ -49,6 +48,15 @@ export default {
       selectSku: []
     }
   },
+  computed: {
+    selectSkuIds () {
+      const arr = []
+      this.selectSku.forEach((item) => {
+        arr.push(item.id)
+      })
+      return arr
+    }
+  },
   watch: {
     showDialog (newVal) {
       if (newVal) {
@@ -56,10 +64,12 @@ export default {
       }
     }
   },
+  mounted () {
+    this.stepIndex = 0
+  },
   methods: {
-
     saveHandler () {
-
+      this.$refs.shipmentsForm.submitHandler()
     },
     nextHandler () {
       if (this.stepIndex === 0 && this.selectSku.length < 1) {
