@@ -76,21 +76,6 @@ export default {
         Object.keys(resp).forEach((key) => {
           this.createProductForm[key] = resp[key]
         })
-        for (let i = 0; i < this.maxNumOfPicUpload; i++) {
-          if (resp[`image${i + 1}_id`]) {
-            this.uploadFileCache.images.push({
-              url: resp[`image${i + 1}`].external_url,
-              response: resp[`image${i + 1}`]
-            })
-          }
-        }
-        if (resp.video1_id) {
-          this.uploadFileCache.videos.push({
-            url: resp.video1.external_url,
-            name: resp.video1.file_name,
-            response: resp.video1
-          })
-        }
       })
     },
     handleScroll () {
@@ -102,7 +87,7 @@ export default {
       // 判断页面滚动的距离是否大于吸顶元素的位置
       this.headerFixed = scrollTop > this.offsetTop + this.offsetHeight
     },
-    nextHandler ({ status, data, uploadFileCache, imagesAndVideoResp }) {
+    nextHandler ({ status, data, imagesAndVideoResp }) {
       Object.keys(data).forEach((key) => {
         this.createProductForm[key] = data[key]
       })
@@ -112,7 +97,6 @@ export default {
         status === this.stepStatusEnum.uploadFiles &&
         this.isDef(imagesAndVideoResp)
       ) {
-        // this.uploadFileCache = uploadFileCache
         Object.keys(imagesAndVideoResp).forEach((key) => {
           this.createProductForm[key] = imagesAndVideoResp[key]
         })

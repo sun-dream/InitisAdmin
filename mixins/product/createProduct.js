@@ -47,11 +47,7 @@ const createProductMixins = {
         uploadFiles: 'uploadFiles',
         description: 'description'
       },
-      maxNumOfPicUpload: 5,
-      uploadFileCache: {
-        images: [],
-        videos: []
-      }
+      maxNumOfPicUpload: 5
     }
   },
   computed: {

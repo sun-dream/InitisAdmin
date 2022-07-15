@@ -58,7 +58,7 @@ import VImage from '@/baseComponents/VImage'
 import publicUseMixins from '@/mixins/publicUse'
 import * as mUtils from '@/assets/utils/mUtils'
 export default {
-  name: 'OrderQuery',
+  name: 'SkuList',
   components: {
     VImage
   },
