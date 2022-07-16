@@ -2,7 +2,8 @@
   <n-link
     :to="{
       name:name,
-      params:params
+      params:params,
+      query:query
     }"
     :class="className"
   >
@@ -18,6 +19,10 @@ export default {
       default: '/'
     },
     params: {
+      type: Object,
+      default: () => ({})
+    },
+    query: {
       type: Object,
       default: () => ({})
     },

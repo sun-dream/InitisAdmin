@@ -13,7 +13,11 @@ export default {
   mixins: [userMixins, breadcrumbMixins],
   mounted () {
     this.breadcrumbs = [{ text: '用户列表', cpnName: 'all-user' }]
-    this.getUserData()
+    if (this.$route.query && this.$route.query.query) {
+      this.getUserData({ query: this.$route.query.query })
+    } else {
+      this.getUserData()
+    }
   }
 }
 </script>

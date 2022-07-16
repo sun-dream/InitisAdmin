@@ -13,7 +13,7 @@ export default {
   },
   mixins: [brandStoresMixins, breadcrumbMixins],
   mounted () {
-    this.breadcrumbs = [{ text: 'Brand Store列表', cpnName: 'brand-stores' }]
+    this.breadcrumbs = [{ text: 'Brand Store 列表', cpnName: 'brand-stores' }]
     this.getBrandStoresData()
   }
 }

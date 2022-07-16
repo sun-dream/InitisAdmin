@@ -52,7 +52,7 @@ import categoryMixins from '@/mixins/product/category'
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
 export default {
-  name: 'CategorysComponents',
+  name: 'CategorysList',
   components: {
     CategorysFilter,
     VPaginations

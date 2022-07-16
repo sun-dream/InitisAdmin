@@ -26,9 +26,10 @@ const actions = {
   },
   getBrandStoreItem ({ commit }, id) {
     return new Promise((resolve) => {
-      this.$axios.get('brand_stores/admin/id/' + id).then((resp) => {
-        resolve(resp.data)
-      })
+      resolve(testData.testData[0])
+      // this.$axios.get('brand_stores/admin/id/' + id).then((resp) => {
+      //   resolve(resp.data)
+      // })
     })
   },
   updateBrandStoreItem ({ commit }, { id, params }) {

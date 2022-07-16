@@ -1,7 +1,12 @@
 const brandStoresMixins = {
   data () {
     return {
-      brandStoresVuexBasePath: 'logic/brandStores'
+      brandStoresVuexBasePath: 'logic/brandStores',
+      brandStoresStatusOption: [
+        { name: 'Active', value: 'ACTIVE' },
+        { name: 'Banndn', value: 'BANNED' },
+        { name: 'Pending', value: 'PENDING' }
+      ]
     }
   },
   computed: {
@@ -30,6 +35,15 @@ const brandStoresMixins = {
     },
     loadBrandStoresPagination (params = { query: '' }) {
       this.$store.dispatch(this.brandStoresVuexBasePath + '/getBrandStoresPagination', params)
+    },
+    loadBrandStoreItem (id) {
+      this.$store.dispatch(this.brandStoresVuexBasePath + '/getBrandStoreItem', id)
+    },
+    getBrandStoresStatus (data) {
+      if (!data) {
+        return ''
+      }
+      return this.brandStoresStatusOption.find(item => data === item.value)
     }
 
   }

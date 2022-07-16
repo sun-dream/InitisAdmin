@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       isCollapse: true,
-      defaultActive: '',
+      // defaultActive: '',
       menuData: [
         { name: '商品管理', index: 'all-product', menuIcon: 'el-icon-folder', menuText: '商品管理', cpn: 'all-product' },
         { name: '创建商品', index: 'create-product', menuIcon: 'el-icon-folder-add', menuText: '创建商品', cpn: 'create-product' },
@@ -55,16 +55,17 @@ export default {
     }
   },
   computed: {
+    defaultActive () {
+      return this.$route.name
+    }
+  },
+  watch: {
   },
   created () {
   },
   mounted () {
-    this.initActive(this.$route.name)
   },
   methods: {
-    initActive (cpnName) {
-      this.defaultActive = cpnName
-    }
   }
 }
 </script>
