@@ -28,7 +28,7 @@ const actions = {
             if (resp && Array.isArray(resp)) {
               commit('UPDATA_USERS_LIST', resp)
             }
-            resolve(data)
+            resolve(resp)
           })
       }).catch((err) => {
         reject(err)

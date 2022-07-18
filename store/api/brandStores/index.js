@@ -1,4 +1,3 @@
-import * as testData from './testData'
 const state = () => {
   return {
   }
@@ -11,10 +10,9 @@ const mutations = {
 const actions = {
   getBrandStores ({ commit }, params) {
     return new Promise((resolve) => {
-      // this.$axios.get('brand_stores/admin/all', { params }).then((resp) => {
-      //   resolve(resp.data)
-      // })
-      resolve(testData.testData)
+      this.$axios.get('brand_stores/admin/all', { params }).then((resp) => {
+        resolve(resp.data)
+      })
     })
   },
   getBrandStoresPagination ({ commit }, params) {
@@ -26,10 +24,9 @@ const actions = {
   },
   getBrandStoreItem ({ commit }, id) {
     return new Promise((resolve) => {
-      resolve(testData.testData[0])
-      // this.$axios.get('brand_stores/admin/id/' + id).then((resp) => {
-      //   resolve(resp.data)
-      // })
+      this.$axios.get('brand_stores/admin/id/' + id).then((resp) => {
+        resolve(resp.data)
+      })
     })
   },
   updateBrandStoreItem ({ commit }, { id, params }) {

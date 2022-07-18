@@ -2,7 +2,7 @@
   <brand-stores-detail />
 </template>
 <script>
-import BrandStoresDetail from '@/components/BrandStores/detail'
+import BrandStoresDetail from '@/components/BrandStores/detail/index'
 import breadcrumbMixins from '@/mixins/breadcrumb'
 import brandStoresMixins from '@/mixins/brandStores'
 export default {

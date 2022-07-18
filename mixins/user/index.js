@@ -7,7 +7,8 @@ const userMixins = {
         hashed_password: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
         email: [{ required: true, message: '邮箱不能为空', trigger: 'blur' }],
         phone: [{ required: true, message: '电话不能为空', trigger: 'blur' }]
-      }
+      },
+      userOption: []
     }
   },
   computed: {
@@ -29,7 +30,7 @@ const userMixins = {
       this.loadUserPagination(params)
     },
     loadUserList (params = { query: '' }) {
-      this.$store.dispatch(this.userVuexBasePath + '/getUserData', params)
+      return this.$store.dispatch(this.userVuexBasePath + '/getUserData', params)
     },
     loadUserPagination (params = { query: '' }) {
       this.$store.dispatch(this.userVuexBasePath + '/getUserDataPagination', params)

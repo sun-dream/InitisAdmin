@@ -71,30 +71,6 @@ const ordersMixins = {
       })
       return arr
     }
-    // createOrder (params = {}) {
-    //   return this.$store.dispatch(this.orderVuexBasePath + '/createOrder', params)
-    // },
-    // loadOrderList (params = {}) {
-    //   return this.$store.dispatch(this.orderVuexBasePath + '/getOrderList', params)
-    // },
-    // updateUserOrderCancel (params = {}) {
-    //   return this.$store.dispatch(this.orderVuexBasePath + '/userOrderCancel', params)
-    // },
-    // updateUserOrderDelete (params = {}) {
-    //   return this.$store.dispatch(this.orderVuexBasePath + '/userOrderDelete', params)
-    // },
-    // userOrderPay (params = {}) {
-    //   return this.$store.dispatch(this.orderVuexBasePath + '/userOrderPay', params)
-    // },
-    // adminOrderShipment (params = {}) {
-    //   return this.$store.dispatch(this.orderVuexBasePath + '/adminOrderShipment', params)
-    // },
-    // SubmitOrderImportSource ({ source, params }) {
-    //   if (typeof source !== 'string') {
-    //     return
-    //   }
-    //   return this.$store.dispatch(this.orderVuexBasePath + '/orderImportSource', { source, params })
-    // }
   }
 }
 

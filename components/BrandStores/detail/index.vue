@@ -1,21 +1,21 @@
 <template>
   <section class="w-100 brand-store-detail-wrap">
-    <item-title text="基本信息" />
-    <item-title text="贴纸图和背景图" />
-    <item-title text="商品列表" />
+    <brand-store-info :default-data="brandStoreItem" />
+    <brand-store-file :default-data="brandStoreItem" />
+    <brand-store-table :default-data="brandStoreItem" />
   </section>
 </template>
 <script>
-import ItemTitle from './itemTitle.vue'
+import brandStoreInfo from './brandStoreInfo.vue'
+import brandStoreFile from './brandStoreFile.vue'
+import brandStoreTable from './brandStoreTable.vue'
 import brandStoresMixins from '@/mixins/brandStores'
-// import VImage from '@/baseComponents/VImage'
-// import VLink from '@/baseComponents/VLink'
 import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'BrandStoreDetails',
   components: {
     //  VImage, VLink
-    ItemTitle
+    brandStoreInfo, brandStoreFile, brandStoreTable
   },
   mixins: [brandStoresMixins],
   data () {
