@@ -1,6 +1,6 @@
 <template>
   <div :class="`${editStatus ? '':'info-wrap'}`">
-    <item-title v-if="!editStatus" text="SKU基础信息" />
+    <v-blockquote v-if="!editStatus" text="SKU基础信息" />
     <el-form ref="infoForm" :model="formInfo" :rules="rules" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="12">
@@ -82,13 +82,13 @@
 </template>
 
 <script>
-import itemTitle from './itemTitle'
+import VBlockquote from '@/baseComponents/VBlockquote'
 import VButton from '@/baseComponents/VButton'
 import VInput from '@/baseComponents/VInput'
 import skuofProductMixins from '@/mixins/product/sku'
 export default {
   name: 'SkuInfo',
-  components: { itemTitle, VButton, VInput },
+  components: { VBlockquote, VButton, VInput },
   mixins: [skuofProductMixins],
   props: {
     editStatus: {

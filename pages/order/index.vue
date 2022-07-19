@@ -17,7 +17,11 @@ export default {
   },
   mounted () {
     this.breadcrumbs = [{ text: '订单管理', cpnName: 'order' }]
-    this.getOrderData()
+    if (this.$route.query && this.$route.query.query) {
+      this.getOrderData({ query: this.$route.query.query })
+    } else {
+      this.getOrderData()
+    }
   }
 }
 </script>

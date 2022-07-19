@@ -118,19 +118,6 @@ export default {
           this.closeHandler()
           this.$refs.userFilter.closeEditFormHandler()
         })
-    //   this.updateProductCategory({
-    //     params: { ...data },
-    //     categoryId: params.id
-    //   }).then((resp) => {
-    //     this.notification({
-    //       title: '修改成功',
-    //       message: '已更新列表！',
-    //       type: 'success'
-    //     })
-    //     this.getCategoryAllData()
-    //     this.closeHandler()
-    //     this.$refs.userFilter.closeEditFormHandler()
-    //   })
     }
   }
 }

@@ -18,7 +18,7 @@
         <i class="el-icon-plus avatar-uploader-icon upload-descriptoon-icon" />
       </el-upload>
     </div>
-    <item-title text="商品详情" />
+    <v-blockquote text="商品详情" />
     <section
       ref="myQuillEditor"
       v-quill:myQuillEditor="editorOption"
@@ -44,7 +44,7 @@
 <script>
 // 工具栏配置
 // import Quill from 'quill'
-import itemTitle from './itemTitle'
+import VBlockquote from '@/baseComponents/VBlockquote'
 import createProductMixins from '@/mixins/product/createProduct'
 import VButton from '@/baseComponents/VButton'
 const toolbarOptions = [
@@ -63,7 +63,7 @@ const toolbarOptions = [
 ]
 export default {
   name: 'ProductDescription',
-  components: { VButton, itemTitle },
+  components: { VButton, VBlockquote },
   mixins: [createProductMixins],
   props: {
     editStatus: {

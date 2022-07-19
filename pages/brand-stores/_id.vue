@@ -24,7 +24,7 @@ export default {
       this.breadcrumbs = [
         { text: 'Brand Store 列表', cpnName: 'brand-stores' },
         { text: 'Brand Store 详情', cpnName: 'brand-stores-id', params: { id: this.$route.params.id } },
-        { text: this.brandStoreItem.name, cpnName: 'brand-stores-id', params: { id: this.$route.params.id } }
+        { text: this.brandStoreItem ? this.brandStoreItem.name : '-', cpnName: 'brand-stores-id', params: { id: this.$route.params.id } }
       ]
     }
   }

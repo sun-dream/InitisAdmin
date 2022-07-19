@@ -1,12 +1,13 @@
 <template>
-  <h4 class="product-info-title h4 shadowed-sm">
-    {{ text }}
+  <h4 class="product-info-title h4 shadowed-sm d-flex align-items-center justify-content-between">
+    <span>{{ text }}</span>
+    <slot />
   </h4>
 </template>
 
 <script>
 export default {
-  name: 'ItemTitle',
+  name: 'VBlockquote',
   props: {
     text: {
       type: String,

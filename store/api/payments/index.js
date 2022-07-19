@@ -21,6 +21,13 @@ const actions = {
         resolve(resp.data)
       })
     })
+  },
+  getPaymentItem ({ commit }, id) {
+    return new Promise((resolve) => {
+      this.$axios.get('payments/admin/id/' + id).then((resp) => {
+        resolve(resp.data)
+      })
+    })
   }
 }
 

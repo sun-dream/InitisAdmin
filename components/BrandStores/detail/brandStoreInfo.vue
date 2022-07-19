@@ -1,6 +1,6 @@
 <template>
   <section class="w-100 brand-store-info-wrap">
-    <item-title text="基本信息">
+    <v-blockquote text="基本信息">
       <div>
         <v-button size="mini" @click="resetForm">
           重置
@@ -9,7 +9,7 @@
           保存
         </v-button>
       </div>
-    </item-title>
+    </v-blockquote>
     <el-form ref="infoFormRef" :model="formInfo" :rules="brandStoreRules" label-width="120px">
       <el-row :gutter="20" class="detail-item">
         <el-col :span="10">
@@ -102,16 +102,16 @@
   </section>
 </template>
 <script>
-import itemTitle from '../itemTitle.vue'
 import brandStoresMixins from '@/mixins/brandStores'
 import publicUseMixins from '@/mixins/publicUse'
 import userMixins from '@/mixins/user'
 import VInput from '@/baseComponents/VInput'
 import VButton from '@/baseComponents/VButton'
+import VBlockquote from '@/baseComponents/VBlockquote'
 export default {
   name: 'BrandStoreInfo',
   components: {
-    VInput, itemTitle, VButton
+    VInput, VBlockquote, VButton
   },
   mixins: [brandStoresMixins, publicUseMixins, userMixins],
   props: {

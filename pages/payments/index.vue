@@ -13,7 +13,7 @@ export default {
   },
   mixins: [paymentsMixins, breadcrumbMixins],
   mounted () {
-    this.breadcrumbs = [{ text: '已支付订单', cpnName: 'payments' }]
+    this.breadcrumbs = [{ text: '支付订单', cpnName: 'payments' }]
     this.getPaymentsData()
   }
 }

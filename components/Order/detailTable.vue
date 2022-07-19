@@ -46,7 +46,7 @@
               </p>
             </div>
           </el-tooltip>
-          <div v-else class="">
+          <div v-else-if="!readOnlyStatus" class="">
             <v-button type="text" size="small" @click="goShipmentsHandle(scope.row)">
               去发货
             </v-button>
@@ -94,6 +94,10 @@ export default {
     orderSkus: {
       type: Array,
       default: () => []
+    },
+    readOnlyStatus: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

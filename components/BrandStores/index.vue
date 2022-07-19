@@ -1,5 +1,6 @@
 <template>
   <section class="w-100 brand-stores-wrap">
+    <brand-stores-query />
     <el-table :data="brandStoresList" border style="width: 100%" max-height="700">
       <el-table-column prop="name" label="商店名称" width="220">
         <template slot-scope="scope">
@@ -81,6 +82,7 @@
   </section>
 </template>
 <script>
+import brandStoresQuery from './brandStoresQuery.vue'
 import brandStoresMixins from '@/mixins/brandStores'
 import VImage from '@/baseComponents/VImage'
 import VLink from '@/baseComponents/VLink'
@@ -89,7 +91,7 @@ import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'BrandStores',
   components: {
-    VPaginations, VImage, VLink
+    VPaginations, VImage, VLink, brandStoresQuery
   },
   mixins: [brandStoresMixins],
   data () {

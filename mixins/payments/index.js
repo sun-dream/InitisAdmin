@@ -1,7 +1,15 @@
 const paymentsMixins = {
   data () {
     return {
-      paymentsVuexBasePath: 'logic/payments'
+      paymentsVuexBasePath: 'logic/payments',
+      paymengtStatusOption: [
+        { name: '未付款', value: 'UNPAID' },
+        { name: '已付款', value: 'PAID' },
+        { name: '失败', value: 'FAILED' },
+        { name: '取消', value: 'CANCELED' },
+        { name: '部分退款', value: 'PARTIAL_REFUNDED' },
+        { name: '退款', value: 'REFUNDED' }
+      ]
     }
   },
   computed: {
@@ -30,10 +38,16 @@ const paymentsMixins = {
     },
     getPaymentListPagination (params = { query: '' }) {
       return this.$store.dispatch(this.paymentsVuexBasePath + '/getPaymentListPagination', params)
+    },
+    getPaymentStatus (data) {
+      if (!data) {
+        return ''
+      }
+      return this.paymengtStatusOption.find(item => data === item.value)
+    },
+    getPaymentItem (id) {
+      return this.$store.dispatch(this.paymentsVuexBasePath + '/getPaymentItem', id)
     }
-    // getPaymentItem (params = {}) {
-    //   return this.$store.dispatch(this.paymentsVuexBasePath + '/getPaymentOrders', params)
-    // }
   }
 }
 

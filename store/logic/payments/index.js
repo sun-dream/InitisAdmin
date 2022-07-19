@@ -50,6 +50,17 @@ const actions = {
           })
       })
     })
+  },
+  getPaymentItem ({ state, commit, dispatch }, id = null) {
+    return new Promise((resolve) => {
+      dispatch('logic/fetching/beforeUpdateFatching', {}, { root: true }).then((_) => {
+        dispatch('api/payments/getPaymentItem', id, { root: true }).then((resp) => {
+          commit('UPDATE_PAYMENTS_ITEM', resp)
+          resolve(resp)
+          dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
+        })
+      })
+    })
   }
 }
 

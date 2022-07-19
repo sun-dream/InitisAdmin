@@ -1,6 +1,6 @@
 <template>
   <div class="upload-wrap">
-    <item-title v-if="!editStatus" text="图片管理" />
+    <v-blockquote v-if="!editStatus" text="图片管理" />
     <div class="el-upload__tip mb-2">
       只能上传
       <span class="text-danger ">.jpg/.jpeg/.png</span>
@@ -47,7 +47,7 @@
 
 <script>
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
-import itemTitle from './itemTitle'
+import VBlockquote from '@/baseComponents/VBlockquote'
 import skuofProductMixins from '@/mixins/product/sku'
 import VButton from '@/baseComponents/VButton'
 import VImage from '@/baseComponents/VImage'
@@ -55,7 +55,7 @@ import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'SkuImages',
   // eslint-disable-next-line vue/no-unused-components
-  components: { VButton, itemTitle, VImage, ElImageViewer },
+  components: { VButton, VBlockquote, VImage, ElImageViewer },
   mixins: [skuofProductMixins],
   props: {
     editStatus: {

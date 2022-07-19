@@ -1,6 +1,6 @@
 <template>
   <div :class="editStatus?'info-wrap-edit':'info-wrap'">
-    <item-title text="基本信息" />
+    <v-blockquote text="基本信息" />
     <el-form ref="infoForm" :model="formInfo" :rules="rules" label-width="120px">
       <el-row :gutter="20">
         <el-col :span="24">
@@ -65,14 +65,14 @@
 </template>
 
 <script>
-import itemTitle from './itemTitle'
+import VBlockquote from '@/baseComponents/VBlockquote'
 import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
 import VButton from '@/baseComponents/VButton'
 export default {
   name: 'ProductInfo',
-  components: { VButton, itemTitle },
+  components: { VButton, VBlockquote },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
     editStatus: {

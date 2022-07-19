@@ -1,6 +1,6 @@
 <template>
   <section class="w-100 brand-store-table-wrap">
-    <item-title :text="`商品列表 -（${tables.length}）个商品`" />
+    <v-blockquote :text="`商品列表 -（${tables.length}）个商品`" />
     <el-table :data="tables" border size="small" max-height="660">
       <el-table-column prop="name" label="图片" width="60">
         <template slot-scope="scope">
@@ -44,10 +44,9 @@
   </section>
 </template>
 <script>
-import itemTitle from '../itemTitle.vue'
+import VBlockquote from '@/baseComponents/VBlockquote'
 import brandStoresMixins from '@/mixins/brandStores'
 import publicUseMixins from '@/mixins/publicUse'
-// import VLink from '@/baseComponents/VLink'
 import VImage from '@/baseComponents/VImage'
 import VButton from '@/baseComponents/VButton'
 // import * as mUtils from '@/assets/utils/mUtils'
@@ -55,8 +54,7 @@ import uploadFilesMixins from '@/mixins/uploadFiles'
 export default {
   name: 'BrandStoreTable',
   components: {
-    itemTitle, VImage, VButton
-    // VLink,
+    VBlockquote, VImage, VButton
   },
   mixins: [brandStoresMixins, publicUseMixins, uploadFilesMixins],
   props: {

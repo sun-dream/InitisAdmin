@@ -1,6 +1,6 @@
 <template>
   <div v-if="order.id" class="order-detail-wrap">
-    <item-title text="订单详情" />
+    <v-blockquote text="订单详情" />
     <el-row :gutter="20" class="detail-item">
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">订单id:</span>{{ order.id || '-' }}
@@ -22,7 +22,7 @@
         {{ order.note }}
       </el-col>
     </el-row>
-    <item-title text="收件人信息" />
+    <v-blockquote text="收件人信息" />
     <el-row v-if="order.address_id" :gutter="20" class="detail-item">
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">姓名:</span>
@@ -53,11 +53,11 @@
         {{ order.address.address2 }}
       </el-col>
     </el-row>
-    <item-title text="订购商品" />
+    <v-blockquote text="订购商品" />
     <el-row v-if="order.order_skus && Array.isArray(order.order_skus)" :gutter="20" class="detail-item px-4">
       <detail-table :order-skus="order.order_skus" />
     </el-row>
-    <item-title text="卖家信息" />
+    <v-blockquote text="卖家信息" />
     <el-row v-if="order.merchant_id" :gutter="20" class="detail-item">
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">名称:</span>{{ order.merchant.full_name || '-' }}
@@ -73,7 +73,7 @@
         {{ order.merchant.phone || '-' }}
       </el-col>
     </el-row>
-    <item-title text="客户信息" />
+    <v-blockquote text="客户信息" />
     <el-row v-if="order.customer_id" :gutter="20" class="detail-item">
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">名称:</span>{{ order.customer.full_name || '-' }}
@@ -89,7 +89,7 @@
         {{ order.customer.phone || '-' }}
       </el-col>
     </el-row>
-    <item-title text="店铺信息" />
+    <v-blockquote text="店铺信息" />
     <el-row v-if="order.brand_store_id" :gutter="20" class="detail-item">
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">名称:</span>{{ order.brand_store.name || '-' }}
@@ -118,15 +118,15 @@
   </div>
 </template>
 <script>
-import itemTitle from './itemTitle'
 import detailTable from './detailTable'
+import VBlockquote from '@/baseComponents/VBlockquote'
 import ordersMixins from '@/mixins/orders'
 import * as mUtils from '@/assets/utils/mUtils'
 import publicUseMixins from '@/mixins/publicUse'
 export default {
   name: 'OrdertDetail',
   components: {
-    itemTitle, detailTable
+    VBlockquote, detailTable
   },
   mixins: [ordersMixins, publicUseMixins],
   data () {

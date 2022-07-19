@@ -1,6 +1,6 @@
 <template>
   <div class="upload-wrap">
-    <item-title text="商品视频" />
+    <v-blockquote text="商品视频" />
     <div class="el-upload__tip">
       只能上传
       <span class="text-danger ">.mp4</span>
@@ -28,7 +28,7 @@
         您的浏览器不支持Video标签。
       </video>
     </div>
-    <item-title text="商品主图" />
+    <v-blockquote text="商品主图" />
     <template v-for="(value,key) in imageIds">
       <el-upload
         :key="key"
@@ -64,7 +64,7 @@
 
 <script>
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
-import itemTitle from './itemTitle'
+import VBlockquote from '@/baseComponents/VBlockquote'
 import createProductMixins from '@/mixins/product/createProduct'
 import categoryMixins from '@/mixins/product/category'
 import publicUseMixins from '@/mixins/publicUse'
@@ -77,7 +77,7 @@ import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'UploadProductFiles',
   // eslint-disable-next-line vue/no-unused-components
-  components: { VButton, itemTitle, VImage, ElImageViewer },
+  components: { VButton, VBlockquote, VImage, ElImageViewer },
   mixins: [createProductMixins, categoryMixins, publicUseMixins],
   props: {
     editStatus: {

@@ -1,6 +1,6 @@
 <template>
   <section class="w-100 brand-store-file-wrap">
-    <item-title text="贴纸图和背景图">
+    <v-blockquote text="贴纸图和背景图">
       <div>
         <v-button size="mini" @click="resetForm">
           重置
@@ -9,7 +9,7 @@
           保存
         </v-button>
       </div>
-    </item-title>
+    </v-blockquote>
     <el-row :gutter="20" class="detail-item mb-2">
       <template v-for="(item,key) in brandStorefiles">
         <el-col :key="key" :span="6" class="">
@@ -41,18 +41,16 @@
   </section>
 </template>
 <script>
-import itemTitle from '../itemTitle.vue'
 import brandStoresMixins from '@/mixins/brandStores'
 import publicUseMixins from '@/mixins/publicUse'
 import VButton from '@/baseComponents/VButton'
 import VImage from '@/baseComponents/VImage'
+import VBlockquote from '@/baseComponents/VBlockquote'
 // import * as mUtils from '@/assets/utils/mUtils'
 import uploadFilesMixins from '@/mixins/uploadFiles'
 export default {
   name: 'BrandStoreFile',
-  components: {
-    itemTitle, VButton, VImage
-  },
+  components: { VButton, VImage, VBlockquote },
   mixins: [brandStoresMixins, publicUseMixins, uploadFilesMixins],
   props: {
     defaultData: {

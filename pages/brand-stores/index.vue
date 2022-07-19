@@ -14,7 +14,11 @@ export default {
   mixins: [brandStoresMixins, breadcrumbMixins],
   mounted () {
     this.breadcrumbs = [{ text: 'Brand Store 列表', cpnName: 'brand-stores' }]
-    this.getBrandStoresData()
+    if (this.$route.query && this.$route.query.query) {
+      this.getBrandStoresData({ query: this.$route.query.query })
+    } else {
+      this.getBrandStoresData()
+    }
   }
 }
 </script>
