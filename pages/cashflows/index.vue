@@ -1,15 +1,14 @@
 <template>
-  <!-- <all-user /> -->
-  <div />
+  <cashflows />
 </template>
 <script>
-// import AllUser from '@/components/AllUser'
+import Cashflows from '@/components/Cashflows'
 import breadcrumbMixins from '@/mixins/breadcrumb'
 import casbflowsMixins from '@/mixins/cashflows'
 export default {
   name: 'CashflowsPage',
   components: {
-    // AllUser
+    Cashflows
   },
   mixins: [casbflowsMixins, breadcrumbMixins],
   mounted () {

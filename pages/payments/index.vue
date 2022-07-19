@@ -14,7 +14,11 @@ export default {
   mixins: [paymentsMixins, breadcrumbMixins],
   mounted () {
     this.breadcrumbs = [{ text: '支付订单', cpnName: 'payments' }]
-    this.getPaymentsData()
+    if (this.$route.query && this.$route.query.query) {
+      this.getPaymentsData({ query: this.$route.query.query })
+    } else {
+      this.getPaymentsData()
+    }
   }
 }
 </script>

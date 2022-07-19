@@ -1,7 +1,11 @@
 const cashflowsMixins = {
   data () {
     return {
-      cashflowsVuexBasePath: 'logic/cashflows'
+      cashflowsVuexBasePath: 'logic/cashflows',
+      cashflowsTypeOption: [
+        { name: '商户销售收入', value: 'MERCHANT_SALE_INCOME' },
+        { name: '平台收入', value: 'PLATFORM_INCOME' }
+      ]
     }
   },
   computed: {
@@ -18,6 +22,12 @@ const cashflowsMixins = {
     }
   },
   methods: {
+    getCashflowsType (data) {
+      if (!data) {
+        return ''
+      }
+      return this.cashflowsTypeOption.find(item => data === item.value)
+    },
     getCashflowsData (params = { query: this.cashflowsQuery }) {
       this.loadCashflowList(params)
       this.getCashflowPagination(params)
