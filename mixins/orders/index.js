@@ -1,21 +1,6 @@
 const ordersMixins = {
   data () {
     return {
-      orderStatusFilters: [
-        { name: 'All Orders', value: 'ALL', zhName: '全部', isAdmin: false },
-        { name: 'Awaiting Payment', value: 'UNPAID', zhName: '待付款', isAdmin: false },
-        { name: 'Awaiting Shipment', value: 'SHIPMENT', zhName: '待装运', isAdmin: false },
-        { name: 'Cancelled', value: 'CANCELLED', zhName: '取消', isAdmin: false },
-        { name: 'Completed', value: 'COMPLETED', zhName: '完成', isAdmin: false }
-      ],
-      orderStatusFiltersAdmin: [
-        { name: 'NORMAL', value: 'NORMAL', zhName: '正常', isAdmin: true },
-        // { name: 'PENDING', value: 'PENDING', zhName: '待付款', isAdmin: true },
-        { name: 'FULFILLED', value: 'FULFILLED', zhName: '已发货', isAdmin: true },
-        { name: 'CANCEL', value: 'CANCEL', zhName: '取消', isAdmin: true },
-        { name: 'CLOSE', value: 'CLOSE', zhName: '关闭', isAdmin: true },
-        { name: 'DELETE', value: 'DELETE', zhName: '删除', isAdmin: true }
-      ],
       orderSkuStatusOption: [
         { name: '未付款', value: 'UNPAID' },
         { name: '付款失败', value: 'FAILED' },
@@ -58,9 +43,7 @@ const ordersMixins = {
       if (!data) {
         return ''
       }
-      const checkedStatus = this.orderSkuStatusOption.find(item => data === item.value)
-      return checkedStatus
-      // this.orderSkuStatusOption.filter = ()
+      return this.orderSkuStatusOption.find(item => data === item.value)
     },
     getOrderSkuUndeliveredQuantity  (data) {
       const arr = []

@@ -61,6 +61,20 @@ const actions = {
         })
       })
     })
+  },
+  updateRefundRequests ({ state, commit, dispatch }, { params, id }) {
+    return new Promise((resolve, reject) => {
+      dispatch('logic/fetching/beforeUpdateFatching', params, { root: true }).then((_) => {
+        dispatch('api/refundReuqests/updateRefundRequest', { params, id }, { root: true })
+          .then((resp) => {
+            dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
+            resolve(resp)
+          }).catch((error) => {
+            dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
+            reject(error)
+          })
+      })
+    })
   }
 }
 

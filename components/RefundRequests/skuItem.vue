@@ -19,22 +19,22 @@
         {{ defaultData.final_price||'-' }}
       </p>
       <p class="sku-info-item">
-        购买日期：
-        <i class="el-icon-time" />
-        {{ getDate(defaultData.create_at)||'-' }}
+        状态：
+        {{ getOrderskuStatus(defaultData.status)['name']||'-' }}
       </p>
     </div>
   </div>
 </template>
 <script>
 import publicUseMixins from '@/mixins/publicUse'
+import ordersMixins from '@/mixins/orders'
 import VImage from '@/baseComponents/VImage'
 import * as mUtils from '@/assets/utils/mUtils'
 import VLink from '@/baseComponents/VLink'
 export default {
   name: 'SkuItem',
   components: { VImage, VLink },
-  mixins: [publicUseMixins],
+  mixins: [publicUseMixins, ordersMixins],
   props: {
     defaultData: {
       type: Object,
@@ -82,7 +82,7 @@ export default {
     height: 60px;
   }
   .sku-info{
-    width: 150px;
+    width: 130px;
     margin-left: 10px;
   }
   .sku-info-item{

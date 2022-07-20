@@ -4,27 +4,36 @@ const refundRequestsMixins = {
       refundRequestsVuexBasePath: 'logic/refundReuqests',
       refundRequestsStatusOption: [
         { name: '待定', value: 'PENDING' },
-        { name: '已退款', value: 'REFUNDED' },
-        { name: '已拒绝', value: 'REJECTED ' },
-        { name: '已取消', value: 'CANCELLED ' }
-      ]
+        { name: '确认退款', value: 'REFUNDED' },
+        { name: '拒绝退款', value: 'REJECTED' },
+        { name: '取消退款', value: 'CANCELLED' }
+      ],
+      refundRequestsRefundReasonOption: [
+        { name: '客户要求', value: 'requested_by_customer ' },
+        { name: '欺诈/诈骗', value: 'fraudulent' },
+        { name: '重复申请', value: 'duplicate' }
+      ],
+      refundRules: {}
     }
   },
   computed: {
     refundRequestList () {
       return this.$store.getters[this.refundRequestsVuexBasePath + '/refundreQuestsList']
     },
+    refundRequestItem () {
+      return this.$store.getters[this.refundRequestsVuexBasePath + '/refundrequestsItem']
+    },
     refundRequestQuery: {
       get () {
         return this.$store.getters[this.refundRequestsVuexBasePath + '/refundrequestsQuery']
       },
       set (val) {
-        this.$store.commit(this.refundRequestsVuexBasePath + '/UPDATE_REFUND_REQUESTS_ITEM', val)
+        this.$store.commit(this.refundRequestsVuexBasePath + '/UPDATE_REFUND_REQUESTS_QUERY', val)
       }
     }
   },
   methods: {
-    getRefundRequestsData (params = { query: this.paymentsQuery }) {
+    getRefundRequestsData (params = { query: this.refundRequestQuery }) {
       this.loadRefundRequestsList(params)
       this.getRefundRequestsPagination(params)
     },
@@ -42,6 +51,9 @@ const refundRequestsMixins = {
         return ''
       }
       return this.refundRequestsStatusOption.find(item => data === item.value)
+    },
+    updateRefundRequests ({ id, params }) {
+      return this.$store.dispatch(this.refundRequestsVuexBasePath + '/updateRefundRequests', { id, params })
     }
   }
 }
