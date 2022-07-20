@@ -1,5 +1,5 @@
 <template>
-  <el-aside :width="isCollapse?'auto':'120px'" class="pos-r">
+  <el-aside :width="isCollapse?'auto':'160px'" class="pos-r">
     <el-menu
       :default-active="defaultActive"
       class="el-menu-vertical-demo h-100"
@@ -50,7 +50,8 @@ export default {
         { name: '已支付订单', index: 'payments', menuIcon: 'el-icon-s-ticket', menuText: '已支付订单', cpn: 'payments' },
         { name: '所有用户', index: 'all-user', menuIcon: 'el-icon-user', menuText: '所有用户', cpn: 'all-user' },
         { name: 'Brand Store', index: 'brand-stores', menuIcon: 'el-icon-s-shop', menuText: 'Brand Store', cpn: 'brand-stores' },
-        { name: '资金流水', index: 'cashflows', menuIcon: 'el-icon-receiving', menuText: '资金流水', cpn: 'cashflows' }
+        { name: '资金流水', index: 'cashflows', menuIcon: 'el-icon-bank-card', menuText: '资金流水', cpn: 'cashflows' },
+        { name: '退款管理', index: 'refund-requests', menuIcon: 'el-icon-document-remove', menuText: '退款管理', cpn: 'refund-requests' }
       ]
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <section class="w-100 user-wrap">
-    <cashflows-query />
-    <el-table :data="cashflowsList" border size="small" max-height="700">
+    <!-- <cashflows-query /> -->
+    <el-table :data="refundRequestList" border size="small" max-height="700">
       <el-table-column prop="full_name" label="来源" width="220">
         <template slot-scope="scope">
           <el-tooltip class="item" effect="dark" placement="top-start">
@@ -52,32 +52,28 @@
           {{ getDate(scope.row.create_at) }}
         </template>
       </el-table-column>
-      <el-table-column prop="type" label="收入方式" min-width="140">
-        <template slot-scope="scope">
-          {{ getCashflowsType(scope.row.type)['name'] }}
-        </template>
-      </el-table-column>
+      <el-table-column prop="type" label="收入方式" min-width="140" />
     </el-table>
     <v-paginations
-      :vuex-path="cashflowsVuexBasePath"
+      :vuex-path="refundRequestsVuexBasePath"
       algin-right
       @pageChange="pageChangeHandler"
     />
   </section>
 </template>
 <script>
-import cashflowsQuery from './cashflowsQuery.vue'
-import cashflowsMixins from '@/mixins/cashflows'
+// import cashflowsQuery from './cashflowsQuery.vue'
+import refundRequestsMixins from '@/mixins/refundReuqests'
 import publicUseMixins from '@/mixins/publicUse'
 import VLink from '@/baseComponents/VLink'
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
 export default {
-  name: 'CashflowsList',
+  name: 'RefundRequests',
   components: {
-    VPaginations, VLink, cashflowsQuery
+    VPaginations, VLink
   },
-  mixins: [cashflowsMixins, publicUseMixins],
+  mixins: [refundRequestsMixins, publicUseMixins],
   data () {
     return {
       userDialog: false,
@@ -96,7 +92,7 @@ export default {
   },
   methods: {
     pageChangeHandler () {
-      this.getCashflowsData()
+      this.getRefundRequestsData()
     }
   }
 }
