@@ -54,7 +54,7 @@
       </el-table-column>
       <el-table-column prop="type" label="收入方式" min-width="140">
         <template slot-scope="scope">
-          {{ getCashflowsType(scope.row.type)['name'] }}
+          {{ getCashflowsType(scope.row.type)['name'] ||'-' }}
         </template>
       </el-table-column>
     </el-table>

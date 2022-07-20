@@ -46,7 +46,7 @@
     </el-table-column>
     <el-table-column prop="status" label="状态" width="90">
       <template slot-scope="scope">
-        {{ getOrderskuStatus(scope.row.status).name }}
+        {{ getOrderskuStatus(scope.row.status).name ||'-' }}
       </template>
     </el-table-column>
   </el-table>

@@ -31,7 +31,7 @@
       </el-table-column>
       <el-table-column prop="status" label="状态" width="110">
         <template slot-scope="scope">
-          {{ getOrderskuStatus(scope.row.status).name }}
+          {{ getOrderskuStatus(scope.row.status).name ||'-' }}
         </template>
       </el-table-column>
       <el-table-column prop="status" label="发货信息" min-width="220">
@@ -42,7 +42,7 @@
               <p>发货时间：{{ scope.row.shipment.ship_at }}</p>
               <p class="d-flex align-items-center justify-content-between">
                 <span>预计到达天数：{{ scope.row.shipment.estimated_arrival_days }}</span>
-                <span>运送方式：{{ getShipmentsMethod(scope.row.shipment.method).name }}</span>
+                <span>运送方式：{{ getShipmentsMethod(scope.row.shipment.method).name||'-' }}</span>
               </p>
             </div>
           </el-tooltip>

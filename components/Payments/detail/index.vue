@@ -12,7 +12,7 @@
       </el-col>
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">状态:</span>
-        {{ getPaymentStatus(payment.status)['name'] }}
+        {{ getPaymentStatus(payment.status)['name'] ||'-' }}
       </el-col>
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">付款方式:</span>{{ payment.payment_method }}

@@ -24,7 +24,7 @@
       </el-table-column>
       <el-table-column prop="status" label="状态" width="80">
         <template slot-scope="scope">
-          {{ getBrandStoresStatus(scope.row.status)['name'] }}
+          {{ getBrandStoresStatus(scope.row.status)['name']||'-' }}
         </template>
       </el-table-column>
 

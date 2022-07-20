@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column prop="status" label="状态" width="100">
         <template slot-scope="scope">
-          {{ getPaymentStatus(scope.row.status)['name'] }}
+          {{ getPaymentStatus(scope.row.status)['name']||'-' }}
         </template>
       </el-table-column>
       <el-table-column prop="payment_method" label="付款方式" width="100" />
