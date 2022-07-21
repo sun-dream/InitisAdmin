@@ -42,7 +42,6 @@ const mutations = {
     state.isLoggedIn = false
   },
   SAVE_USER_DATA (state, val) {
-    console.log('SAVE_USER_DATA: ', val)
     state.user = val
     if (val) {
       state.isLoggedIn = true

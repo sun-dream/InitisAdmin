@@ -35,7 +35,7 @@ const loginMixins = {
   methods: {
     login ({ username, password }) {
       return new Promise((resolve, reject) => {
-        this.$store.dispatch('api/auth/login', { username, password })
+        this.$store.dispatch('api/auth/login', { email: username, password })
           .then((resp) => {
             this.$cookies.set('token', resp.token)
             localStorage.setItem('token', resp.token)

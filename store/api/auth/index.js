@@ -8,10 +8,10 @@ const getters = {
 const mutations = {
 }
 const actions = {
-  login ({ commit }, { username, password }) {
-    return new Promise((resolve,reject) => {
+  login ({ commit }, { email, password }) {
+    return new Promise((resolve, reject) => {
       this.$axios.post('users/login', {
-        username, password
+        email, password
       }).then((resp) => {
         resolve(resp.data)
       }).catch((err) => {
@@ -26,7 +26,7 @@ const actions = {
       })
     })
   },
-  email ({ commit }, { email,type = 'REGISTER' }) {
+  email ({ commit }, { email, type = 'REGISTER' }) {
     return new Promise((resolve) => {
       this.$axios.post('users/send_email', {
         email, type
@@ -42,12 +42,11 @@ const actions = {
       })
     })
   },
- 
+
   logout ({ commit }) {
     return this.$axios.post('logout', {
     })
   },
-
 
   getClientsOptions ({ commit }, { phone, password = null, confirmedResultCode = null }) {
     return new Promise((resolve, reject) => {
@@ -60,7 +59,7 @@ const actions = {
       })
     })
   },
- 
+
   createClient ({ commit }, { name }) {
     return new Promise((resolve) => {
       this.$axios.post('create_client', {
