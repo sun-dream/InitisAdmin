@@ -1,6 +1,6 @@
 <template>
   <el-image :src="src" fit="cover" class="w-100 v-image " v-bind="$attrs" v-on="$listeners">
-    <div slot="placeholder" class="image-slot">
+    <div slot="placeholder" class="image-slot text-center w-100">
       <i class="el-icon-loading" />
     </div>
     <el-image slot="error" fit="contain" :src="errorSrc" />
@@ -35,7 +35,11 @@ export default {
   font-size:0
 }
 .image-slot{
+
   i{
+    // display: inline-block;
+    // transform: translateX(-50%);
+      // vertical-align:middle;
     font-size: 30px;
   }
 }
