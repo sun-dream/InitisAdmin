@@ -1,6 +1,10 @@
 <template>
   <div v-if="refundRequestItem&&refundRequestItem.id" class="detail-wrap">
-    <v-blockquote text="退款订单" />
+    <v-blockquote text="退款订单">
+      <v-button type="primary" size="small" @click="openHandler">
+        更新退款状态
+      </v-button>
+    </v-blockquote>
     <el-row :gutter="20" class="detail-item">
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">订单id:</span>{{ refundRequestItem.id || '-' }}
@@ -67,6 +71,7 @@
         </div>
       </el-col>
     </el-row>
+    <update-refund-dialog :show.sync="updateRefundVisible" :default-data="refundRequestItem" detail-status />
   </div>
   <div v-else class="text-center text-info">
     未检测到所属信息
@@ -77,6 +82,8 @@
 
 import VLink from '../../baseComponents/VLink.vue'
 import VImage from '../../baseComponents/VImage.vue'
+import VButton from '../../baseComponents/VButton.vue'
+import updateRefundDialog from './updateRefundDialog'
 import ordersMixins from '@/mixins/orders'
 import publicUseMixins from '@/mixins/publicUse'
 import refundRequestsMixins from '@/mixins/refundReuqests'
@@ -85,7 +92,7 @@ import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'RefundRequestsDetail',
   components: {
-    VBlockquote, VLink, VImage
+    VBlockquote, VLink, VImage, VButton, updateRefundDialog
   },
   mixins: [refundRequestsMixins, publicUseMixins, ordersMixins],
   props: {
@@ -93,7 +100,8 @@ export default {
   data () {
     return {
       refundReque: {},
-      piclength: 5
+      piclength: 5,
+      updateRefundVisible: false
     }
   },
   computed: {
@@ -126,6 +134,9 @@ export default {
   watch: {
   },
   methods: {
+    openHandler () {
+      this.updateRefundVisible = true
+    }
   }
 }
 </script>

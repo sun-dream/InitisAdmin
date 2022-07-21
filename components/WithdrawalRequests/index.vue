@@ -1,7 +1,7 @@
 <template>
   <section class="w-100 refund-wrap">
-    <refund-requests-query />
-    <el-table :data="refundRequestList" border size="small" max-height="700">
+    <!-- <refund-requests-query /> -->
+    <el-table :data="withdrawalRequestsList" border size="small" max-height="700">
       <el-table-column prop="user_id" label="客户" width="220">
         <template slot-scope="scope">
           <div v-if="scope.row.user_id" class="customer-user-wrap">
@@ -11,11 +11,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="target_platform_wallet_id" label="退款商品" width="220">
-        <template slot-scope="scope">
-          <sku-item :default-data="getOrderSku(scope.row)" />
-        </template>
-      </el-table-column>
+
       <el-table-column prop="status" label="状态" width="100">
         <template slot-scope="scope">
           {{ getRefundRequestsStatus(scope.row.status).name||'-' }}
@@ -49,38 +45,34 @@
       </el-table-column>
       <el-table-column prop="name" label="操作" width="120">
         <template slot-scope="scope">
-          <v-button type="text" size="small" @click="openHandler(scope.row)">
+          <!-- <v-button type="text" size="small" @click="openHandler(scope.row)">
             退款
-          </v-button>
-          <v-button type="text" size="small" @click="jumpTo({ name:'refund-requests-id', params: {id:scope.row.id} })">
+          </v-button> -->
+          <v-button type="text" size="small" @click="()=>{console.log(scope.row)}">
             详情
           </v-button>
         </template>
       </el-table-column>
     </el-table>
     <v-paginations
-      :vuex-path="refundRequestsVuexBasePath"
+      :vuex-path="withdrawalRequestsVuexBasePath"
       algin-right
-      @pageChange="pageChangeHandler"
+      @pageChange="getWithdrawalRequestsData()"
     />
-    <update-refund-dialog :show.sync="updateRefundVisible" :default-data="selectTableCellData" />
   </section>
 </template>
 <script>
 import VButton from '../../baseComponents/VButton.vue'
-import skuItem from './skuItem'
-import updateRefundDialog from './updateRefundDialog'
-import refundRequestsQuery from './refundRequestsQuery'
-import refundRequestsMixins from '@/mixins/refundReuqests'
+import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
 import publicUseMixins from '@/mixins/publicUse'
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'RefundRequests',
   components: {
-    VPaginations, skuItem, VButton, updateRefundDialog, refundRequestsQuery
+    VPaginations, VButton
   },
-  mixins: [refundRequestsMixins, publicUseMixins],
+  mixins: [withdrawalRequestsMixins, publicUseMixins],
   data () {
     return {
       updateRefundVisible: false,
@@ -92,15 +84,6 @@ export default {
       return function (val) {
         return mUtils.formatDate(val, 3)
       }
-    },
-    getOrderSku (row) {
-      return function (row) {
-        if (row.order_sku && row.order_sku_id) {
-          return row.order_sku
-        } else {
-          return {}
-        }
-      }
     }
   },
   mounted () {
@@ -109,9 +92,6 @@ export default {
     openHandler (row) {
       this.selectTableCellData = row
       this.updateRefundVisible = true
-    },
-    pageChangeHandler () {
-      this.getRefundRequestsData()
     }
   }
 }

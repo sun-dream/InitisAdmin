@@ -11,13 +11,13 @@
       <template v-for="(menuItem, i) in menuData">
         <el-menu-item
           :key="i"
-          :index="menuItem.index"
+          :index="menuItem.cpnName"
           class="Level-one-menu"
         >
-          <v-link :name="menuItem.cpn" class="leftMenuLink">
+          <v-link :name="menuItem.cpnName" class="leftMenuLink">
             <i v-if="menuItem.menuIcon" :class="menuItem.menuIcon" class="mx-0 nav-icon my-0" />
             <div v-else class="mx-0 nav-icon my-0">
-              {{ menuItem.menuText }}
+              {{ menuItem.name }}
             </div>
           </v-link>
           <span slot="title">
@@ -43,15 +43,16 @@ export default {
       isCollapse: true,
       // defaultActive: '',
       menuData: [
-        { name: '商品管理', index: 'all-product', menuIcon: 'el-icon-folder', menuText: '商品管理', cpn: 'all-product' },
-        { name: '创建商品', index: 'create-product', menuIcon: 'el-icon-folder-add', menuText: '创建商品', cpn: 'create-product' },
-        { name: '分类管理', index: 'category', menuIcon: 'el-icon-paperclip', menuText: '分类管理', cpn: 'category' },
-        { name: '订单管理', index: 'order', menuIcon: 'el-icon-s-order', menuText: '订单管理', cpn: 'order' },
-        { name: '已支付订单', index: 'payments', menuIcon: 'el-icon-s-ticket', menuText: '已支付订单', cpn: 'payments' },
-        { name: '所有用户', index: 'all-user', menuIcon: 'el-icon-user', menuText: '所有用户', cpn: 'all-user' },
-        { name: 'Brand Store', index: 'brand-stores', menuIcon: 'el-icon-s-shop', menuText: 'Brand Store', cpn: 'brand-stores' },
-        { name: '资金流水', index: 'cashflows', menuIcon: 'el-icon-bank-card', menuText: '资金流水', cpn: 'cashflows' },
-        { name: '退款管理', index: 'refund-requests', menuIcon: 'el-icon-document-remove', menuText: '退款管理', cpn: 'refund-requests' }
+        { name: '商品管理', menuIcon: 'el-icon-folder', cpnName: 'all-product' },
+        { name: '创建商品', menuIcon: 'el-icon-folder-add', cpnName: 'create-product' },
+        { name: '分类管理', menuIcon: 'el-icon-paperclip', cpnName: 'category' },
+        { name: '订单管理', menuIcon: 'el-icon-s-order', cpnName: 'order' },
+        { name: '已支付订单', menuIcon: 'el-icon-s-ticket', cpnName: 'payments' },
+        { name: '所有用户', menuIcon: 'el-icon-user', cpnName: 'all-user' },
+        { name: 'Brand Store', menuIcon: 'el-icon-s-shop', cpnName: 'brand-stores' },
+        { name: '资金流水', menuIcon: 'el-icon-bank-card', cpnName: 'cashflows' },
+        { name: '退款管理', menuIcon: 'el-icon-document-remove', cpnName: 'refund-requests' },
+        { name: '提现管理', menuIcon: 'el-icon-s-finance', cpnName: 'withdrawal-requests' }
       ]
     }
   },

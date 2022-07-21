@@ -12,10 +12,12 @@ export default {
   },
   mixins: [refundRequestsMixins, breadcrumbMixins],
   mounted () {
-    this.breadcrumbs = [{ text: '退款管理', cpnName: 'refund-requests' }]
+    const arr = [{ text: '退款管理', cpnName: 'refund-requests' }]
     if (this.$route.params && this.$route.params.id) {
+      arr.push({ text: '退款详情', cpnName: 'refund-requests-id', params: { id: this.$route.params.id } })
       this.getRefundRequestsItem(this.$route.params.id)
     }
+    this.breadcrumbs = arr
   }
 }
 </script>

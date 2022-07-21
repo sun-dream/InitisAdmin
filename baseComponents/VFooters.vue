@@ -109,7 +109,7 @@ export default {
   }
 .support-address img{
     display: inline-block;
-    margin-right: 40px;
+    margin-right: 20px;
     width: 80px;
 }
 .support-address img:last-child{

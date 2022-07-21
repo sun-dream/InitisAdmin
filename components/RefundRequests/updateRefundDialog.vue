@@ -57,6 +57,10 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    detailStatus: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -96,7 +100,11 @@ export default {
       this.notification({ title: '提示', message: '正在更新退款信息', type: 'warning' })
       this.updateRefundRequests({ id: this.defaultData.id, params })
         .then((resp) => {
-          this.getRefundRequestsData()
+          if (this.detailStatus) {
+            this.getRefundRequestsItem(this.$route.params.id)
+          } else {
+            this.getRefundRequestsData()
+          }
           this.closeHandler()
           this.notification({ title: '提示', message: '更新退款完成', type: 'success' })
         })

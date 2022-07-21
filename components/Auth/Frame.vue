@@ -8,8 +8,8 @@
         :xs="24"
         :sm="24"
         :md="24"
-        :lg="16"
-        :xl="16"
+        :lg="24"
+        :xl="24"
         class="h-100 d-flex justify-center align-center the-frame-wrap"
       >
         <section class="main-card">
@@ -24,7 +24,7 @@
           </div>
         </section>
       </el-col>
-      <el-col
+      <!-- <el-col
         :xs="24"
         :sm="24"
         :md="24"
@@ -33,7 +33,7 @@
         class="d-none d-sm-none d-md-none d-lg-flex justify-center align-center img-warp"
       >
         <img src="../../static/Login-large@2x.png">
-      </el-col>
+      </el-col> -->
     </el-row>
   </main>
 </template>
@@ -88,7 +88,7 @@ export default {
     font-size: 21px;
     line-height: 28px;
     color: #333333;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 }
 .title-toobar {
