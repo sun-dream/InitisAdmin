@@ -2,13 +2,11 @@
   <section class="w-100 refund-wrap">
     <refund-requests-query />
     <el-table :data="refundRequestList" border size="small" max-height="700">
-      <el-table-column prop="user_id" label="客户" width="220">
+      <el-table-column prop="user_id" label="客户ID" width="140">
         <template slot-scope="scope">
-          <div v-if="scope.row.user_id" class="customer-user-wrap">
-            <p>名字：{{ scope.row.user_id||'-' }}</p>
-            <p>电话：{{ scope.row.user_id||'-' }}</p>
-            <p>邮箱：{{ scope.row.user_id||'-' }}</p>
-          </div>
+          <v-link name="all-user" :query="{query:scope.row.user_id}">
+            {{ scope.row.user_id||'-' }}
+          </v-link>
         </template>
       </el-table-column>
       <el-table-column prop="target_platform_wallet_id" label="退款商品" width="220">
@@ -49,7 +47,7 @@
       </el-table-column>
       <el-table-column prop="name" label="操作" width="120">
         <template slot-scope="scope">
-          <v-button type="text" size="small" @click="openHandler(scope.row)">
+          <v-button v-if="scope.row.status==='PENDING'" type="text" size="small" @click="openHandler(scope.row)">
             退款
           </v-button>
           <v-button type="text" size="small" @click="jumpTo({ name:'refund-requests-id', params: {id:scope.row.id} })">
@@ -68,6 +66,7 @@
 </template>
 <script>
 import VButton from '../../baseComponents/VButton.vue'
+import VLink from '../../baseComponents/VLink.vue'
 import skuItem from './skuItem'
 import updateRefundDialog from './updateRefundDialog'
 import refundRequestsQuery from './refundRequestsQuery'
@@ -78,7 +77,7 @@ import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'RefundRequests',
   components: {
-    VPaginations, skuItem, VButton, updateRefundDialog, refundRequestsQuery
+    VPaginations, skuItem, VButton, VLink, updateRefundDialog, refundRequestsQuery
   },
   mixins: [refundRequestsMixins, publicUseMixins],
   data () {

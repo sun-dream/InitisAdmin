@@ -3,10 +3,10 @@ const refundRequestsMixins = {
     return {
       refundRequestsVuexBasePath: 'logic/refundReuqests',
       refundRequestsStatusOption: [
-        { name: '待定', value: 'PENDING' },
+        { name: '待定', value: 'PENDING', disabled: true },
         { name: '确认退款', value: 'REFUNDED' },
         { name: '拒绝退款', value: 'REJECTED' },
-        { name: '取消退款', value: 'CANCELLED' }
+        { name: '取消退款', value: 'CANCELLED', disabled: true }
       ],
       refundRequestsRefundReasonOption: [
         { name: '客户要求', value: 'requested_by_customer ' },

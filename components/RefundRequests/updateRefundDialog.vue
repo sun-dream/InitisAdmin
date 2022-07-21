@@ -15,6 +15,7 @@
             :key="item.value"
             :label="item.name"
             :value="item.value"
+            :disabled="item.disabled"
           />
         </el-select>
       </el-form-item>

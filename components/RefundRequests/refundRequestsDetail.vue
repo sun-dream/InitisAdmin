@@ -1,7 +1,7 @@
 <template>
   <div v-if="refundRequestItem&&refundRequestItem.id" class="detail-wrap">
     <v-blockquote text="退款订单">
-      <v-button type="primary" size="small" @click="openHandler">
+      <v-button v-if="refundRequestItem.status === 'PENDING'" type="primary" size="small" @click="openHandler">
         更新退款状态
       </v-button>
     </v-blockquote>
@@ -11,7 +11,15 @@
       </el-col>
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">支付订单ID:</span>
-        {{ refundRequestItem.payment_id }}
+        <v-link :name="'payments'" :query="{query:refundRequestItem.payment_id}">
+          {{ refundRequestItem.payment_id }}
+        </v-link>
+      </el-col>
+      <el-col :span="10" class="detail-item-line">
+        <span class="item-title fontBold">用户id:</span>
+        <v-link :name="'all-user'" :query="{query:refundRequestItem.user_id}">
+          {{ refundRequestItem.user_id || '-' }}
+        </v-link>
       </el-col>
       <el-col :span="10" class="detail-item-line">
         <span class="item-title fontBold">退款状态:</span>{{ getRefundRequestsStatus(refundRequestItem.status)['name'] || '-' }}
