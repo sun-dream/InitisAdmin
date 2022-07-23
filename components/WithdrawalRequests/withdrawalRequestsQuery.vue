@@ -7,10 +7,10 @@
       @submit.native.prevent
     >
       <el-form-item label="查询" class="mb-0">
-        <el-input v-model="refundRequestQuery" @keyup.enter.native="getRefundRequestsData()" />
+        <el-input v-model="withdrawalRequestsQuery" @keyup.enter.native="getWithdrawalRequestsData()" />
       </el-form-item>
       <el-form-item class="mb-0">
-        <v-button type="primary" size="small" icon="el-icon-search" @click="getRefundRequestsData()">
+        <v-button type="primary" size="small" icon="el-icon-search" @click="getWithdrawalRequestsData()">
           查询
         </v-button>
       </el-form-item>
@@ -20,13 +20,13 @@
 
 <script>
 import VButton from '../../baseComponents/VButton.vue'
-import refundRequestsMixins from '@/mixins/refundReuqests'
+import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
 export default {
-  name: 'RefundRequestsQuery',
+  name: 'WithdrawalRequestsQuery',
   components: {
     VButton
   },
-  mixins: [refundRequestsMixins],
+  mixins: [withdrawalRequestsMixins],
   props: {
   },
   data () {

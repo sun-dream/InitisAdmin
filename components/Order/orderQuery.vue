@@ -61,7 +61,7 @@ export default {
       if (this.shipmentSku.length > 0) {
         this.shipmentsDialogVisible = true
       } else {
-        this.notification({ title: '提示', message: '请至少选中1个待发货的订单', type: 'warning' })
+        this.notification({ title: '提示', message: '请至少选中1个SKU待发货的订单', type: 'warning' })
       }
     },
     closeEditFormHandler () {

@@ -45,7 +45,7 @@ const publicUseMixins = {
         NPR : '₨', ANG : '&fnof;', NZD : '$', NIO : 'C$', NGN : '₦', NOK : 'kr', OMR : '﷼', PKR : '₨', PAB : 'B/.', PYG : 'Gs',
         PEN : 'S/.', PHP : '₱', PLN : 'zł', QAR : '﷼', RON : 'lei', RUB : '₽', SHP : '&pound;', SAR : '﷼', RSD : 'Дин.', SCR : '₨',
         SGD : '$', SBD : '$', SOS : 'S', KRW : '₩', ZAR : 'R', LKR : '₨', SEK : 'kr', CHF : 'CHF', SRD : '$', SYP : '&pound;',
-        TWD : 'NT$', THB : '฿', TTD : 'TT$', TRY : '₺', TVD : '$', UAH : '₴', AED : '&nbsp;د.إ', GBP : '&pound;', USD : '$', UYU : '$U',
+        TWD : 'NT$', THB : '฿', TTD : 'TT$', TRY : '₺', TVD : '$', UAH : '₴', AED : 'AED', GBP : '&pound;', USD : '$', UYU : '$U',
         UZS : 'лв', VEF : 'Bs', VND : '₫', YER : '﷼', ZWD : 'Z$'
       }
        /* eslint-enable */

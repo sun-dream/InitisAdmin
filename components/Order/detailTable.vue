@@ -29,9 +29,14 @@
           {{ scope.row.final_price }}
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="状态" width="110">
+      <el-table-column prop="status" label="状态" width="160">
         <template slot-scope="scope">
           {{ getOrderskuStatus(scope.row.status).name ||'-' }}
+          <p v-if="scope.row.status==='REFUNDED'&&scope.row.refund_at">
+            退款时间:
+            <i class="el-icon-time" />
+            {{ getDate(scope.row.refund_at) }}
+          </p>
         </template>
       </el-table-column>
       <el-table-column prop="status" label="发货信息" min-width="220">
@@ -46,7 +51,7 @@
               </p>
             </div>
           </el-tooltip>
-          <div v-else-if="!readOnlyStatus" class="">
+          <div v-else-if="!readOnlyStatus&&scope.row.status==='UNFULFILLED'" class="">
             <v-button type="text" size="small" @click="goShipmentsHandle(scope.row)">
               去发货
             </v-button>
@@ -84,6 +89,7 @@ import shipmentForm from './shipmentDialog/shipmentForm'
 import ordersMixins from '@/mixins/orders'
 import publicUseMixins from '@/mixins/publicUse'
 import shipmentsMixins from '@/mixins/shipments'
+import * as mUtils from '@/assets/utils/mUtils'
 export default {
   name: 'OrdertDetail',
   components: {
@@ -108,6 +114,11 @@ export default {
     }
   },
   computed: {
+    getDate (val) {
+      return function (val) {
+        return mUtils.formatDate(val, 3)
+      }
+    },
     selectSkuIds () {
       const arr = []
       this.selectSku.forEach((item) => {

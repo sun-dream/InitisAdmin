@@ -7,10 +7,10 @@
     </v-blockquote>
     <el-row :gutter="20" class="detail-item">
       <el-col :span="10" class="detail-item-line">
-        <span class="item-title fontBold">订单id:</span>{{ refundRequestItem.id || '-' }}
+        <span class="item-title fontBold">退款订单id:</span>{{ refundRequestItem.id || '-' }}
       </el-col>
       <el-col :span="10" class="detail-item-line">
-        <span class="item-title fontBold">支付订单ID:</span>
+        <span class="item-title fontBold">支付订单id:</span>
         <v-link :name="'payments'" :query="{query:refundRequestItem.payment_id}">
           {{ refundRequestItem.payment_id }}
         </v-link>
@@ -32,6 +32,12 @@
       <el-col :span="24" class="detail-item-line">
         <span class="item-title fontBold">退款原因:</span>
         {{ refundRequestItem.note }}
+      </el-col>
+      <el-col v-if="refundPicSrcs.length > 0" :span="24" class="detail-item-line">
+        <span class="item-title fontBold">客户上传图片:</span>
+        <div v-for="(item,index) in refundPicSrcs" :key="item+index" class="d-inline-block pic-wrap mr-2">
+          <VImage :src="item" />
+        </div>
       </el-col>
     </el-row>
     <template v-if="refundRequestItem.status === 'REJECTED'||refundRequestItem.status === 'CANCELLED'">
@@ -74,7 +80,7 @@
       </el-col>
       <el-col :span="24" class="detail-item-line d-flex align-items-start ">
         <span class="item-title fontBold">图片:</span>
-        <div v-for="(item,index) in picSrcs" :key="item+index" class="d-inline-block pic-wrap mr-2">
+        <div v-for="(item,index) in orderSkuPicSrcs" :key="item+index" class="d-inline-block pic-wrap mr-2">
           <VImage :src="item" />
         </div>
       </el-col>
@@ -125,15 +131,26 @@ export default {
         return {}
       }
     },
-    picSrcs () {
+    orderSkuPicSrcs () {
       const arr = []
       if (this.orderSku && this.orderSku.id && this.orderSku.sku_import.id) {
         for (let i = 0; i < this.piclength; i++) {
           const key = 'image'
           const index = i + 1
-          if (this.orderSku.sku_import[key + index] && this.orderSku.sku_import[key + index].id && this.orderSku.sku_import[key + index + '_id']) {
+          if (this.orderSku.sku_import[key + index] && this.orderSku.sku_import[key + index].id) {
             arr.push(this.orderSku.sku_import[key + index].external_url)
           }
+        }
+      }
+      return arr
+    },
+    refundPicSrcs () {
+      const arr = []
+      for (let i = 0; i < this.piclength; i++) {
+        const key = 'image'
+        const index = i + 1
+        if (this.refundRequestItem[key + index] && this.refundRequestItem[key + index].id) {
+          arr.push(this.refundRequestItem[key + index].external_url)
         }
       }
       return arr

@@ -1,19 +1,22 @@
 const withdrawalRequestsMixins = {
   data () {
     return {
-      withdrawalRequestsVuexBasePath: 'logic/withdrawalRequests'
-    //   refundRequestsStatusOption: [
-    //     { name: '待定', value: 'PENDING' },
-    //     { name: '确认退款', value: 'REFUNDED' },
-    //     { name: '拒绝退款', value: 'REJECTED' },
-    //     { name: '取消退款', value: 'CANCELLED' }
-    //   ],
-    //   refundRequestsRefundReasonOption: [
-    //     { name: '客户要求', value: 'requested_by_customer ' },
-    //     { name: '欺诈/诈骗', value: 'fraudulent' },
-    //     { name: '重复申请', value: 'duplicate' }
-    //   ],
-    //   refundRules: {}
+      withdrawalRequestsVuexBasePath: 'logic/withdrawalRequests',
+      withdrawalRequestsStatusOption: [
+        { name: '待定', value: 'PENDING' },
+        { name: '拒绝', value: 'REJECTED' },
+        { name: '撤回', value: 'WITHDRAWN' },
+        { name: '取消', value: 'CANCELLED' }
+      ],
+      paymentMethodTypeOption: [
+        { name: 'Bank Transaction', value: 'BANK_TRANSACTION' },
+        { name: 'Paypal', value: 'PAYPAL' },
+        { name: 'Stripe', value: 'STRIPE' }
+      ],
+      accountStatusOption: [
+        { name: '启用', value: 'ACTIVE' },
+        { name: '关闭', value: 'INACTIVE' }
+      ]
     }
   },
   computed: {
@@ -46,12 +49,24 @@ const withdrawalRequestsMixins = {
     loadWithdrawalRequestsItem (id) {
       return this.$store.dispatch(this.withdrawalRequestsVuexBasePath + '/getWithdrawalRequestsItem', id)
     },
-    // getRefundRequestsStatus (data) {
-    //   if (!data) {
-    //     return ''
-    //   }
-    //   return this.refundRequestsStatusOption.find(item => data === item.value)
-    // },
+    getWithdrawalRequestsStatus (data) {
+      if (!data) {
+        return ''
+      }
+      return this.withdrawalRequestsStatusOption.find(item => data === item.value)
+    },
+    getpaymentMethodType (data) {
+      if (!data) {
+        return ''
+      }
+      return this.paymentMethodTypeOption.find(item => data === item.value)
+    },
+    getAccountStatus (data) {
+      if (!data) {
+        return ''
+      }
+      return this.accountStatusOption.find(item => data === item.value)
+    },
     updateWithdrawalRequests ({ id, params }) {
       return this.$store.dispatch(this.withdrawalRequestsVuexBasePath + '/updateWithdrawalRequests', { id, params })
     },

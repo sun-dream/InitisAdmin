@@ -1,20 +1,18 @@
 <template>
   <section class="w-100 refund-wrap">
-    <!-- <refund-requests-query /> -->
+    <withdrawal-requests-query />
     <el-table :data="withdrawalRequestsList" border size="small" max-height="700">
-      <el-table-column prop="user_id" label="客户" width="220">
+      <el-table-column prop="user_id" label="客户ID" width="140">
         <template slot-scope="scope">
-          <div v-if="scope.row.user_id" class="customer-user-wrap">
-            <p>名字：{{ scope.row.user_id||'-' }}</p>
-            <p>电话：{{ scope.row.user_id||'-' }}</p>
-            <p>邮箱：{{ scope.row.user_id||'-' }}</p>
-          </div>
+          <v-link class-name="title-line-1" name="all-user" :query="{query:scope.row.user_id}">
+            {{ scope.row.user_id||'-' }}
+          </v-link>
         </template>
       </el-table-column>
 
-      <el-table-column prop="status" label="状态" width="100">
+      <el-table-column prop="status" label="状态" width="80">
         <template slot-scope="scope">
-          {{ getRefundRequestsStatus(scope.row.status).name||'-' }}
+          {{ getWithdrawalRequestsStatus(scope.row.status).name||'-' }}
         </template>
       </el-table-column>
       <el-table-column prop="create_at" label="发起日期" width="110">
@@ -23,17 +21,30 @@
           {{ getDate(scope.row.create_at) }}
         </template>
       </el-table-column>
-      <el-table-column prop="amount" label="申请理由" min-width="120">
+      <el-table-column prop="source_amount" label="钱包可提现金额" width="110">
         <template slot-scope="scope">
-          <el-tooltip v-if="scope.row.note" class="item" effect="dark" :content="scope.row.note" placement="top-start">
-            <p class="title-line-3">
-              {{ scope.row.note }}
-            </p>
-          </el-tooltip>
-          <span v-else>-</span>
+          {{ getCurrencySymbols(scope.row.source_currency) }}
+          {{ scope.row.source_amount }}
         </template>
       </el-table-column>
-      <el-table-column prop="amount" label="拒绝说明" min-width="120">
+      <el-table-column prop="target_amount" label="目标提现金额" width="110">
+        <template slot-scope="scope">
+          {{ getCurrencySymbols(scope.row.target_currency) }}
+          {{ scope.row.target_amount }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="target_amount" label="实际 - 平台（汇率）" width="140">
+        <template slot-scope="scope">
+          {{ scope.row.real_exchange_rate }} - {{ scope.row.platform_exchange_rate }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="target_amount" label="交易手续费" width="110">
+        <template slot-scope="scope">
+          {{ getCurrencySymbols(scope.row.transaction_currency) }}
+          {{ scope.row.transaction_fee }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="reject_note" label="拒绝理由" min-width="140">
         <template slot-scope="scope">
           <el-tooltip v-if="scope.row.reject_note" class="item" effect="dark" :content="scope.row.reject_note" placement="top-start">
             <p class="title-line-3">
@@ -43,12 +54,19 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="操作" width="120">
+      <el-table-column prop="withdraw_note" label="撤销说明" min-width="140">
         <template slot-scope="scope">
-          <!-- <v-button type="text" size="small" @click="openHandler(scope.row)">
-            退款
-          </v-button> -->
-          <v-button type="text" size="small" @click="()=>{console.log(scope.row)}">
+          <el-tooltip v-if="scope.row.withdraw_note" class="item" effect="dark" :content="scope.row.withdraw_note" placement="top-start">
+            <p class="title-line-3">
+              {{ scope.row.withdraw_note }}
+            </p>
+          </el-tooltip>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="操作" width="120" fixed="right">
+        <template slot-scope="scope">
+          <v-button type="text" size="small" @click="jumpTo({name:'withdrawal-requests-id',params: {id:scope.row.id} })">
             详情
           </v-button>
         </template>
@@ -63,14 +81,17 @@
 </template>
 <script>
 import VButton from '../../baseComponents/VButton.vue'
+import VLink from '../../baseComponents/VLink.vue'
+import withdrawalRequestsQuery from './withdrawalRequestsQuery'
 import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
 import publicUseMixins from '@/mixins/publicUse'
 import * as mUtils from '@/assets/utils/mUtils'
 import VPaginations from '@/baseComponents/VPaginations'
+
 export default {
   name: 'RefundRequests',
   components: {
-    VPaginations, VButton
+    VPaginations, VButton, withdrawalRequestsQuery, VLink
   },
   mixins: [withdrawalRequestsMixins, publicUseMixins],
   data () {
@@ -98,24 +119,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "assets/sass/color";
-.title-line-3{
+.title-line-1{
         text-overflow: -o-ellipsis-lastline;
         overflow: hidden;//溢出内容隐藏
         text-overflow: ellipsis;//文本溢出部分用省略号表示
         display: -webkit-box;//特别显示模式
-        -webkit-line-clamp: 3;//行数
-        line-clamp:3;
+        -webkit-line-clamp:1;//行数
+        line-clamp:1;
         -webkit-box-orient: vertical;//盒子中内容竖直排列
     }
-    .customer-user-wrap{
-    font-size: 0;
-    p{
-      overflow:hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      -o-text-overflow:ellipsis;
-      font-size: 14px;
-      line-height: 16px;
-    }
-  }
+
 </style>
