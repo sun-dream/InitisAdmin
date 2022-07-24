@@ -22,28 +22,14 @@ const actions = {
       })
     })
   },
-  getPresetLibrarieItem ({ commit }, id) {
+  createAccountingTransactions ({ commit }, params) {
     return new Promise((resolve) => {
-      this.$axios.get('preset_libraries/public/id/' + id).then((resp) => {
+      this.$axios.post('accounting_transactions/admin', params).then((resp) => {
         resolve(resp.data)
       })
     })
   },
-  createPresetLibrarie ({ commit }, params) {
-    return new Promise((resolve) => {
-      this.$axios.post('preset_libraries/admin', params).then((resp) => {
-        resolve(resp.data)
-      })
-    })
-  },
-  createPresetLibraries ({ commit }, params) {
-    return new Promise((resolve) => {
-      this.$axios.post('preset_libraries/admin/multiple', params).then((resp) => {
-        resolve(resp.data)
-      })
-    })
-  },
-  updatePresetLibrarie ({ commit }, { id, params }) {
+  updateAccountingTransactions  ({ commit }, { id, params }) {
     return new Promise((resolve) => {
       this.$axios.put('preset_libraries/admin/id/' + id, params).then((resp) => {
         resolve(resp.data)

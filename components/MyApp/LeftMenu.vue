@@ -53,6 +53,7 @@ export default {
         { name: '资金流水', menuIcon: 'el-icon-bank-card', cpnName: 'cashflows' },
         { name: '退款管理', menuIcon: 'el-icon-document-remove', cpnName: 'refund-requests' },
         { name: '提现管理', menuIcon: 'el-icon-s-finance', cpnName: 'withdrawal-requests' },
+        { name: '转账记录', menuIcon: 'el-icon-money', cpnName: 'accounting-transactions' },
         { name: '预设管理', menuIcon: 'el-icon-files', cpnName: 'preset-libraries' }
       ]
     }
