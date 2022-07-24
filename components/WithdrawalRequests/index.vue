@@ -47,7 +47,7 @@
       <el-table-column prop="reject_note" label="拒绝理由" min-width="140">
         <template slot-scope="scope">
           <el-tooltip v-if="scope.row.reject_note" class="item" effect="dark" :content="scope.row.reject_note" placement="top-start">
-            <p class="title-line-3">
+            <p class="title-line-1">
               {{ scope.row.reject_note }}
             </p>
           </el-tooltip>
@@ -57,21 +57,31 @@
       <el-table-column prop="withdraw_note" label="撤销说明" min-width="140">
         <template slot-scope="scope">
           <el-tooltip v-if="scope.row.withdraw_note" class="item" effect="dark" :content="scope.row.withdraw_note" placement="top-start">
-            <p class="title-line-3">
+            <p class="title-line-1">
               {{ scope.row.withdraw_note }}
             </p>
           </el-tooltip>
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="操作" width="120" fixed="right">
+      <el-table-column prop="name" label="操作" width="180" fixed="right">
         <template slot-scope="scope">
           <v-button type="text" size="small" @click="jumpTo({name:'withdrawal-requests-id',params: {id:scope.row.id} })">
             详情
           </v-button>
+          <template v-if="scope.row.status === 'PENDING'">
+            <v-button type="text" size="small" @click="refuseHandler(scope.row)">
+              拒绝
+            </v-button>
+            <v-button type="text" size="small" @click="successHandler(scope.row)">
+              允许打款
+            </v-button>
+          </template>
         </template>
       </el-table-column>
     </el-table>
+    <rejected-dialog :show.sync="rejectedDialogState" :default-data="selectTableCellData" />
+    <success-dialog :show.sync="successDialogState" :default-data="selectTableCellData" />
     <v-paginations
       :vuex-path="withdrawalRequestsVuexBasePath"
       algin-right
@@ -82,6 +92,8 @@
 <script>
 import VButton from '../../baseComponents/VButton.vue'
 import VLink from '../../baseComponents/VLink.vue'
+import rejectedDialog from './rejectedDialog'
+import successDialog from './successDialog'
 import withdrawalRequestsQuery from './withdrawalRequestsQuery'
 import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
 import publicUseMixins from '@/mixins/publicUse'
@@ -91,12 +103,13 @@ import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'RefundRequests',
   components: {
-    VPaginations, VButton, withdrawalRequestsQuery, VLink
+    VPaginations, VButton, withdrawalRequestsQuery, VLink, rejectedDialog, successDialog
   },
   mixins: [withdrawalRequestsMixins, publicUseMixins],
   data () {
     return {
-      updateRefundVisible: false,
+      rejectedDialogState: false,
+      successDialogState: false,
       selectTableCellData: {}
     }
   },
@@ -110,9 +123,13 @@ export default {
   mounted () {
   },
   methods: {
-    openHandler (row) {
-      this.selectTableCellData = row
-      this.updateRefundVisible = true
+    refuseHandler (data) {
+      this.selectTableCellData = this.cloneObj(data)
+      this.rejectedDialogState = true
+    },
+    successHandler (data) {
+      this.selectTableCellData = this.cloneObj(data)
+      this.successDialogState = true
     }
   }
 }

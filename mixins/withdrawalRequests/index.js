@@ -14,8 +14,8 @@ const withdrawalRequestsMixins = {
         { name: 'Stripe', value: 'STRIPE' }
       ],
       accountStatusOption: [
-        { name: '启用', value: 'ACTIVE' },
-        { name: '关闭', value: 'INACTIVE' }
+        { name: 'Active', value: 'ACTIVE' },
+        { name: 'InActive', value: 'INACTIVE' }
       ]
     }
   },
@@ -55,7 +55,7 @@ const withdrawalRequestsMixins = {
       }
       return this.withdrawalRequestsStatusOption.find(item => data === item.value)
     },
-    getpaymentMethodType (data) {
+    getPaymentMethodType (data) {
       if (!data) {
         return ''
       }

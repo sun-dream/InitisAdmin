@@ -1,5 +1,49 @@
 <template>
-  <div />
+  <el-table :data="defaultData" border size="small" max-height="700">
+    <el-table-column prop="third_party_transactional_id" label="third_party_transactional" width="180" />
+    <el-table-column prop="withdrawal_request_id" label="withdrawal_request" width="180" />
+    <el-table-column prop="status" label="状态" width="110">
+      <template slot-scope="scope">
+        {{ getAccountStatus(scope.row.status).name||'-' }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="status" label="Method" width="120">
+      <template slot-scope="scope">
+        {{ getPaymentMethodType(scope.row.method).name||'-' }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="create_at" label="时间" width="110">
+      <template slot-scope="scope">
+        <i class="el-icon-time" />
+        {{ getDate(scope.row.create_at) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="source_amount" label="钱包可提现金额" width="110">
+      <template slot-scope="scope">
+        {{ getCurrencySymbols(scope.row.source_currency) }}
+        {{ scope.row.source_amount }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="target_amount" label="目标提现金额" width="110">
+      <template slot-scope="scope">
+        {{ getCurrencySymbols(scope.row.target_currency) }}
+        {{ scope.row.target_amount }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="target_amount" label="汇率" width="120">
+      <template slot-scope="scope">
+        {{ scope.row.exchange_rate }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="transaction_fee" label="交易手续费" width="110">
+      <template slot-scope="scope">
+        {{ getCurrencySymbols(scope.row.transaction_currency) }}
+        {{ scope.row.transaction_fee }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="source_financial_account_id" label="平台转账账号的ID" width="140" />
+    <el-table-column prop="target_financial_account_id" label="提现账号的ID" width="140" />
+  </el-table>
 </template>
 
 <script>

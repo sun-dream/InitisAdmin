@@ -2,6 +2,7 @@ const state = () => {
   return {
   }
 }
+// eslint-disable-next-line no-unused-vars
 const testData = [{
   user_id: 'string',
   status: 'PENDING',
@@ -43,10 +44,10 @@ const testData = [{
     source_currency: 'AED',
     transaction_fee: 0,
     transaction_currency: 'AED',
-    exchange_rate: 0,
     target_amount: 0,
     target_currency: 'AED',
     status: 'ACTIVE',
+    exchange_rate: 0,
     source_financial_account_id: 'string',
     target_financial_account_id: 'string',
     id: 'string',
@@ -63,10 +64,10 @@ const mutations = {
 const actions = {
   getWithdrawalRequestsList ({ commit }, params) {
     return new Promise((resolve) => {
-      // this.$axios.get('withdrawal_requests/admin/all', { params }).then((resp) => {
-      //   resolve(resp.data)
-      // })
-      resolve(testData)
+      this.$axios.get('withdrawal_requests/admin/all', { params }).then((resp) => {
+        resolve(resp.data)
+      })
+      // resolve(testData)
     })
   },
   getWithdrawalRequestsPagination ({ commit }, params) {
@@ -78,11 +79,11 @@ const actions = {
   },
   getWithdrawalRequestsItem ({ commit }, id) {
     return new Promise((resolve) => {
-      // this.$axios.get('withdrawal_requests/admin/id/' + id).then((resp) => {
-      //   resolve(resp.data)
-      // })
+      this.$axios.get('withdrawal_requests/admin/id/' + id).then((resp) => {
+        resolve(resp.data)
+      })
 
-      resolve(testData[0])
+      // resolve(testData[0])
     })
   },
   updateWithdrawalRequests ({ commit }, { id, params }) {

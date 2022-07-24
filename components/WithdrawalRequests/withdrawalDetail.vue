@@ -1,11 +1,11 @@
 <template>
   <div v-if="withdrawalRequeststItem&&withdrawalRequeststItem.id" class="detail-wrap">
     <v-blockquote text="提现信息">
-      <div>
-        <v-button size="small" @click="openHandler">
+      <div v-if="scope.row.status === 'PENDING'">
+        <v-button size="small" @click="refuseHandler">
           拒绝提现
         </v-button>
-        <v-button type="primary" size="small" @click="openHandler">
+        <v-button type="primary" size="small" @click="successHandler">
           同意提现
         </v-button>
       </div>
@@ -13,8 +13,10 @@
     <withdrawalDetailInfo :default-data="withdrawalRequeststItem" />
     <v-blockquote v-if="targetFinancialAccount" text="提现账号信息" />
     <targetFinancialAccountInfo :default-data="targetFinancialAccount" />
-    <v-blockquote v-if="accountingTransactions.length>0" text="交易记录" />
+    <v-blockquote v-if="accountingTransactions.length>0" text="转账记录" />
     <accounting-transactions-table :default-data="accountingTransactions" />
+    <rejected-dialog :show.sync="rejectedDialogState" :default-data="selectTableCellData" />
+    <success-dialog :show.sync="successDialogState" :default-data="selectTableCellData" />
   </div>
   <div v-else class="text-center text-info">
     未检测到所属信息
@@ -28,14 +30,18 @@ import VButton from '../../baseComponents/VButton.vue'
 import withdrawalDetailInfo from './withdrawalDetailInfo.vue'
 import accountingTransactionsTable from './accountingTransactionsTable.vue'
 import targetFinancialAccountInfo from './targetFinancialAccountInfo.vue'
+import rejectedDialog from './rejectedDialog'
+import successDialog from './successDialog'
 import ordersMixins from '@/mixins/orders'
 import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
 import VBlockquote from '@/baseComponents/VBlockquote'
 import * as mUtils from '@/assets/utils/mUtils'
+
 export default {
   name: 'WithdrawalDetail',
   components: {
-    VBlockquote, VButton, targetFinancialAccountInfo, withdrawalDetailInfo, accountingTransactionsTable
+
+    VBlockquote, VButton, targetFinancialAccountInfo, withdrawalDetailInfo, accountingTransactionsTable, rejectedDialog, successDialog
     //  VLink, VImage,
   },
   mixins: [withdrawalRequestsMixins, ordersMixins],
@@ -43,7 +49,9 @@ export default {
   },
   data () {
     return {
-
+      rejectedDialogState: false,
+      successDialogState: false,
+      selectTableCellData: {}
     }
   },
   computed: {
@@ -68,8 +76,13 @@ export default {
   watch: {
   },
   methods: {
-    openHandler () {
-
+    refuseHandler (data) {
+      this.selectTableCellData = this.cloneObj(data)
+      this.rejectedDialogState = true
+    },
+    successHandler (data) {
+      this.selectTableCellData = this.cloneObj(data)
+      this.successDialogState = true
     }
   }
 }

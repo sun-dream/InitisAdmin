@@ -8,7 +8,7 @@
     </el-col>
     <el-col :span="10" class="detail-item-line">
       <span class="item-title fontBold">类型:</span>
-      {{ getpaymentMethodType(defaultData.type)['name'] || '-' }}
+      {{ getPaymentMethodType(defaultData.type)['name'] || '-' }}
     </el-col>
     <el-col :span="10" class="detail-item-line">
       <span class="item-title fontBold">账号:</span>
