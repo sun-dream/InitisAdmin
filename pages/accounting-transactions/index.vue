@@ -1,15 +1,14 @@
 <template>
-  <!-- <withdrawal-requests /> -->
-  <div />
+  <accounting-transactions />
 </template>
 <script>
-// import WithdrawalRequests from '@/components/WithdrawalRequests'
+import AccountingTransactions from '@/components/AccountingTransactions'
 import breadcrumbMixins from '@/mixins/breadcrumb'
 import accountingTransactionsMixins from '@/mixins/accountingTransactions'
 export default {
   name: 'AccountingTransactionsPage',
   components: {
-    // WithdrawalRequests
+    AccountingTransactions
   },
   mixins: [accountingTransactionsMixins, breadcrumbMixins],
   mounted () {
