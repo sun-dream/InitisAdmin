@@ -45,7 +45,15 @@
       </el-table-column>
       <el-table-column prop="source_financial_account_id" label="平台转账账号的ID" width="140" />
       <el-table-column prop="target_financial_account_id" label="提现账号的ID" width="140" />
+      <el-table-column prop="name" label="操作" width="180" fixed="right">
+        <template slot-scope="scope">
+          <v-button type="text" size="small" @click="updateItemHandler(scope.row)">
+            更新记录
+          </v-button>
+        </template>
+      </el-table-column>
     </el-table>
+    <create-dialog :show.sync="editDialogStatus" :default-data="selectTableCellData" edit-status />
     <v-paginations
       :vuex-path="accountingTransactionsVuexBasePath"
       algin-right
@@ -54,8 +62,9 @@
   </section>
 </template>
 <script>
-// import VButton from '../../baseComponents/VButton.vue'
-// import VLink from '../../baseComponents/VLink.vue'
+
+import VButton from '../../baseComponents/VButton.vue'
+import createDialog from './createDialog.vue'
 import accountingQuery from './accountingQuery'
 import accountingTransactionsMixins from '@/mixins/accountingTransactions'
 import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
@@ -65,13 +74,12 @@ import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'AccountingTransactions',
   components: {
-    VPaginations, accountingQuery
+    VPaginations, accountingQuery, createDialog, VButton
   },
   mixins: [accountingTransactionsMixins, withdrawalRequestsMixins, publicUseMixins],
   data () {
     return {
-      rejectedDialogState: false,
-      successDialogState: false,
+      editDialogStatus: false,
       selectTableCellData: {}
     }
   },
@@ -85,13 +93,9 @@ export default {
   mounted () {
   },
   methods: {
-    refuseHandler (data) {
+    updateItemHandler (data) {
       this.selectTableCellData = this.cloneObj(data)
-      this.rejectedDialogState = true
-    },
-    successHandler (data) {
-      this.selectTableCellData = this.cloneObj(data)
-      this.successDialogState = true
+      this.editDialogStatus = true
     }
   }
 }

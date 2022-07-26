@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
     <div>
-      <v-button type="primary" size="small" icon="el-icon-push" @click="open">
+      <v-button type="primary" size="small" icon="el-icon-plus" @click="open">
         创建转账记录
       </v-button>
     </div>
@@ -27,7 +27,6 @@
 <script>
 import VButton from '../../baseComponents/VButton.vue'
 import createDialog from './createDialog.vue'
-// import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
 import accountingTransactionsMixins from '@/mixins/accountingTransactions'
 export default {
   name: 'AccountingQuery',

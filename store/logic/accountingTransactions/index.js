@@ -65,10 +65,10 @@ const actions = {
       })
     })
   },
-  createAccountingTransactions ({ state, commit, dispatch }, { params, id }) {
+  createAccountingTransactions ({ state, commit, dispatch }, params) {
     return new Promise((resolve, reject) => {
       dispatch('logic/fetching/beforeUpdateFatching', params, { root: true }).then((_) => {
-        dispatch('api/accountingTransactions/createAccountingTransactions', { params, id }, { root: true })
+        dispatch('api/accountingTransactions/createAccountingTransactions', params, { root: true })
           .then((resp) => {
             dispatch('logic/fetching/afterUpdateFatching', false, { root: true })
             resolve(resp)

@@ -64,10 +64,10 @@ const mutations = {
 const actions = {
   getWithdrawalRequestsList ({ commit }, params) {
     return new Promise((resolve) => {
-      this.$axios.get('withdrawal_requests/admin/all', { params }).then((resp) => {
-        resolve(resp.data)
-      })
-      // resolve(testData)
+      // this.$axios.get('withdrawal_requests/admin/all', { params }).then((resp) => {
+      //   resolve(resp.data)
+      // })
+      resolve(testData)
     })
   },
   getWithdrawalRequestsPagination ({ commit }, params) {
@@ -79,10 +79,10 @@ const actions = {
   },
   getWithdrawalRequestsItem ({ commit }, id) {
     return new Promise((resolve) => {
-      this.$axios.get('withdrawal_requests/admin/id/' + id).then((resp) => {
-        resolve(resp.data)
-      })
-      // resolve(testData[0])
+      // this.$axios.get('withdrawal_requests/admin/id/' + id).then((resp) => {
+      //   resolve(resp.data)
+      // })
+      resolve(testData[0])
     })
   },
   updateWithdrawalRequests ({ commit }, { id, params }) {

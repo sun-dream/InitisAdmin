@@ -3,7 +3,14 @@ const accountingTransactionsMixins = {
     return {
       accountingTransactionsVuexBasePath: 'logic/accountingTransactions',
       accountRules: {
-
+        third_party_transactional_id: { required: true, message: '请输入支付订单号', trigger: 'blur' },
+        withdrawal_request_id: { required: true, message: '请输入提现订单号', trigger: 'blur' },
+        source_amount: [{ required: true, message: '请输入钱包可提现金额', trigger: 'blur' }],
+        transaction_fee: [{ required: true, message: '请输入交易手续费', trigger: 'blur' }],
+        target_amount: [{ required: true, message: '请输入目标提现金额', trigger: 'blur' }],
+        exchange_rate: [{ required: true, message: '请输入汇率', trigger: 'blur' }],
+        source_financial_account_id: [{ required: true, message: '请输入平台转账账号的ID', trigger: 'blur' }],
+        target_financial_account_id: [{ required: true, message: '请输入提现账号的ID', trigger: 'blur' }]
       }
     }
   },
@@ -33,9 +40,6 @@ const accountingTransactionsMixins = {
     },
     loadAccountingTransactionsPagination (params = { query: '' }) {
       return this.$store.dispatch(this.accountingTransactionsVuexBasePath + '/getAccountingTransactionsPagination', params)
-    },
-    loadAccountingTransactionsItem (id) {
-      return this.$store.dispatch(this.accountingTransactionsVuexBasePath + '/getAccountingTransactionsItem', id)
     },
     updateAccountingTransactions ({ id, params }) {
       return this.$store.dispatch(this.accountingTransactionsVuexBasePath + '/updateAccountingTransactions', { id, params })

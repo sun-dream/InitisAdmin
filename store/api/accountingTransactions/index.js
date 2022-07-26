@@ -52,7 +52,7 @@ const actions = {
   },
   updateAccountingTransactions  ({ commit }, { id, params }) {
     return new Promise((resolve) => {
-      this.$axios.put('preset_libraries/admin/id/' + id, params).then((resp) => {
+      this.$axios.put('accounting_transactions/admin/id/' + id, params).then((resp) => {
         resolve(resp.data)
       })
     })
