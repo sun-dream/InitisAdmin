@@ -7,6 +7,7 @@ const getters = {
 }
 const mutations = {
 }
+// eslint-disable-next-line no-unused-vars
 const testData = [
   {
     method: 'BANK_TRANSACTION',
@@ -30,10 +31,10 @@ const testData = [
 const actions = {
   getAccountingTransactionsList ({ commit }, params) {
     return new Promise((resolve) => {
-      // this.$axios.get('accounting_transactions/admin/all', { params }).then((resp) => {
-      //   resolve(resp.data)
-      // })
-      resolve(testData)
+      this.$axios.get('accounting_transactions/admin/all', { params }).then((resp) => {
+        resolve(resp.data)
+      })
+      // resolve(testData)
     })
   },
   getAccountingTransactionsPagination ({ commit }, params) {
