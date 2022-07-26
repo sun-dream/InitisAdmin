@@ -1,11 +1,11 @@
 <template>
   <div v-if="withdrawalRequeststItem&&withdrawalRequeststItem.id" class="detail-wrap">
     <v-blockquote text="提现信息">
-      <div v-if="scope.row.status === 'PENDING'">
-        <v-button size="small" @click="refuseHandler">
+      <div v-if="withdrawalRequeststItem.status === 'PENDING'">
+        <v-button size="small" @click="refuseHandler(withdrawalRequeststItem)">
           拒绝提现
         </v-button>
-        <v-button type="primary" size="small" @click="successHandler">
+        <v-button type="primary" size="small" @click="successHandler(withdrawalRequeststItem)">
           同意提现
         </v-button>
       </div>
@@ -15,8 +15,8 @@
     <targetFinancialAccountInfo :default-data="targetFinancialAccount" />
     <v-blockquote v-if="accountingTransactions.length>0" text="转账记录" />
     <accounting-transactions-table :default-data="accountingTransactions" />
-    <rejected-dialog :show.sync="rejectedDialogState" :default-data="selectTableCellData" />
-    <success-dialog :show.sync="successDialogState" :default-data="selectTableCellData" />
+    <rejected-dialog :show.sync="rejectedDialogState" detail-status :default-data="selectTableCellData" />
+    <success-dialog :show.sync="successDialogState" detail-status :default-data="selectTableCellData" />
   </div>
   <div v-else class="text-center text-info">
     未检测到所属信息

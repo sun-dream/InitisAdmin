@@ -1,13 +1,13 @@
 <template>
   <el-table :data="defaultData" border size="small" max-height="700">
-    <el-table-column prop="third_party_transactional_id" label="third_party_transactional" width="180" />
-    <el-table-column prop="withdrawal_request_id" label="withdrawal_request" width="180" />
+    <el-table-column prop="third_party_transactional_id" label="支付订单号" width="180" />
+    <!-- <el-table-column prop="withdrawal_request_id" label="提现订单ID" width="180" /> -->
     <el-table-column prop="status" label="状态" width="110">
       <template slot-scope="scope">
         {{ getAccountStatus(scope.row.status).name||'-' }}
       </template>
     </el-table-column>
-    <el-table-column prop="status" label="Method" width="120">
+    <el-table-column prop="status" label="支付方式" width="120">
       <template slot-scope="scope">
         {{ getPaymentMethodType(scope.row.method).name||'-' }}
       </template>

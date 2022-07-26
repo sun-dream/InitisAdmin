@@ -82,7 +82,6 @@ const actions = {
       this.$axios.get('withdrawal_requests/admin/id/' + id).then((resp) => {
         resolve(resp.data)
       })
-
       // resolve(testData[0])
     })
   },

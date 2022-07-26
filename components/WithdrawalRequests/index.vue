@@ -9,7 +9,20 @@
           </v-link>
         </template>
       </el-table-column>
-
+      <el-table-column prop="target_financial_account_id" label="提现账号ID" width="140">
+        <template slot-scope="scope">
+          <span class-name="title-line-1">
+            {{ scope.row.target_financial_account_id||'-' }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="wallet_id" label="钱包ID" width="140">
+        <template slot-scope="scope">
+          <span class-name="title-line-1">
+            {{ scope.row.wallet_id||'-' }}
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" width="80">
         <template slot-scope="scope">
           {{ getWithdrawalRequestsStatus(scope.row.status).name||'-' }}
@@ -33,12 +46,12 @@
           {{ scope.row.target_amount }}
         </template>
       </el-table-column>
-      <el-table-column prop="target_amount" label="实际 - 平台（汇率）" width="140">
+      <el-table-column prop="real_exchange_rate" label="实际 - 平台（汇率）" width="140">
         <template slot-scope="scope">
           {{ scope.row.real_exchange_rate }} - {{ scope.row.platform_exchange_rate }}
         </template>
       </el-table-column>
-      <el-table-column prop="target_amount" label="交易手续费" width="110">
+      <el-table-column prop="transaction_fee" label="交易手续费" width="110">
         <template slot-scope="scope">
           {{ getCurrencySymbols(scope.row.transaction_currency) }}
           {{ scope.row.transaction_fee }}

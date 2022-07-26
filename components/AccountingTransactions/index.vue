@@ -1,15 +1,15 @@
 <template>
   <section class="w-100 refund-wrap">
-    <!-- <withdrawal-requests-query /> -->
+    <accounting-query />
     <el-table :data="accountingTransactionsList" border size="small" max-height="700">
-      <el-table-column prop="third_party_transactional_id" label="third_party_transactional" width="180" />
-      <el-table-column prop="withdrawal_request_id" label="withdrawal_request" width="180" />
+      <el-table-column prop="third_party_transactional_id" label="支付订单ID" width="180" />
+      <el-table-column prop="withdrawal_request_id" label="提现订单ID" width="180" />
       <el-table-column prop="status" label="状态" width="110">
         <template slot-scope="scope">
           {{ getAccountStatus(scope.row.status).name||'-' }}
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="Method" width="120">
+      <el-table-column prop="status" label="支付方式" width="120">
         <template slot-scope="scope">
           {{ getPaymentMethodType(scope.row.method).name||'-' }}
         </template>
@@ -56,7 +56,7 @@
 <script>
 // import VButton from '../../baseComponents/VButton.vue'
 // import VLink from '../../baseComponents/VLink.vue'
-// import withdrawalRequestsQuery from './withdrawalRequestsQuery'
+import accountingQuery from './accountingQuery'
 import accountingTransactionsMixins from '@/mixins/accountingTransactions'
 import withdrawalRequestsMixins from '@/mixins/withdrawalRequests'
 import publicUseMixins from '@/mixins/publicUse'
@@ -65,7 +65,7 @@ import VPaginations from '@/baseComponents/VPaginations'
 export default {
   name: 'AccountingTransactions',
   components: {
-    VPaginations
+    VPaginations, accountingQuery
   },
   mixins: [accountingTransactionsMixins, withdrawalRequestsMixins, publicUseMixins],
   data () {

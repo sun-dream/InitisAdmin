@@ -9,14 +9,22 @@ const withdrawalRequestsMixins = {
         { name: '取消', value: 'CANCELLED' }
       ],
       paymentMethodTypeOption: [
-        { name: 'Bank Transaction', value: 'BANK_TRANSACTION' },
+        { name: '银行卡', value: 'BANK_TRANSACTION' },
         { name: 'Paypal', value: 'PAYPAL' },
         { name: 'Stripe', value: 'STRIPE' }
       ],
       accountStatusOption: [
         { name: 'Active', value: 'ACTIVE' },
         { name: 'InActive', value: 'INACTIVE' }
-      ]
+      ],
+      withdrawalRules: {
+        source_financial_account_id: { required: true, message: '请输入转账号码', trigger: 'blur' },
+        third_party_transactional_id: { required: true, message: '请输入支付订单号', trigger: 'blur' },
+        source_amount: [{ required: true, message: '请输入钱包可提现金额', trigger: 'blur' }],
+        transaction_fee: [{ required: true, message: '请输入交易手续费', trigger: 'blur' }],
+        target_amount: [{ required: true, message: '请输入目标提现金额', trigger: 'blur' }],
+        exchange_rate: [{ required: true, message: '请输入汇率', trigger: 'blur' }]
+      }
     }
   },
   computed: {
