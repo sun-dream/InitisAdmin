@@ -13,11 +13,9 @@
 
 <script>
 // import VFooters from "../baseComponents/VFooters";
-// import VNotification from "@/baseComponents/VNotification";
 export default {
   components: {
     // theVFooter: VFooters,
-    // VNotification
   },
   data () {
     return {}
